@@ -29,7 +29,7 @@ fi
 
 if [ $scriptAction == 'INSTALL' ] ; then
     logMessage "++ Installing rgpIO"
-
+    
     cd /data/
     wget github.com/Lucifer06/Venus_rgpio/releases/download/Latest/rgpio.tar.gz
     tar -xvzf rgpio.tar.gz
@@ -41,12 +41,12 @@ if [ $scriptAction == 'INSTALL' ] ; then
     ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
 
 
-
     updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
     updateActiveFile /etc/venus/gpio_list
     updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 
     installService $packageName
+    logMessage "++ $packageName installed"
 fi
 
 # #### uninstalling - check scriptAction again
@@ -59,6 +59,7 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
     restoreActiveFile /etc/venus/gpio_list
     restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
     removeService $packageName
+    logMessage "++ $packageName uninstalled"
 fi
 
 
@@ -71,6 +72,11 @@ if $filesUpdated ; then
 #    svc -d /service/gui ; svc -u /service/gui
     svc -d /service/node-red-venus
     restartGui=true
+fi
+
+if $restartSystemCalc ; then
+	logMessage "restarting systemcalc"
+	svc -t /service/dbus-systemcalc-py
 fi
 
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
