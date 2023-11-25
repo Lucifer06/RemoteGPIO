@@ -44,6 +44,8 @@ if [ $scriptAction == 'INSTALL' ] ; then
     updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
     updateActiveFile /etc/venus/gpio_list
     updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	
+    restartSystemCalc=true
 
     installService $packageName
     logMessage "++ $packageName installed"
@@ -68,7 +70,7 @@ if $filesUpdated ; then
     ##
     ## Reboot or restart the services
     ##
-    svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
+#    svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
 #    svc -d /service/gui ; svc -u /service/gui
     svc -d /service/node-red-venus
     restartGui=true
