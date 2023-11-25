@@ -37,5 +37,5 @@ Close Relay 1:
 Open Relay 1:
 /data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 /dev/ttyUSB0 256
 
-Verify USB0 is working
-XXXX
+Prevent USB0 to be used by another service:
+/opt/victronenergy/serial-starter/stop-tty.sh ttyUSB0
