@@ -40,45 +40,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
     ##
     ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
 
-    ##
-    ## Update Relaystate Python script
-    ##
-    if [ ! -e /data/rgpio/conf/relaystate.py.ori ]
-    then
-      logMessage "Archiving relaystate.py"
-      mv /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py /data/rgpio/conf/relaystate.py.ori
-      cp /data/rgpio/conf/relaystate.py /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py
-    else
-      logMessage "relaystate.py already archived"
-      cp /data/rgpio/conf/relaystate.py /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py
-    fi
 
-    ##
-    ## Need to add Relays 3, 4, 5 and 6 in /etc/venus/gpio_list so they can be configured on the GUI
-    ##
-    if [ ! -e /data/rgpio/conf/gpio_list.ori ]
-    then
-      logMessage "Archiving gpio_list"
-      mv /etc/venus/gpio_list /data/rgpio/conf/gpio_list.ori
-      cp /data/rgpio/conf/gpio_list  /etc/venus/gpio_list
-    else
-      logMessage "gpio_list already archived"
-      cp /data/rgpio/conf/gpio_list  /etc/venus/gpio_list
-    fi
-
-    ##
-    ## Need to update Node-Red service for adding the 4x relays
-    ##
-    ##
-    if [ ! -e /data/rgpio/conf/services.json.ori ]
-    then
-      logMessage "Archiving services.json"
-      mv /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/rgpio/conf/services.json.ori
-      cp /data/rgpio/conf/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
-    else
-      logMessage "services.json already archived"
-      cp /data/rgpio/conf/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
-    fi
 
     updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
     updateActiveFile /etc/venus/gpio_list
@@ -92,6 +54,7 @@ fi
 if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling rgpIO"
 
+    rm /etc/rcS.d/S90rgpio_pins.sh
     restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
     restoreActiveFile /etc/venus/gpio_list
     restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
