@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# this script installs rgpIO following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
+# this script installs RemoteGPIO following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
 #
 # this script will accept the following commands on the command line:
 #	setup install
@@ -24,7 +24,7 @@ restartSystemCalc=false
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
     echo
-    echo "The rgpIO is adding external Relays and Digital Inputs"
+    echo "The RemoteGPIO is adding external Relays and Digital Inputs"
     echo "with external box attached via USB port"
     echo
     standardActionPrompt
@@ -33,10 +33,10 @@ fi
 #### here to do the actual work
 
 if [ $scriptAction == 'INSTALL' ] ; then
-    logMessage "++ Installing rgpIO"
+    logMessage "++ Installing RemoteGPIO"
     
     cd /data/
-    wget github.com/Lucifer06/Venus_rgpio/releases/download/Latest/rgpio.tar.gz
+    wget github.com/Lucifer06/RemoteGPIO/releases/download/Latest/rgpio.tar.gz
     tar -xvzf rgpio.tar.gz
     rm rgpio.tar.gz
 
@@ -59,7 +59,7 @@ fi
 # #### uninstalling - check scriptAction again
 # if an install step failed package needs to be removed
 if [ $scriptAction == 'UNINSTALL' ] ; then
-    logMessage "++ Uninstalling rgpIO"
+    logMessage "++ Uninstalling RemoteGPIO"
 
     rm /etc/rcS.d/S90rgpio_pins.sh
     restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
