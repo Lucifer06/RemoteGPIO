@@ -16,6 +16,26 @@ restartSystemCalc=false
 restartGeneratorService=false
 
 
+#### running manually and OK to proceed - prompt for input
+if [ $scriptAction == 'NONE' ] ; then
+    echo
+    echo "The rgpIO is adding external Relays and Digital Inputs"
+    echo "with external box attached via USB port"
+    echo
+    standardActionPrompt
+fi
+
+#### here to do the actual work
+
+if [ $scriptAction == 'INSTALL' ] ; then
+    logMessage "++ Installing rgpIO"
+
+#    updateActiveFile "$qmlDir/PageSettingsGeneral.qml"
+#    updateActiveFile "$qmlDir/PageSettingsShutdown.qml"
+
+    installService $packageName
+fi
+
 
 cd /data/
 wget github.com/Lucifer06/Venus_rgpio/releases/download/Latest/rgpio.tar.gz
@@ -74,4 +94,28 @@ fi
 svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
 svc -d /service/gui ; svc -u /service/gui
 svc -d /service/node-red-venus
+
+
+*********************
+
+
+
+
+
+# #### uninstalling - check scriptAction again
+# if an install step failed package needs to be removed
+if [ $scriptAction == 'UNINSTALL' ] ; then
+    logMessage "++ Uninstalling ShutdownMonitor"
+
+    restoreActiveFile "$qmlDir/PageSettingsGeneral.qml"
+    restoreActiveFile "$qmlDir/PageSettingsShutdown.qml"
+    removeService $packageName
+fi
+
+if $filesUpdated ; then
+    restartGui=true
+fi
+
+# thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
+endScript
 
