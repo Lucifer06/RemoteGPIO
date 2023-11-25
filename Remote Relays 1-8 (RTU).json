@@ -1,0 +1,1609 @@
+[
+    {
+        "id": "cb7e574f9dbccdf3",
+        "type": "tab",
+        "label": "Remote Relays 1-8 (RTU)",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "17ba0440415cecca",
+        "type": "exec",
+        "z": "cb7e574f9dbccdf3",
+        "command": " /data/rgpio/mod_rgpio",
+        "addpay": "",
+        "append": "Read_Relay /dev/ttyUSB0",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Read Relays",
+        "x": 430,
+        "y": 240,
+        "wires": [
+            [
+                "023bd2c310f6b5f1"
+            ],
+            [
+                "979382c7bc861316"
+            ],
+            [
+                "9b276bf57b1b137f"
+            ]
+        ]
+    },
+    {
+        "id": "023bd2c310f6b5f1",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "Clean",
+        "func": "if (msg.payload == \"\") {\n  return null; //halt flow if empty\n}\nconst input = {\n        data: [],\n}\ninput.data[0] = Number(msg.payload)\nmsg.payload = input;\n\nif(isNaN(msg.payload.data[0])) {\n  return null; //halt flow if not valid\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 220,
+        "wires": [
+            [
+                "f0d4914408c43598"
+            ]
+        ]
+    },
+    {
+        "id": "9de87b92a440fc7b",
+        "type": "comment",
+        "z": "cb7e574f9dbccdf3",
+        "name": "Read Remote Relays position",
+        "info": "Should read only once at reboot",
+        "x": 240,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8a1659119649e6f6",
+        "type": "victron-output-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/2/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                }
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/2/State",
+            "type": "enum",
+            "name": "Venus relay 3 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2384410f9e7987fc",
+        "type": "victron-output-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/3/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                null,
+                null
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/3/State",
+            "type": "enum",
+            "name": "Venus relay 4 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "03b1c4282578046b",
+        "type": "victron-output-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/4/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                null,
+                null
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/4/State",
+            "type": "enum",
+            "name": "Venus relay 5 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "a4a8cdd190cde087",
+        "type": "victron-output-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/5/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                null,
+                null
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/5/State",
+            "type": "enum",
+            "name": "Venus relay 6 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "f0d4914408c43598",
+        "type": "buffer-parser",
+        "z": "cb7e574f9dbccdf3",
+        "name": "",
+        "data": "payload[\"data\"]",
+        "dataType": "msg",
+        "specification": "spec",
+        "specificationType": "ui",
+        "items": [
+            {
+                "type": "8bit",
+                "name": "0",
+                "offset": 1,
+                "length": 1,
+                "offsetbit": 3,
+                "scale": "1",
+                "mask": ""
+            }
+        ],
+        "swap1": "",
+        "swap2": "",
+        "swap3": "",
+        "swap1Type": "swap",
+        "swap2Type": "swap",
+        "swap3Type": "swap",
+        "msgProperty": "payload",
+        "msgPropertyType": "str",
+        "resultType": "value",
+        "resultTypeType": "output",
+        "multipleResult": true,
+        "fanOutMultipleResult": true,
+        "setTopic": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 220,
+        "wires": [
+            [
+                "48e77ec6e1ebb4a0"
+            ]
+        ]
+    },
+    {
+        "id": "48e77ec6e1ebb4a0",
+        "type": "buffer-parser",
+        "z": "cb7e574f9dbccdf3",
+        "name": "",
+        "data": "payload[\"0\"].bits",
+        "dataType": "msg",
+        "specification": "spec",
+        "specificationType": "ui",
+        "items": [
+            {
+                "type": "byte",
+                "name": "item1",
+                "offset": 1,
+                "length": 1,
+                "offsetbit": 0,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item2",
+                "offset": 3,
+                "length": 1,
+                "offsetbit": 1,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item3",
+                "offset": 5,
+                "length": 1,
+                "offsetbit": 2,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item4",
+                "offset": 7,
+                "length": 1,
+                "offsetbit": 3,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item5",
+                "offset": 9,
+                "length": 1,
+                "offsetbit": 3,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item6",
+                "offset": 11,
+                "length": 1,
+                "offsetbit": 3,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item7",
+                "offset": 13,
+                "length": 1,
+                "offsetbit": 3,
+                "scale": "1",
+                "mask": ""
+            },
+            {
+                "type": "byte",
+                "name": "item8",
+                "offset": 15,
+                "length": 1,
+                "offsetbit": 3,
+                "scale": "1",
+                "mask": ""
+            }
+        ],
+        "swap1": "",
+        "swap2": "",
+        "swap3": "",
+        "swap1Type": "swap",
+        "swap2Type": "swap",
+        "swap3Type": "swap",
+        "msgProperty": "payload",
+        "msgPropertyType": "str",
+        "resultType": "value",
+        "resultTypeType": "output",
+        "multipleResult": true,
+        "fanOutMultipleResult": true,
+        "setTopic": true,
+        "outputs": 8,
+        "x": 1230,
+        "y": 220,
+        "wires": [
+            [
+                "8a1659119649e6f6"
+            ],
+            [
+                "2384410f9e7987fc"
+            ],
+            [
+                "03b1c4282578046b"
+            ],
+            [
+                "a4a8cdd190cde087"
+            ],
+            [
+                "e875240defa0e9f6"
+            ],
+            [
+                "d2c6cbdc302685e0"
+            ],
+            [
+                "372c3b7c10ad2bd8"
+            ],
+            [
+                "4d3bb01a1df78a50"
+            ]
+        ]
+    },
+    {
+        "id": "e875240defa0e9f6",
+        "type": "link out",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link out Relay5_Status",
+        "mode": "link",
+        "links": [
+            "1c11fc8338b78192",
+            "5dc5285f6e587793"
+        ],
+        "x": 1555,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "d2c6cbdc302685e0",
+        "type": "link out",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link out Relay6_Status",
+        "mode": "link",
+        "links": [
+            "7329631484cacb49",
+            "7395cced7aed38f0"
+        ],
+        "x": 1555,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "372c3b7c10ad2bd8",
+        "type": "link out",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link out Relay7_Status",
+        "mode": "link",
+        "links": [
+            "c592f6d72006ab27",
+            "701f30766efde73d"
+        ],
+        "x": 1555,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "4d3bb01a1df78a50",
+        "type": "link out",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link out Relay8_Status",
+        "mode": "link",
+        "links": [
+            "035d75d5cde68cc9",
+            "a467aff0686b290e"
+        ],
+        "x": 1555,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "0384d656f7e5654b",
+        "type": "comment",
+        "z": "cb7e574f9dbccdf3",
+        "name": "Write Remote Relays position",
+        "info": "",
+        "x": 240,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "f848417ec245b77d",
+        "type": "link out",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link out mod_rgpio",
+        "mode": "link",
+        "links": [
+            "51148ea209719a6b"
+        ],
+        "x": 1555,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "5a8a5e04e4bb33d1",
+        "type": "exec",
+        "z": "cb7e574f9dbccdf3",
+        "command": " /data/rgpio/mod_rgpio",
+        "addpay": "payload",
+        "append": "Write_Relay /dev/ttyUSB0",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Write Relay",
+        "x": 1230,
+        "y": 520,
+        "wires": [
+            [
+                "418364c5f67c74fe"
+            ],
+            [
+                "7c94ee1b3fde7222"
+            ],
+            [
+                "466307cb09edbe73",
+                "f848417ec245b77d"
+            ]
+        ]
+    },
+    {
+        "id": "466307cb09edbe73",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 42",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1400,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "9b276bf57b1b137f",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relays1-8",
+        "func": "msg.payload = flow.get(\"Relay1\")+flow.get(\"Relay2\")+flow.get(\"Relay3\")+flow.get(\"Relay4\")+flow.get(\"Relay5\")+flow.get(\"Relay6\")+flow.get(\"Relay7\")+flow.get(\"Relay8\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 520,
+        "wires": [
+            [
+                "56b801159233c50f",
+                "5a8a5e04e4bb33d1"
+            ]
+        ]
+    },
+    {
+        "id": "b76336dbb5facb9a",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay1",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay1\",257)\n} else {\n    flow.set(\"Relay1\",256)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 640,
+        "wires": [
+            [
+                "648b11a7114a5124"
+            ]
+        ]
+    },
+    {
+        "id": "648b11a7114a5124",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 43",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "56b801159233c50f",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 44",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "29b467fef11f63ea",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay2",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay2\",514)\n} else {\n    flow.set(\"Relay2\",512)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 700,
+        "wires": [
+            [
+                "801f45b5071e2d21"
+            ]
+        ]
+    },
+    {
+        "id": "801f45b5071e2d21",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 45",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "6951039eb30f8605",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay3",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay3\",1028)\n} else {\n    flow.set(\"Relay3\",1024)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 760,
+        "wires": [
+            [
+                "145f6935dcf41380"
+            ]
+        ]
+    },
+    {
+        "id": "2d9ac15da8e848bf",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay4",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay4\",2056)\n} else {\n    flow.set(\"Relay4\",2048)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 820,
+        "wires": [
+            [
+                "28384cdc5b857535"
+            ]
+        ]
+    },
+    {
+        "id": "145f6935dcf41380",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 46",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "28384cdc5b857535",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 47",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "2f0ac1933cf248b5",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in Loop_mod_rgpio",
+        "links": [
+            "db3df95cacb05830"
+        ],
+        "x": 285,
+        "y": 520,
+        "wires": [
+            [
+                "9b276bf57b1b137f"
+            ]
+        ]
+    },
+    {
+        "id": "fd4d90979dc96f51",
+        "type": "inject",
+        "z": "cb7e574f9dbccdf3",
+        "name": "Read once at boot",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 180,
+        "wires": [
+            [
+                "17ba0440415cecca",
+                "ad068bd505e84cc1"
+            ]
+        ]
+    },
+    {
+        "id": "979382c7bc861316",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 53",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ad068bd505e84cc1",
+        "type": "exec",
+        "z": "cb7e574f9dbccdf3",
+        "command": "rm /data/rgpio/mod_rgpio.run",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "delete lock file",
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "6075f0e53c7300a4"
+            ],
+            [
+                "ebe235f5a7518a39"
+            ],
+            [
+                "cb8bf9946fdb892a"
+            ]
+        ]
+    },
+    {
+        "id": "6075f0e53c7300a4",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 55",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "ebe235f5a7518a39",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 56",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "cb8bf9946fdb892a",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 57",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "418364c5f67c74fe",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 58",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1440,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "7c94ee1b3fde7222",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 59",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1440,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "7e1168267cb3f17e",
+        "type": "victron-input-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/2/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "com.victronenergy.system",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                }
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/2/State",
+            "type": "enum",
+            "name": "Venus relay 3 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "x": 280,
+        "y": 640,
+        "wires": [
+            [
+                "b76336dbb5facb9a"
+            ]
+        ]
+    },
+    {
+        "id": "3acf5510713b798a",
+        "type": "victron-input-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/3/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "com.victronenergy.system",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                }
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/3/State",
+            "type": "enum",
+            "name": "Venus relay 4 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "x": 280,
+        "y": 700,
+        "wires": [
+            [
+                "29b467fef11f63ea"
+            ]
+        ]
+    },
+    {
+        "id": "514bfbc5f4abf01d",
+        "type": "victron-input-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/4/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "com.victronenergy.system",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                }
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/4/State",
+            "type": "enum",
+            "name": "Venus relay 5 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "x": 280,
+        "y": 760,
+        "wires": [
+            [
+                "6951039eb30f8605"
+            ]
+        ]
+    },
+    {
+        "id": "068d7c71709a83fa",
+        "type": "victron-input-relay",
+        "z": "cb7e574f9dbccdf3",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/5/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "com.victronenergy.system",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    }
+                }
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/5/State",
+            "type": "enum",
+            "name": "Venus relay 6 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "x": 280,
+        "y": 820,
+        "wires": [
+            [
+                "2d9ac15da8e848bf"
+            ]
+        ]
+    },
+    {
+        "id": "77692e60a4a75ae6",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay4",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay5\",4112)\n} else {\n    flow.set(\"Relay5\",4096)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 880,
+        "wires": [
+            [
+                "f5a3f25ce3de685d"
+            ]
+        ]
+    },
+    {
+        "id": "747ff1fd1d7c4e9d",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay6",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay6\",8224)\n} else {\n    flow.set(\"Relay6\",8192)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 940,
+        "wires": [
+            [
+                "504dfae9ef82d9aa"
+            ]
+        ]
+    },
+    {
+        "id": "f13b7a55f5e97a07",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay7",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay7\",16448)\n} else {\n    flow.set(\"Relay7\",16384)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1000,
+        "wires": [
+            [
+                "0697a06a3a3dc9dd"
+            ]
+        ]
+    },
+    {
+        "id": "a32b32103560b44b",
+        "type": "function",
+        "z": "cb7e574f9dbccdf3",
+        "name": "On-Off Relay8",
+        "func": "if (msg.payload == 1) {\n    flow.set(\"Relay8\",32896)\n} else {\n    flow.set(\"Relay8\",32768)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1060,
+        "wires": [
+            [
+                "dadd160ed90bb0e5"
+            ]
+        ]
+    },
+    {
+        "id": "5dc5285f6e587793",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 1",
+        "links": [
+            "e875240defa0e9f6"
+        ],
+        "x": 295,
+        "y": 880,
+        "wires": [
+            [
+                "77692e60a4a75ae6"
+            ]
+        ]
+    },
+    {
+        "id": "7395cced7aed38f0",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 2",
+        "links": [
+            "d2c6cbdc302685e0"
+        ],
+        "x": 295,
+        "y": 940,
+        "wires": [
+            [
+                "747ff1fd1d7c4e9d"
+            ]
+        ]
+    },
+    {
+        "id": "701f30766efde73d",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 3",
+        "links": [
+            "372c3b7c10ad2bd8"
+        ],
+        "x": 295,
+        "y": 1000,
+        "wires": [
+            [
+                "f13b7a55f5e97a07"
+            ]
+        ]
+    },
+    {
+        "id": "a467aff0686b290e",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 4",
+        "links": [
+            "4d3bb01a1df78a50"
+        ],
+        "x": 295,
+        "y": 1060,
+        "wires": [
+            [
+                "a32b32103560b44b"
+            ]
+        ]
+    },
+    {
+        "id": "f5a3f25ce3de685d",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 60",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "504dfae9ef82d9aa",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 61",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "0697a06a3a3dc9dd",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 62",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "dadd160ed90bb0e5",
+        "type": "debug",
+        "z": "cb7e574f9dbccdf3",
+        "name": "debug 63",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 1060,
+        "wires": []
+    }
+]
