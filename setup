@@ -6,6 +6,7 @@
 #	setup install
 #	setup uninstall
 
+packageLogFile="/var/log/RemoteGPIO/current"
 
 #### following lines incorporate SetupHelper utilities into this script
 # Refer to the SetupHelper ReadMe file for details.
