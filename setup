@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# this script installs rgpIO followinf SetupHelper rules (https://github.com/kwindrem/SetupHelper)
+# this script installs rgpIO following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
 #
+# this script will accept the following commands on the command line:
+#	setup install
+#	setup uninstall
 
 
 #### following lines incorporate SetupHelper utilities into this script
@@ -11,10 +14,12 @@ source "/data/SetupHelper/CommonResources"
 
 #### end of lines to include SetupHelper
 
+# GitHub account info - fill in as appropriate
+# to include this package in SetupHelper automatic updates
+packageGitHubUser="Lucifer06"
+packageGitHubBranch="latest"
 
 restartSystemCalc=false
-restartGeneratorService=false
-
 
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
