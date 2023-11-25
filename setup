@@ -66,6 +66,7 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
     restoreActiveFile /etc/venus/gpio_list
     restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
     removeService $packageName
+    rm -r /data/rgpio
     logMessage "++ $packageName uninstalled"
 fi
 
