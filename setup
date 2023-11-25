@@ -2,7 +2,7 @@
 
 # this script installs rgpIO followinf SetupHelper rules (https://github.com/kwindrem/SetupHelper)
 #
-qmlDir=/opt/victronenergy/gui/qml
+
 
 #### following lines incorporate SetupHelper utilities into this script
 # Refer to the SetupHelper ReadMe file for details.
