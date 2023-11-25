@@ -14,3 +14,43 @@ source "/data/SetupHelper/CommonResources"
 
 restartSystemCalc=false
 restartGeneratorService=false
+
+
+
+cd /data/
+wget github.com/Lucifer06/Venus_rgpio/releases/download/Latest/rgpio.tar.gz
+tar -xvzf rgpio.tar.gz
+rm rgpio.tar.gz
+
+
+##
+## Creating /dev/gpio links at boot so the bus services are automatically created 
+##
+ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+
+##
+## Modify Relaystate Python script
+##
+mv /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py.ori
+cp /data/rgpio/conf/relaystate.py /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py
+
+
+##
+## Need to add Relays 3, 4, 5 and 6 in /etc/venus/gpio_list so they can be configured on the GUI
+##
+mv /etc/venus/gpio_list /etc/venus/gpio_list.ori
+cp /data/rgpio/conf/gpio_list  /etc/venus/gpio_list
+
+##
+## Need to update Node-Red service for adding the 4x relays
+##
+mv /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json.ori
+cp /data/rgpio/conf/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+
+##
+## Reboot or restart the services
+##
+svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
+svc -d /service/gui ; svc -u /service/gui
+svc -d /service/node-red-venus
+
