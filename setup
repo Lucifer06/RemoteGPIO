@@ -91,7 +91,7 @@ if $filesUpdated ; then
     ##
 #    svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
 #    svc -d /service/gui ; svc -u /service/gui
-    svc -d /service/node-red-venus
+    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
     restartGui=true
 fi
 
