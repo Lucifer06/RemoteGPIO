@@ -46,7 +46,18 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
-  
+
+	##
+	## Install node-red palettes
+	##
+	cwd=$(pwd)
+	cd /data/home/nodered/.node-red/node_modules
+	npm install node-red-dashboard
+	npm install node-red-contrib-buffer-parser
+	npm install node-red-contrib-debounce
+	svc -d /service/node-red-venus ; svc -u /service/node-red-venus 
+  	cd $cwd
+  	
 	##
 	## Creating /dev/gpio links at boot so the bus services are automatically created 
 	##
@@ -75,6 +86,17 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	rm /dev/gpio/relay_5
 	rm /dev/gpio/relay_6
 	
+	##
+	## Remove node-red palettes
+	##
+	cwd=$(pwd)
+	cd /data/home/nodered/.node-red/node_modules
+	npm remove node-red-dashboard
+	npm remove node-red-contrib-buffer-parser
+	npm remove node-red-contrib-debounce
+	svc -d /service/node-red-venus ; svc -u /service/node-red-venus 
+  	cd $cwd
+	
 	removeService $packageName
 	restartSystemCalc=true
 		
@@ -91,7 +113,7 @@ if $filesUpdated ; then
     ##
 #    svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
 #    svc -d /service/gui ; svc -u /service/gui
-    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
+#    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
     restartGui=true
 fi
 
