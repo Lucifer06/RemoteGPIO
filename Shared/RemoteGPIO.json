@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "a77f29e3f960a9fc",
+        "type": "tab",
+        "label": "RemoteGPIO: Relais Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "c14c767c7bab0530",
         "type": "ui_group",
         "name": "Remote Inputs",
@@ -148,6 +156,48 @@
         "type": "victron-client"
     },
     {
+        "id": "2448a064a5557ac5",
+        "type": "ui_group",
+        "name": "RGPIO #1",
+        "tab": "12a65f5c2118623e",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f96f9bcca52f96c0",
+        "type": "ui_group",
+        "name": "RGPIO #2",
+        "tab": "12a65f5c2118623e",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a9d0f0d6dc0f0a7e",
+        "type": "ui_group",
+        "name": "Cerbo GX",
+        "tab": "12a65f5c2118623e",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "12a65f5c2118623e",
+        "type": "ui_tab",
+        "name": "Relais",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
         "id": "17ba0440415cecca",
         "type": "exec",
         "z": "cb7e574f9dbccdf3",
@@ -200,114 +250,6 @@
         "info": "Should read only once at reboot",
         "x": 240,
         "y": 100,
-        "wires": []
-    },
-    {
-        "id": "8a1659119649e6f6",
-        "type": "victron-output-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/2/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus device"
-        },
-        "pathObj": {
-            "path": "/Relay/2/State",
-            "type": "enum",
-            "name": "Venus relay 3 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            },
-            "writable": true
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": true,
-        "x": 1680,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "2384410f9e7987fc",
-        "type": "victron-output-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/3/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus device"
-        },
-        "pathObj": {
-            "path": "/Relay/3/State",
-            "type": "enum",
-            "name": "Venus relay 4 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            },
-            "writable": true
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": true,
-        "x": 1680,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "03b1c4282578046b",
-        "type": "victron-output-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/4/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus device"
-        },
-        "pathObj": {
-            "path": "/Relay/4/State",
-            "type": "enum",
-            "name": "Venus relay 5 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            },
-            "writable": true
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": true,
-        "x": 1680,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "a4a8cdd190cde087",
-        "type": "victron-output-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/5/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus device"
-        },
-        "pathObj": {
-            "path": "/Relay/5/State",
-            "type": "enum",
-            "name": "Venus relay 6 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            },
-            "writable": true
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": true,
-        "x": 1680,
-        "y": 260,
         "wires": []
     },
     {
@@ -452,87 +394,15 @@
         "x": 1230,
         "y": 220,
         "wires": [
-            [
-                "8a1659119649e6f6"
-            ],
-            [
-                "2384410f9e7987fc"
-            ],
-            [
-                "03b1c4282578046b"
-            ],
-            [
-                "a4a8cdd190cde087"
-            ],
-            [
-                "e875240defa0e9f6"
-            ],
-            [
-                "d2c6cbdc302685e0"
-            ],
-            [
-                "372c3b7c10ad2bd8"
-            ],
-            [
-                "4d3bb01a1df78a50"
-            ]
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
         ]
-    },
-    {
-        "id": "e875240defa0e9f6",
-        "type": "link out",
-        "z": "cb7e574f9dbccdf3",
-        "name": "link out Relay5_Status",
-        "mode": "link",
-        "links": [
-            "1c11fc8338b78192",
-            "5dc5285f6e587793"
-        ],
-        "x": 1555,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "d2c6cbdc302685e0",
-        "type": "link out",
-        "z": "cb7e574f9dbccdf3",
-        "name": "link out Relay6_Status",
-        "mode": "link",
-        "links": [
-            "7329631484cacb49",
-            "7395cced7aed38f0"
-        ],
-        "x": 1555,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "372c3b7c10ad2bd8",
-        "type": "link out",
-        "z": "cb7e574f9dbccdf3",
-        "name": "link out Relay7_Status",
-        "mode": "link",
-        "links": [
-            "c592f6d72006ab27",
-            "701f30766efde73d"
-        ],
-        "x": 1555,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "4d3bb01a1df78a50",
-        "type": "link out",
-        "z": "cb7e574f9dbccdf3",
-        "name": "link out Relay8_Status",
-        "mode": "link",
-        "links": [
-            "035d75d5cde68cc9",
-            "a467aff0686b290e"
-        ],
-        "x": 1555,
-        "y": 420,
-        "wires": []
     },
     {
         "id": "0384d656f7e5654b",
@@ -945,126 +815,6 @@
         "wires": []
     },
     {
-        "id": "7e1168267cb3f17e",
-        "type": "victron-input-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/2/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus system"
-        },
-        "pathObj": {
-            "path": "/Relay/2/State",
-            "type": "enum",
-            "name": "Venus relay 3 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            }
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": false,
-        "x": 240,
-        "y": 640,
-        "wires": [
-            [
-                "b76336dbb5facb9a"
-            ]
-        ]
-    },
-    {
-        "id": "3acf5510713b798a",
-        "type": "victron-input-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/3/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus system"
-        },
-        "pathObj": {
-            "path": "/Relay/3/State",
-            "type": "enum",
-            "name": "Venus relay 4 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            }
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": false,
-        "x": 240,
-        "y": 700,
-        "wires": [
-            [
-                "29b467fef11f63ea"
-            ]
-        ]
-    },
-    {
-        "id": "514bfbc5f4abf01d",
-        "type": "victron-input-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/4/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus system"
-        },
-        "pathObj": {
-            "path": "/Relay/4/State",
-            "type": "enum",
-            "name": "Venus relay 5 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            }
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": false,
-        "x": 240,
-        "y": 760,
-        "wires": [
-            [
-                "6951039eb30f8605"
-            ]
-        ]
-    },
-    {
-        "id": "068d7c71709a83fa",
-        "type": "victron-input-relay",
-        "z": "cb7e574f9dbccdf3",
-        "service": "com.victronenergy.system/0",
-        "path": "/Relay/5/State",
-        "serviceObj": {
-            "service": "com.victronenergy.system/0",
-            "name": "Venus system"
-        },
-        "pathObj": {
-            "path": "/Relay/5/State",
-            "type": "enum",
-            "name": "Venus relay 6 state",
-            "enum": {
-                "0": "Open",
-                "1": "Closed"
-            }
-        },
-        "initial": "",
-        "name": "",
-        "onlyChanges": false,
-        "x": 240,
-        "y": 820,
-        "wires": [
-            [
-                "2d9ac15da8e848bf"
-            ]
-        ]
-    },
-    {
         "id": "77692e60a4a75ae6",
         "type": "function",
         "z": "cb7e574f9dbccdf3",
@@ -1144,9 +894,9 @@
         "id": "5dc5285f6e587793",
         "type": "link in",
         "z": "cb7e574f9dbccdf3",
-        "name": "link in 1",
+        "name": "link in 5",
         "links": [
-            "e875240defa0e9f6"
+            "e0d58b392861b228"
         ],
         "x": 295,
         "y": 880,
@@ -1160,9 +910,9 @@
         "id": "7395cced7aed38f0",
         "type": "link in",
         "z": "cb7e574f9dbccdf3",
-        "name": "link in 2",
+        "name": "link in 6",
         "links": [
-            "d2c6cbdc302685e0"
+            "c63f155f03a9a89f"
         ],
         "x": 295,
         "y": 940,
@@ -1176,9 +926,9 @@
         "id": "701f30766efde73d",
         "type": "link in",
         "z": "cb7e574f9dbccdf3",
-        "name": "link in 3",
+        "name": "link in 7",
         "links": [
-            "372c3b7c10ad2bd8"
+            "0ad47de014e7a526"
         ],
         "x": 295,
         "y": 1000,
@@ -1192,9 +942,9 @@
         "id": "a467aff0686b290e",
         "type": "link in",
         "z": "cb7e574f9dbccdf3",
-        "name": "link in 4",
+        "name": "link in 8",
         "links": [
-            "4d3bb01a1df78a50"
+            "c43a1fbf0c440de0"
         ],
         "x": 295,
         "y": 1060,
@@ -1269,6 +1019,70 @@
         "wires": []
     },
     {
+        "id": "3f0e02689ada2cbf",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 1",
+        "links": [
+            "628aeb04d59e3394"
+        ],
+        "x": 295,
+        "y": 640,
+        "wires": [
+            [
+                "b76336dbb5facb9a"
+            ]
+        ]
+    },
+    {
+        "id": "6eacb1f53458259a",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 2",
+        "links": [
+            "f59c4076f694ea52"
+        ],
+        "x": 295,
+        "y": 700,
+        "wires": [
+            [
+                "29b467fef11f63ea"
+            ]
+        ]
+    },
+    {
+        "id": "4d968eac2aadd49a",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 3",
+        "links": [
+            "664ad89a9b39a00b"
+        ],
+        "x": 295,
+        "y": 760,
+        "wires": [
+            [
+                "6951039eb30f8605"
+            ]
+        ]
+    },
+    {
+        "id": "234edab72ea1f106",
+        "type": "link in",
+        "z": "cb7e574f9dbccdf3",
+        "name": "link in 4",
+        "links": [
+            "1a3b1e46672db0c5"
+        ],
+        "x": 295,
+        "y": 820,
+        "wires": [
+            [
+                "2d9ac15da8e848bf"
+            ]
+        ]
+    },
+    {
         "id": "2e18c16282f7a423",
         "type": "comment",
         "z": "a648c50e4c852023",
@@ -1283,7 +1097,7 @@
         "type": "ui_switch",
         "z": "a648c50e4c852023",
         "name": "",
-        "label": "Input 1 - Nav Instrument",
+        "label": "Input 1",
         "tooltip": "",
         "group": "c14c767c7bab0530",
         "order": 0,
@@ -1304,7 +1118,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 1750,
+        "x": 1700,
         "y": 80,
         "wires": [
             []
@@ -1845,71 +1659,7 @@
         "type": "ui_switch",
         "z": "a648c50e4c852023",
         "name": "",
-        "label": "Pompe de Cale en Marche",
-        "tooltip": "",
-        "group": "b7dc32707bc98270",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1760,
-        "y": 620,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f5a917573ab068e4",
-        "type": "ui_switch",
-        "z": "a648c50e4c852023",
-        "name": "",
-        "label": "Detecteur Fumée",
-        "tooltip": "",
-        "group": "b7dc32707bc98270",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1730,
-        "y": 680,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "7e2075eb4c68034e",
-        "type": "ui_switch",
-        "z": "a648c50e4c852023",
-        "name": "",
-        "label": "Porte Ouverte",
+        "label": "Bilge pump ON",
         "tooltip": "",
         "group": "b7dc32707bc98270",
         "order": 0,
@@ -1931,17 +1681,17 @@
         "animate": false,
         "className": "",
         "x": 1720,
-        "y": 740,
+        "y": 620,
         "wires": [
             []
         ]
     },
     {
-        "id": "ef75bae23a2ab26c",
+        "id": "f5a917573ab068e4",
         "type": "ui_switch",
         "z": "a648c50e4c852023",
         "name": "",
-        "label": "Eau dans les fonds de cale",
+        "label": "Smoke Detector",
         "tooltip": "",
         "group": "b7dc32707bc98270",
         "order": 0,
@@ -1962,7 +1712,71 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 1760,
+        "x": 1720,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7e2075eb4c68034e",
+        "type": "ui_switch",
+        "z": "a648c50e4c852023",
+        "name": "",
+        "label": "Door Open",
+        "tooltip": "",
+        "group": "b7dc32707bc98270",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1710,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ef75bae23a2ab26c",
+        "type": "ui_switch",
+        "z": "a648c50e4c852023",
+        "name": "",
+        "label": "Water Alarm",
+        "tooltip": "",
+        "group": "b7dc32707bc98270",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1710,
         "y": 800,
         "wires": [
             []
@@ -2098,5 +1912,1387 @@
         "x": 1655,
         "y": 560,
         "wires": []
+    },
+    {
+        "id": "0e89536a19bf09a2",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 4",
+        "tooltip": "(Relai2 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 500,
+        "wires": [
+            [
+                "f59c4076f694ea52",
+                "d5738d25ad54e07c"
+            ]
+        ]
+    },
+    {
+        "id": "e31f4272f330f9e2",
+        "type": "victron-input-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/2/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/2/State",
+            "type": "enum",
+            "name": "Venus relay 3 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 340,
+        "y": 440,
+        "wires": [
+            [
+                "2d230dda428675c1"
+            ]
+        ]
+    },
+    {
+        "id": "c38e247b8577d7d6",
+        "type": "victron-output-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/2/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/2/State",
+            "type": "enum",
+            "name": "Venus relay 3 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 1680,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "8be3ebe34c94a171",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 6",
+        "tooltip": "(Relai4 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 700,
+        "wires": [
+            [
+                "1a3b1e46672db0c5",
+                "d2ab742c1c655f6e"
+            ]
+        ]
+    },
+    {
+        "id": "566c60fad3d74dbf",
+        "type": "victron-input-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/3/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/3/State",
+            "type": "enum",
+            "name": "Venus relay 4 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 340,
+        "y": 540,
+        "wires": [
+            [
+                "95522d31e015d77d"
+            ]
+        ]
+    },
+    {
+        "id": "d5738d25ad54e07c",
+        "type": "victron-output-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/3/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                null,
+                null,
+                null,
+                null
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/3/State",
+            "type": "enum",
+            "name": "Venus relay 4 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "9b1f8e9985735f92",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 5",
+        "tooltip": "(Relai3 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 600,
+        "wires": [
+            [
+                "664ad89a9b39a00b",
+                "cf0a8fe455fbb0cf"
+            ]
+        ]
+    },
+    {
+        "id": "4d63288dd2333e62",
+        "type": "victron-input-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/4/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/4/State",
+            "type": "enum",
+            "name": "Venus relay 5 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 340,
+        "y": 640,
+        "wires": [
+            [
+                "cfe1ec71b314419a"
+            ]
+        ]
+    },
+    {
+        "id": "cf0a8fe455fbb0cf",
+        "type": "victron-output-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/4/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                null,
+                null,
+                null,
+                null
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/4/State",
+            "type": "enum",
+            "name": "Venus relay 5 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "1aa2070cd6f18970",
+        "type": "victron-input-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/5/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/5/State",
+            "type": "enum",
+            "name": "Venus relay 6 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 340,
+        "y": 740,
+        "wires": [
+            [
+                "3d09c76276f1580d"
+            ]
+        ]
+    },
+    {
+        "id": "d2ab742c1c655f6e",
+        "type": "victron-output-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system",
+        "path": "/Relay/5/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system",
+            "name": "Venus device",
+            "paths": [
+                {
+                    "path": "/Relay/0/State",
+                    "type": "enum",
+                    "name": "Venus relay 1 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true,
+                    "disabled": true,
+                    "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+                },
+                {
+                    "path": "/Relay/1/State",
+                    "type": "enum",
+                    "name": "Venus relay 2 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/2/State",
+                    "type": "enum",
+                    "name": "Venus relay 3 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/3/State",
+                    "type": "enum",
+                    "name": "Venus relay 4 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/4/State",
+                    "type": "enum",
+                    "name": "Venus relay 5 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                {
+                    "path": "/Relay/5/State",
+                    "type": "enum",
+                    "name": "Venus relay 6 state",
+                    "enum": {
+                        "0": "Open",
+                        "1": "Closed"
+                    },
+                    "writable": true
+                },
+                null,
+                null,
+                null,
+                null
+            ]
+        },
+        "pathObj": {
+            "path": "/Relay/5/State",
+            "type": "enum",
+            "name": "Venus relay 6 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "x": 1680,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "4fbfc737f7a4273f",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 1",
+        "tooltip": "Relai1 Cerbo GX - ",
+        "group": "a9d0f0d6dc0f0a7e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 80,
+        "wires": [
+            [
+                "b91d9d916eeb21f1"
+            ]
+        ]
+    },
+    {
+        "id": "1cf8ee4f9d6ae727",
+        "type": "victron-input-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/0/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/0/State",
+            "type": "enum",
+            "name": "Venus relay 1 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 260,
+        "y": 80,
+        "wires": [
+            [
+                "4fbfc737f7a4273f"
+            ]
+        ]
+    },
+    {
+        "id": "b91d9d916eeb21f1",
+        "type": "victron-output-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/0/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/0/State",
+            "type": "enum",
+            "name": "Venus relay 1 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true,
+            "disabled": true,
+            "warning": "The relays are configured for <strong>alarm</strong> function. Please navigate to Settings > Relay and change it to manual."
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 1680,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "c43a1fbf0c440de0",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 8",
+        "mode": "link",
+        "links": [
+            "a467aff0686b290e"
+        ],
+        "x": 1555,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "1a3b1e46672db0c5",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 4",
+        "mode": "link",
+        "links": [
+            "234edab72ea1f106"
+        ],
+        "x": 1555,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "0ad47de014e7a526",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 7",
+        "mode": "link",
+        "links": [
+            "701f30766efde73d"
+        ],
+        "x": 1555,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "4565b9f7befb29a5",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 10",
+        "tooltip": "(Relai8 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 900,
+        "y": 980,
+        "wires": [
+            [
+                "c43a1fbf0c440de0"
+            ]
+        ]
+    },
+    {
+        "id": "ed4a15f0eee42f04",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 8",
+        "tooltip": "(Relai6 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 860,
+        "wires": [
+            [
+                "c63f155f03a9a89f"
+            ]
+        ]
+    },
+    {
+        "id": "c63f155f03a9a89f",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 6",
+        "mode": "link",
+        "links": [
+            "7395cced7aed38f0"
+        ],
+        "x": 1555,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "7329631484cacb49",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 6",
+        "links": [
+            "d2c6cbdc302685e0"
+        ],
+        "x": 465,
+        "y": 860,
+        "wires": [
+            [
+                "427a5a8c5c1cc342"
+            ]
+        ]
+    },
+    {
+        "id": "d4db1c139070d015",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 2",
+        "links": [],
+        "x": 465,
+        "y": 500,
+        "wires": [
+            [
+                "95522d31e015d77d"
+            ]
+        ]
+    },
+    {
+        "id": "bbb3859e96f8a61e",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 7",
+        "links": [
+            "372c3b7c10ad2bd8"
+        ],
+        "x": 465,
+        "y": 920,
+        "wires": [
+            [
+                "eda73fb7f70c78d2"
+            ]
+        ]
+    },
+    {
+        "id": "0e2a02e153594130",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 4",
+        "links": [],
+        "x": 465,
+        "y": 700,
+        "wires": [
+            [
+                "3d09c76276f1580d"
+            ]
+        ]
+    },
+    {
+        "id": "2d1a3ccccc0ece28",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 8",
+        "links": [
+            "4d3bb01a1df78a50"
+        ],
+        "x": 465,
+        "y": 980,
+        "wires": [
+            [
+                "69259181b42ec307"
+            ]
+        ]
+    },
+    {
+        "id": "95029e53b16fd5a7",
+        "type": "victron-input-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/1/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/1/State",
+            "type": "enum",
+            "name": "Venus relay 2 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 260,
+        "y": 140,
+        "wires": [
+            [
+                "1d95403d7ed2bb10"
+            ]
+        ]
+    },
+    {
+        "id": "18e7e40ef0d66024",
+        "type": "victron-output-relay",
+        "z": "a77f29e3f960a9fc",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/1/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/1/State",
+            "type": "enum",
+            "name": "Venus relay 2 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 1680,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "5150f39460b61d3f",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Relais Cerbo GX",
+        "info": "",
+        "x": 900,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "3d3d20d1a128ae29",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Relais RGPIO #1",
+        "info": "",
+        "x": 900,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "52a67c61729a0560",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 3",
+        "tooltip": "(Relai1 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 400,
+        "wires": [
+            [
+                "628aeb04d59e3394",
+                "c38e247b8577d7d6"
+            ]
+        ]
+    },
+    {
+        "id": "55634c9189eed6ad",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 7",
+        "tooltip": "(Relai5 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 800,
+        "wires": [
+            [
+                "e0d58b392861b228"
+            ]
+        ]
+    },
+    {
+        "id": "1ca26aa34ac08f07",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 9",
+        "tooltip": "(Relai7 RGPIO1)",
+        "group": "2448a064a5557ac5",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 920,
+        "wires": [
+            [
+                "0ad47de014e7a526"
+            ]
+        ]
+    },
+    {
+        "id": "c850137ec647fc09",
+        "type": "inject",
+        "z": "a77f29e3f960a9fc",
+        "name": "Reset at boot before reading the relays",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "1d95403d7ed2bb10"
+            ]
+        ]
+    },
+    {
+        "id": "1d95403d7ed2bb10",
+        "type": "ui_switch",
+        "z": "a77f29e3f960a9fc",
+        "name": "",
+        "label": "Relai 2",
+        "tooltip": "Relai2 Cerbo GX - Eclairage portique",
+        "group": "a9d0f0d6dc0f0a7e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 890,
+        "y": 140,
+        "wires": [
+            [
+                "18e7e40ef0d66024"
+            ]
+        ]
+    },
+    {
+        "id": "f59c4076f694ea52",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 2",
+        "mode": "link",
+        "links": [
+            "6eacb1f53458259a"
+        ],
+        "x": 1555,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "02a678c2eee042b6",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 1",
+        "links": [],
+        "x": 465,
+        "y": 400,
+        "wires": [
+            [
+                "2d230dda428675c1"
+            ]
+        ]
+    },
+    {
+        "id": "628aeb04d59e3394",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "3f0e02689ada2cbf"
+        ],
+        "x": 1555,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "534cd8bc30a9b54d",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 3",
+        "links": [],
+        "x": 465,
+        "y": 600,
+        "wires": [
+            [
+                "cfe1ec71b314419a"
+            ]
+        ]
+    },
+    {
+        "id": "664ad89a9b39a00b",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 3",
+        "mode": "link",
+        "links": [
+            "4d968eac2aadd49a"
+        ],
+        "x": 1555,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "e0d58b392861b228",
+        "type": "link out",
+        "z": "a77f29e3f960a9fc",
+        "name": "link out 5",
+        "mode": "link",
+        "links": [
+            "5dc5285f6e587793"
+        ],
+        "x": 1555,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "d3cddac1a29888b5",
+        "type": "link in",
+        "z": "a77f29e3f960a9fc",
+        "name": "link in ext process 5",
+        "links": [
+            "e875240defa0e9f6"
+        ],
+        "x": 465,
+        "y": 800,
+        "wires": [
+            [
+                "e7ca2021205952ff"
+            ]
+        ]
+    },
+    {
+        "id": "1f3f293f2bf39e0d",
+        "type": "inject",
+        "z": "a77f29e3f960a9fc",
+        "name": "Reset at boot before reading the relays",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 320,
+        "y": 360,
+        "wires": [
+            [
+                "52a67c61729a0560",
+                "0e89536a19bf09a2",
+                "9b1f8e9985735f92",
+                "8be3ebe34c94a171",
+                "55634c9189eed6ad",
+                "ed4a15f0eee42f04",
+                "1ca26aa34ac08f07",
+                "4565b9f7befb29a5"
+            ]
+        ]
+    },
+    {
+        "id": "e1c3c8f5cf8d65e4",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "d896173e04b7d956",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "e3da884776b19206",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "e41abe71cdeba12b",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "187c9163c6078157",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "3ee099c75723a9b2",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "75aec4ce3c7ba151",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "6488275dbd1ded2b",
+        "type": "comment",
+        "z": "a77f29e3f960a9fc",
+        "name": "Link to external process to trigg the relay",
+        "info": "",
+        "x": 280,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "95522d31e015d77d",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 500,
+        "wires": [
+            [
+                "0e89536a19bf09a2"
+            ]
+        ]
+    },
+    {
+        "id": "2d230dda428675c1",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 400,
+        "wires": [
+            [
+                "52a67c61729a0560"
+            ]
+        ]
+    },
+    {
+        "id": "cfe1ec71b314419a",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 600,
+        "wires": [
+            [
+                "9b1f8e9985735f92"
+            ]
+        ]
+    },
+    {
+        "id": "3d09c76276f1580d",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 700,
+        "wires": [
+            [
+                "8be3ebe34c94a171"
+            ]
+        ]
+    },
+    {
+        "id": "e7ca2021205952ff",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 800,
+        "wires": [
+            [
+                "55634c9189eed6ad"
+            ]
+        ]
+    },
+    {
+        "id": "427a5a8c5c1cc342",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 860,
+        "wires": [
+            [
+                "ed4a15f0eee42f04"
+            ]
+        ]
+    },
+    {
+        "id": "eda73fb7f70c78d2",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 920,
+        "wires": [
+            [
+                "1ca26aa34ac08f07"
+            ]
+        ]
+    },
+    {
+        "id": "69259181b42ec307",
+        "type": "debounce",
+        "z": "a77f29e3f960a9fc",
+        "time": "50",
+        "name": "",
+        "x": 720,
+        "y": 980,
+        "wires": [
+            [
+                "4565b9f7befb29a5"
+            ]
+        ]
     }
 ]
