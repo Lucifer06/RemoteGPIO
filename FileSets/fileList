@@ -1,3 +1,4 @@
 /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py
 /etc/venus/gpio_list
 /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+/etc/udev/rules.d/serial-starter.rules
