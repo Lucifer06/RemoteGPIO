@@ -1,5 +1,10 @@
-As I wanted the relays to not rely on an external Ethernet network, I went with a Modbus/RTU based relai from Dingtian.
-This box provide 8x relays, that can be controlled with Modbus Serial, but also over IP and with various additional protocols: https://fr.aliexpress.com/item/4000999069820.html
+This package is mainly targeting Cerbo GX users that wants to extend Digital Inputs and Relays on their system.
+Please note that there is a conflict with Kwindrem's RpiGpioSetup that is targeting Raspberry users
+
+In order to have a reliable direct attached interface to the relay, I selected a Modbus/RTU based relai from Dingtian that attaches on the USB port of the Cerbo GX.
+There are many solutions for attaching relays via Ethernet, but I didn't the relays to rely on an external Ethernet network switch.
+
+This Dingtian box provide 8x relays, that can be controlled with Modbus Serial, but also over IP and with various additional protocols: https://fr.aliexpress.com/item/4000999069820.html
 They have variants of 4 or 8 relays.
 A USB to RS 485 adapter will be required.
 I selected this one as this is coming with a USB cable and can fit nicely on the Cerbo GX: https://fr.aliexpress.com/item/1005004778767986.html
@@ -11,11 +16,11 @@ The Dingtian IOT Relay module also needs to be configured so Modbus RTU works:
 Connect the ethernet interface of the module and access to its configuration page (192.168.1.100 and admin/admin by default).
 Configure the RS485 with Protocol Modbus-RTU and set address to 1 (for the first unit).
 
-rgpIO can be used from VenusOS GUI to control 4x additional relays.
+RemoteGPIO can be used from VenusOS GUI to control 4x additional relays.
 It is required to install Kwindrem's GuiMods package (https://github.com/kwindrem/GuiMods)
 Go to Settings/Relay there are 4x additional relays to be enabled and then use the dedicated Relay page that should display the additional relays
 
-rgpIO can also be used with Node-RED
+RemoteGPIO can also be used with Node-RED
 With Node-Red it is possible to use all 8x relays as well as the 8x digital inputs
 It is required to install the following Node-RED palettes:
 	— node-red-dashboard
