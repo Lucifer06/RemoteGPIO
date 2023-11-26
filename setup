@@ -58,6 +58,18 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	svc -d /service/node-red-venus ; svc -u /service/node-red-venus 
   	cd $cwd
   	
+  	##
+  	## Install RemoteGPIO flows
+  	##
+  	cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/lib/flows/
+  	if [ ! -e /data/home/nodered/.node-red/flows.json ]
+    then
+      logMessage "No flows, installing RemoteGPIO.json"
+      cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/flows.json
+    else
+      logMessage "Flows already in use, users need to import from local library RemoteGPIO.json"
+    fi
+  	
 	##
 	## Creating /dev/gpio links at boot so the bus services are automatically created 
 	##
