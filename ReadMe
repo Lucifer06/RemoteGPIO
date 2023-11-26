@@ -2,6 +2,7 @@ This package is mainly targeting Cerbo GX users that wants to extend Digital Inp
 Please note that there is a conflict with Kwindrem's RpiGpioSetup that is targeting Raspberry users
 
 The setup is now fully automated, no more requirement to issue shell commands! :-)
+Be patient with the Install package, it can takes few minutes as it downloads few Node-RED palettes 
 
 In order to have a reliable direct attached interface to the relay, I selected a Modbus/RTU based relai from Dingtian that attaches on the USB port of the Cerbo GX.
 There are many solutions for attaching relays via Ethernet, but I didn't the relays to rely on an external Ethernet network switch.
@@ -30,6 +31,7 @@ The following Node-RED palettes are automatically installed:
 	— node-red-contrib-debounce
 If there no flows yet running the RemoteGPIO one gets installed
 If a flow is already installed, in order to not break anything RemoteGPIO will need to be manually imported from the local library (Menu Import / Local / RemoteGPIO.json)
+The RemoteGPIO flow is now adding a Node-RED dashboard for controlling the Relays and monitoring the Digital Inputs
 
 Toubleshooting from command line with dbus
 List of all dbus relays and their status:
