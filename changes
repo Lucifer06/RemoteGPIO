@@ -1,2 +1,4 @@
-v1.0:
-	Initial support for PackackageManager (SetupHelper from Windrem)
+v1.x:
+	Initial support of rgpio with manuel setup
+v2.x:
+	Fully automated setup with support for PackackageManager (SetupHelper from Windrem)
