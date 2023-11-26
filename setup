@@ -79,7 +79,7 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	restartSystemCalc=true
 		
 	rm -r /data/rgpio
-	rm -r /data/RemoteGPIO
+#	rm -r /data/RemoteGPIO
 	logMessage "++ $packageName uninstalled"
 fi
 
