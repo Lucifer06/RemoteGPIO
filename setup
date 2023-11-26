@@ -35,26 +35,25 @@ fi
 
 if [ $scriptAction == 'INSTALL' ] ; then
     logMessage "++ Installing RemoteGPIO"
-    
-#    cd /data/
-#    wget github.com/Lucifer06/RemoteGPIO/releases/download/Latest/rgpio.tar.gz
-#    tar -xvzf rgpio.tar.gz
-#    rm rgpio.tar.gz
 
-installService $packageName
+	tar -xvzf /data/RemoteGPIO/Shared/rgpio.tar.gz -C /data
+    
+
+	installService $packageName
 
 
     updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
     updateActiveFile /etc/venus/gpio_list
     updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	
-    restartSystemCalc=true
-
-    
-    ##
-    ## Creating /dev/gpio links at boot so the bus services are automatically created 
-    ##
-    ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+  
+	##
+	## Creating /dev/gpio links at boot so the bus services are automatically created 
+	##
+	ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+	
+	
+	restartSystemCalc=true
 
     logMessage "++ $packageName installed"
 fi
