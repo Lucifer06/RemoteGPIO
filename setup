@@ -45,13 +45,13 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
-	
+	updateActiveFile /etc/udev/rules.d/serial-starter.rules
   
 	##
 	## Creating /dev/gpio links at boot so the bus services are automatically created 
 	##
 	ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
-	
+	/data/rgpio/conf/S90rgpio_pins.sh
 	
 	restartSystemCalc=true
 
@@ -63,11 +63,20 @@ fi
 if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling RemoteGPIO"
 
-	rm /etc/rcS.d/S90rgpio_pins.sh
+	
 	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	restoreActiveFile /etc/venus/gpio_list
 	restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
+	
+	rm /etc/rcS.d/S90rgpio_pins.sh
+	rm /dev/gpio/relay_3
+	rm /dev/gpio/relay_4
+	rm /dev/gpio/relay_5
+	rm /dev/gpio/relay_6
+	
 	removeService $packageName
+	
 	rm -r /data/rgpio
 	logMessage "++ $packageName uninstalled"
 fi
