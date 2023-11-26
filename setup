@@ -18,23 +18,23 @@ source "/data/SetupHelper/CommonResources"
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 packageGitHubUser="Lucifer06"
-packageGitHubBranch="latest"
+packageGitHubBranch="Latest"
 
 restartSystemCalc=false
 
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
-    echo
-    echo "The RemoteGPIO is adding external Relays and Digital Inputs"
-    echo "with external box attached via USB port"
-    echo
-    standardActionPrompt
+	echo
+	echo "The RemoteGPIO is adding external Relays and Digital Inputs"
+	echo "with external box attached via USB port"
+	echo
+	standardActionPrompt
 fi
 
 #### here to do the actual work
 
 if [ $scriptAction == 'INSTALL' ] ; then
-    logMessage "++ Installing RemoteGPIO"
+	logMessage "++ Installing RemoteGPIO"
 
 	tar -xvzf /data/RemoteGPIO/Shared/rgpio.tar.gz -C /data
     
@@ -42,9 +42,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	installService $packageName
 
 
-    updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-    updateActiveFile /etc/venus/gpio_list
-    updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
+	updateActiveFile /etc/venus/gpio_list
+	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	
   
 	##
@@ -55,7 +55,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	
 	restartSystemCalc=true
 
-    logMessage "++ $packageName installed"
+	logMessage "++ $packageName installed"
 fi
 
 # #### uninstalling - check scriptAction again
@@ -63,13 +63,13 @@ fi
 if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling RemoteGPIO"
 
-    rm /etc/rcS.d/S90rgpio_pins.sh
-    restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-    restoreActiveFile /etc/venus/gpio_list
-    restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
-    removeService $packageName
-    rm -r /data/rgpio
-    logMessage "++ $packageName uninstalled"
+	rm /etc/rcS.d/S90rgpio_pins.sh
+	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
+	restoreActiveFile /etc/venus/gpio_list
+	restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	removeService $packageName
+	rm -r /data/rgpio
+	logMessage "++ $packageName uninstalled"
 fi
 
 
