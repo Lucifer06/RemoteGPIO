@@ -38,9 +38,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 
 	tar -xvzf /data/RemoteGPIO/FileSets/Shared/rgpio.tar.gz -C /data
     
-
 	installService $packageName
-
 
 	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
@@ -69,7 +67,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
     else
       logMessage "Flows already in use, users need to import from local library RemoteGPIO.json"
     fi
-
 	svc -d /service/node-red-venus ; svc -u /service/node-red-venus 
   	
 	##

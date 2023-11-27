@@ -73,7 +73,7 @@ Open Relay 1:
 
 Check that no process are talking to USB0:
 ps | grep USB0
-Should return only rgpio services.
+Should return only rgpio services. If not, it may be required to reboot VenusOS for the serial-starter.rules to apply
 
 Prevent USB0 to be used by another service:
 /opt/victronenergy/serial-starter/stop-tty.sh ttyUSB0
