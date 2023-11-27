@@ -28,7 +28,8 @@ Enable Node-RED (Settings/Venus OS Large features)
 Make sure SetupHelper from Kwindrem is installed. If not follow instructions from https://github.com/kwindrem/SetupHelper
 Add RemoteGPIO repo if not already listed in the inactive packages RemoteGPIO Lucifer06:main
 Download and install the package
-BE PATIENT during the Installation of the package, it can takes few minutes as it downloads few Node-RED palettes 
+BE PATIENT during the Installation of the package, it can takes few minutes as it downloads few Node-RED palettes
+Reboot will be required for the USB to be not anymore preempted by VenusOS services
 
 
 Using RemoteGPIO:
