@@ -13,6 +13,7 @@ The RS485 must be connected on the first USB port of the Cerbo GX
 SETUP:
 The setup is now fully automated, no more requirement to issue shell commands! :-)
 It runs only with VenusOS Large with minimum version 2.92
+Node-RED needs to be enabled (Settings/Venus OS Large features)
 Be patient with the Install package, it can takes few minutes as it downloads few Node-RED palettes 
 
 *IMPORTANT* If a different adpater is used, or if a different USB port is used (or attached after a USB hub) the file /etc/udev/rules.d/serial-starter.rules will required to be tweaked accordingly so our RS485 adpater is always accesible with /dev/ttyUSB0
