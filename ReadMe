@@ -71,5 +71,9 @@ Close Relay 1:
 Open Relay 1:
 /data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 /dev/ttyUSB0 256
 
+Check that no process are talking to USB0:
+ps | grep USB0
+Should return nothing.
+
 Prevent USB0 to be used by another service:
 /opt/victronenergy/serial-starter/stop-tty.sh ttyUSB0

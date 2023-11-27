@@ -36,7 +36,7 @@ fi
 if [ $scriptAction == 'INSTALL' ] ; then
 	logMessage "++ Installing RemoteGPIO"
 
-	tar -xvzf /data/RemoteGPIO/Shared/rgpio.tar.gz -C /data
+	tar -xvzf /data/RemoteGPIO/FileSets/Shared/rgpio.tar.gz -C /data
     
 
 	installService $packageName
@@ -65,7 +65,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
   	if [ ! -e /data/home/nodered/.node-red/flows.json ]
     then
       logMessage "No flows, installing RemoteGPIO.json"
-      cp /data/RemoteGPIO/Shared/RemoteGPIO.json /data/home/nodered/.node-red/flows.json
+      cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/flows.json
     else
       logMessage "Flows already in use, users need to import from local library RemoteGPIO.json"
     fi
