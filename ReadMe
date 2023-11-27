@@ -1,8 +1,5 @@
 This package is mainly targeting Cerbo GX users that wants to extend Digital Inputs and Relays on their system.
-Please note that there is a conflict with Kwindrem's RpiGpioSetup that is targeting Raspberry users
-
-The setup is now fully automated, no more requirement to issue shell commands! :-)
-Be patient with the Install package, it can takes few minutes as it downloads few Node-RED palettes 
+Please note that there is a conflict with Kwindrem's RpiGpioSetup that is targeting Raspberry pi users
 
 In order to have a reliable direct attached interface to the relay, I selected a Modbus/RTU based relai from Dingtian that attaches on the USB port of the Cerbo GX.
 There are many solutions for attaching relays via Ethernet, but I didn't the relays to rely on an external Ethernet network switch.
@@ -12,6 +9,11 @@ They have variants of 4 or 8 relays.
 A USB to RS 485 adapter will be required.
 I selected this one as this is coming with a USB cable and can fit nicely on the Cerbo GX: https://fr.aliexpress.com/item/1005004778767986.html
 The RS485 must be connected on the first USB port of the Cerbo GX
+
+SETUP:
+The setup is now fully automated, no more requirement to issue shell commands! :-)
+It runs only with VenusOS Large with minimum version 2.92
+Be patient with the Install package, it can takes few minutes as it downloads few Node-RED palettes 
 
 *IMPORTANT* If a different adpater is used, or if a different USB port is used (or attached after a USB hub) the file /etc/udev/rules.d/serial-starter.rules will required to be tweaked accordingly so our RS485 adpater is always accesible with /dev/ttyUSB0
 
@@ -32,6 +34,8 @@ The following Node-RED palettes are automatically installed:
 If there no flows yet running the RemoteGPIO one gets installed
 If a flow is already installed, in order to not break anything RemoteGPIO will need to be manually imported from the local library (Menu Import / Local / RemoteGPIO.json)
 The RemoteGPIO flow is now adding a Node-RED dashboard for controlling the Relays and monitoring the Digital Inputs
+RemoteGPIO v2.x is backward compatible with previous venus_rgpio (https://community.victronenergy.com/questions/166784/solution-adding-external-relays-to-cerbo-gx-using.html).
+Any questions or suggestions about RemoteGPIO are welcome here: XXXXXXX
 
 Toubleshooting from command line with dbus
 List of all dbus relays and their status:
