@@ -11,32 +11,51 @@ I selected this one as this is coming with a USB cable and can fit nicely on the
 The RS485 must be connected on the first USB port of the Cerbo GX
 
 SETUP:
+=====
 The setup is now fully automated, no more requirement to issue shell commands! :-)
 It runs only with VenusOS Large with minimum version 2.92
-Node-RED needs to be enabled (Settings/Venus OS Large features)
-Be patient with the Install package, it can takes few minutes as it downloads few Node-RED palettes 
 
-*IMPORTANT* If a different adpater is used, or if a different USB port is used (or attached after a USB hub) the file /etc/udev/rules.d/serial-starter.rules will required to be tweaked accordingly so our RS485 adpater is always accesible with /dev/ttyUSB0
-
-The Dingtian IOT Relay module also needs to be configured so Modbus RTU works:
+1/ Configure the Relay Module
+The Dingtian IOT Relay module needs to be configured so Modbus RTU works:
 Connect the ethernet interface of the module and access to its configuration page (192.168.1.100 and admin/admin by default).
 Configure the RS485 with Protocol Modbus-RTU and set address to 1 (for the first unit).
 
-RemoteGPIO can be used from VenusOS GUI to control 4x additional relays.
+2/ VenusOS Large
+Install the desired VenusOS Large version (minimum v2.92) 
+Enable Node-RED (Settings/Venus OS Large features)
+
+3/ Install RemoteGPIO
+Make sure SetupHelper from Kwindrem is installed. If not follow instructions from https://github.com/kwindrem/SetupHelper
+Add RemoteGPIO repo if not already listed in the inactive packages RemoteGPIO Lucifer06:main
+Download and install the package
+BE PATIENT during the Installation of the package, it can takes few minutes as it downloads few Node-RED palettes 
+
+
+Using RemoteGPIO:
+=================
+1/ RemoteGPIO can be used from VenusOS GUI to control 4x additional relays.
 It is required to install Kwindrem's GuiMods package (https://github.com/kwindrem/GuiMods)
 Go to Settings/Relay there are 4x additional relays to be enabled and then use the dedicated Relay page that should display the additional relays
 
-RemoteGPIO can also be used with Node-RED
+2/ RemoteGPIO can also be used with Node-RED
 With Node-Red it is possible to use all 8x relays as well as the 8x digital inputs
-The following Node-RED palettes are automatically installed:
+During the installation of the package, the following Node-RED palettes are automatically installed:
 	— node-red-dashboard
 	— node-red-contrib-buffer-parser
 	— node-red-contrib-debounce
-If there no flows yet running the RemoteGPIO one gets installed
-If a flow is already installed, in order to not break anything RemoteGPIO will need to be manually imported from the local library (Menu Import / Local / RemoteGPIO.json)
-The RemoteGPIO flow is now adding a Node-RED dashboard for controlling the Relays and monitoring the Digital Inputs
+If there was no flows yet running the RemoteGPIO flow got installed
+If a flow was already installed, in order to not break anything RemoteGPIO will need to be manually imported from the local library (Menu Import / Local / RemoteGPIO.json)
+The RemoteGPIO flow is also adding a Node-RED dashboard for controlling the Relays and monitoring the Digital Inputs
 RemoteGPIO v2.x is backward compatible with previous venus_rgpio (https://community.victronenergy.com/questions/166784/solution-adding-external-relays-to-cerbo-gx-using.html).
+
+
+Troubleshooting:
+================
 Any questions or suggestions about RemoteGPIO are welcome here: XXXXXXX
+
+Most of the issues are coming from USBtoRS485 adapter been trapped by the wrong VenusOS service.
+In order to make it working with default configuration file, it is important to attach it to the first USB port.
+*IMPORTANT* If a different adpater is used, or if a different USB port is used (or connected behind a USB hub) the file /etc/udev/rules.d/serial-starter.rules will required to be tweaked accordingly so the USB-RS485 adpater is always accesible with /dev/ttyUSB0
 
 Toubleshooting from command line with dbus
 List of all dbus relays and their status:
