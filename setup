@@ -46,6 +46,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
+	updateActiveFile /data/rgpio/conf/RemoteGPIO.json
 
 	##
 	## Install node-red palettes
