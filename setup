@@ -67,6 +67,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
     else
       logMessage "Flows already in use, users need to import from local library RemoteGPIO.json"
     fi
+	chown -R nodered:nodered /data/home/nodered/
 	svc -d /service/node-red-venus ; svc -u /service/node-red-venus 
   	
 	##
