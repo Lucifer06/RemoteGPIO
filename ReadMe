@@ -52,7 +52,7 @@ RemoteGPIO v2.x is backward compatible with previous venus_rgpio (https://commun
 
 Troubleshooting:
 ================
-Any questions or suggestions about RemoteGPIO are welcome here: XXXXXXX
+Any questions or suggestions about RemoteGPIO are welcome here: https://community.victronenergy.com/questions/245584/remotegpio-ex-venus-rgpio-now-available-with-setup.html
 
 Most of the issues are coming from USBtoRS485 adapter been trapped by the wrong VenusOS service.
 In order to make it working with default configuration file, it is important to attach it to the first USB port.
