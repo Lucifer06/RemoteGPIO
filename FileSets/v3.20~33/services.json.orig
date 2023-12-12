@@ -3763,24 +3763,6 @@
           "0": "Open",
           "1": "Closed"
         }
-      },
-      {
-        "path": "/Relay/4/State",
-        "type": "enum",
-        "name": "Venus relay 5 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        }
-      },
-      {
-        "path": "/Relay/5/State",
-        "type": "enum",
-        "name": "Venus relay 6 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        }
       }
     ],
     "accharger": [
@@ -6035,7 +6017,7 @@
           "0": "Open",
           "1": "Closed"
         },
-	"writable": true
+        "writable": true
       },
       {
         "path": "/Relay/2/State",
@@ -6051,26 +6033,6 @@
         "path": "/Relay/3/State",
         "type": "enum",
         "name": "Venus relay 4 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        },
-        "writable": true
-      },
-      {
-        "path": "/Relay/4/State",
-        "type": "enum",
-        "name": "Venus relay 5 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        },
-        "writable": true
-      },
-      {
-        "path": "/Relay/5/State",
-        "type": "enum",
-        "name": "Venus relay 6 state",
         "enum": {
           "0": "Open",
           "1": "Closed"
