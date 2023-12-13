@@ -1554,7 +1554,8 @@
           "7": "Every day",
           "8": "Weekdays",
           "9": "Weekends"
-        }
+        },
+        "remarks": "<p>A negative value means that the schedule has been de-activated.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Duration",
@@ -1595,7 +1596,8 @@
           "7": "Every day",
           "8": "Weekdays",
           "9": "Weekends"
-        }
+        },
+        "remarks": "<p>A negative value means that the schedule has been de-activated.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/1/Duration",
@@ -1636,7 +1638,8 @@
           "7": "Every day",
           "8": "Weekdays",
           "9": "Weekends"
-        }
+        },
+        "remarks": "<p>A negative value means that the schedule has been de-activated.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/2/Duration",
@@ -1677,7 +1680,8 @@
           "7": "Every day",
           "8": "Weekdays",
           "9": "Weekends"
-        }
+        },
+        "remarks": "<p>A negative value means that the schedule has been de-activated.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/3/Duration",
@@ -1718,7 +1722,8 @@
           "7": "Every day",
           "8": "Weekdays",
           "9": "Weekends"
-        }
+        },
+        "remarks": "Writing a negative value to the path will de-activate the schedule."
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/4/Duration",
@@ -2026,6 +2031,15 @@
     "help": "<p>Generator input node for relay controlled and Fischer Panda generators.<br />In order to use the relay for controlling a generator, make sure to set the relay to <i>Generator</i> via the (remote) console first.<br />Also see <a href=\"https://github.com/victronenergy/venus/wiki/dbus#generator-data\">here</a> for more information.</p>",
     "generator": [
       {
+        "path": "/Alarms/NoGeneratorAtAcIn",
+        "type": "enum",
+        "name": "Generator not detected at AC input alarm",
+        "enum": {
+          "0": "No alarm",
+          "2": "Alarm"
+        }
+      },
+      {
         "path": "/AutoStartEnabled",
         "type": "enum",
         "name": "Auto start enabled/disabled",
@@ -2035,12 +2049,31 @@
         }
       },
       {
+        "path": "/Error",
+        "type": "enum",
+        "name": "Generator remote error",
+        "enum": {
+          "0": "No Error",
+          "1": "Remote disabled",
+          "2": "Remote fault"
+        }
+      },
+      {
         "path": "/ManualStart",
         "type": "enum",
         "name": "Manual Start",
         "enum": {
           "0": "Stop generator",
           "1": "Start generator"
+        }
+      },
+      {
+        "path": "/QuietHours",
+        "type": "enum",
+        "name": "Quiet hours active",
+        "enum": {
+          "0": "Quiet hours inactive",
+          "1": "Quiet hours active"
         }
       },
       {
@@ -2067,13 +2100,9 @@
         "name": "Runtime in seconds (seconds)"
       },
       {
-        "path": "/QuietHours",
-        "type": "enum",
-        "name": "Quiet hours active",
-        "enum": {
-          "0": "Quiet hours inactive",
-          "1": "Quiet hours active"
-        }
+        "path": "/ServiceCounter",
+        "type": "float",
+        "name": "Service countdown counter (seconds until next generator service)"
       },
       {
         "path": "/State",
@@ -2083,25 +2112,6 @@
           "0": "Stopped",
           "1": "Running",
           "10": "Error"
-        }
-      },
-      {
-        "path": "/Error",
-        "type": "enum",
-        "name": "Generator remote error",
-        "enum": {
-          "0": "No Error",
-          "1": "Remote disabled",
-          "2": "Remote fault"
-        }
-      },
-      {
-        "path": "/Alarms/NoGeneratorAtAcIn",
-        "type": "enum",
-        "name": "Generator not detected at AC input alarm",
-        "enum": {
-          "0": "No alarm",
-          "2": "Alarm"
         }
       }
     ]
@@ -2207,6 +2217,11 @@
         "path": "/Engine/Load",
         "type": "float",
         "name": "Engine load (%)"
+      },
+      {
+        "path": "/Engine/OilPressure",
+        "type": "float",
+        "name": "Oil pressure (kPa)"
       },
       {
         "path": "/Engine/OperatingHours",
@@ -2741,6 +2756,17 @@
         "name": "Inverter model"
       },
       {
+        "path": "/Pv/0/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 1",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
+      },
+      {
         "path": "/Pv/0/P",
         "type": "float",
         "name": "PV power for tracker 0 (W)"
@@ -2749,6 +2775,17 @@
         "path": "/Pv/0/V",
         "type": "float",
         "name": "PV voltage for tracker 0 (V DC)"
+      },
+      {
+        "path": "/Pv/1/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 2",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
       },
       {
         "path": "/Pv/1/P",
@@ -2761,6 +2798,17 @@
         "name": "PV voltage for tracker 1 (V DC)"
       },
       {
+        "path": "/Pv/2/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 3",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
+      },
+      {
         "path": "/Pv/2/P",
         "type": "float",
         "name": "PV power for tracker 2 (W)"
@@ -2769,6 +2817,17 @@
         "path": "/Pv/2/V",
         "type": "float",
         "name": "PV voltage for tracker 2 (V DC)"
+      },
+      {
+        "path": "/Pv/3/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 4",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
       },
       {
         "path": "/Pv/3/P",
@@ -2819,6 +2878,11 @@
         "path": "/ExternalTemperature",
         "type": "float",
         "name": "External temperature (°C)"
+      },
+      {
+        "path": "/ExternalTemperature2",
+        "type": "float",
+        "name": "External temperature – second sensor (Degrees celsius)"
       },
       {
         "path": "/Irradiance",
@@ -3328,6 +3392,17 @@
         }
       },
       {
+        "path": "/Pv/0/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 1",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
+      },
+      {
         "path": "/Pv/0/P",
         "type": "float",
         "name": "PV power for tracker 0 (W)"
@@ -3336,6 +3411,17 @@
         "path": "/Pv/0/V",
         "type": "float",
         "name": "PV voltage for tracker 0 (V DC)"
+      },
+      {
+        "path": "/Pv/1/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 2",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
       },
       {
         "path": "/Pv/1/P",
@@ -3348,6 +3434,17 @@
         "name": "PV voltage for tracker 1 (V DC)"
       },
       {
+        "path": "/Pv/2/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 3",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
+      },
+      {
         "path": "/Pv/2/P",
         "type": "float",
         "name": "PV power for tracker 2 (W)"
@@ -3356,6 +3453,17 @@
         "path": "/Pv/2/V",
         "type": "float",
         "name": "PV voltage for tracker 2 (V DC)"
+      },
+      {
+        "path": "/Pv/3/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 4",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
       },
       {
         "path": "/Pv/3/P",
@@ -3655,24 +3763,6 @@
           "0": "Open",
           "1": "Closed"
         }
-      },
-      { 
-        "path": "/Relay/4/State",
-        "type": "enum",
-        "name": "Venus relay 5 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        }
-      },
-      { 
-        "path": "/Relay/5/State",
-        "type": "enum",
-        "name": "Venus relay 6 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        }
       }
     ],
     "accharger": [
@@ -3760,6 +3850,11 @@
         "type": "integer",
         "name": "Maximum System Grid Feed In (W)",
         "remarks": "<ul><li>-1: No limit</li><li> &gt;=0: limited system feed-in</li></ul><p>Applies to DC-coupled and AC-coupled feed-in.</p>"
+      },
+      {
+        "path": "/Settings/CGwacs/BatteryLife/SocLimit",
+        "type": "float",
+        "name": "ESS BatteryLife SoC limit (read only) (%)"
       },
       {
         "path": "/Settings/SystemSetup/AcInput1",
@@ -4072,6 +4167,17 @@
         }
       },
       {
+        "path": "/Pv/0/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 1",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
+      },
+      {
         "path": "/Pv/0/P",
         "type": "float",
         "name": "Tracker 1 power"
@@ -4080,6 +4186,17 @@
         "path": "/Pv/0/V",
         "type": "float",
         "name": "Tracker 1 voltage"
+      },
+      {
+        "path": "/Pv/1/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 2",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
       },
       {
         "path": "/Pv/1/P",
@@ -4092,6 +4209,17 @@
         "name": "Tracker 2 voltage"
       },
       {
+        "path": "/Pv/2/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 3",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
+      },
+      {
         "path": "/Pv/2/P",
         "type": "float",
         "name": "Tracker 3 power"
@@ -4100,6 +4228,17 @@
         "path": "/Pv/2/V",
         "type": "float",
         "name": "Tracker 3 voltage"
+      },
+      {
+        "path": "/Pv/3/MppOperationMode",
+        "type": "enum",
+        "name": "MPP operation mode tracker 4",
+        "enum": {
+          "0": "Off",
+          "1": "Voltage/current limited",
+          "2": "MPPT active",
+          "255": "Not available"
+        }
       },
       {
         "path": "/Pv/3/P",
@@ -4745,6 +4884,24 @@
         }
       },
       {
+        "path": "/Ac/State/RemoteGeneratorSelected",
+        "type": "enum",
+        "name": "Remote generator selected",
+        "enum": {
+          "0": "Generator not selected",
+          "1": "Generator selected"
+        }
+      },
+      {
+        "path": "/Alarms/BmsPreAlarm",
+        "type": "enum",
+        "name": "Low cell voltage imminent",
+        "enum": {
+          "0": "OK",
+          "1": "Warning"
+        }
+      },
+      {
         "path": "/Alarms/GridLost",
         "type": "enum",
         "name": "Grid lost alarm",
@@ -4981,6 +5138,15 @@
         "path": "/Dc/0/Current",
         "type": "float",
         "name": "Battery current (A)"
+      },
+      {
+        "path": "/Dc/0/PreferRenewableEnergy",
+        "type": "enum",
+        "name": "Prefer Renewable Energy",
+        "enum": {
+          "0": "Renewable energy not preferred",
+          "1": "Renewable energy preferred"
+        }
       },
       {
         "path": "/Dc/0/Temperature",
@@ -5358,7 +5524,8 @@
           "8": "Weekdays",
           "9": "Weekends"
         },
-        "writable": true
+        "writable": true,
+        "remarks": "<p>Writing a negative value to the path will de-activate the schedule.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Duration",
@@ -5404,7 +5571,8 @@
           "8": "Weekdays",
           "9": "Weekends"
         },
-        "writable": true
+        "writable": true,
+        "remarks": "<p>Writing a negative value to the path will de-activate the schedule.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/1/Duration",
@@ -5450,7 +5618,8 @@
           "8": "Weekdays",
           "9": "Weekends"
         },
-        "writable": true
+        "writable": true,
+        "remarks": "<p>Writing a negative value to the path will de-activate the schedule.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/2/Duration",
@@ -5496,7 +5665,8 @@
           "8": "Weekdays",
           "9": "Weekends"
         },
-        "writable": true
+        "writable": true,
+        "remarks": "<p>Writing a negative value to the path will de-activate the schedule.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/3/Duration",
@@ -5542,7 +5712,8 @@
           "8": "Weekdays",
           "9": "Weekends"
         },
-        "writable": true
+        "writable": true,
+        "remarks": "<p>Writing a negative value to the path will de-activate the schedule.</p>"
       },
       {
         "path": "/Settings/CGwacs/BatteryLife/Schedule/Charge/4/Duration",
@@ -5722,6 +5893,12 @@
           "1": "Start generator"
         },
         "writable": true
+      },
+      {
+        "path": "/ServiceCounterReset",
+        "type": "float",
+        "name": "Service countdown reset (1=Reset service counter)",
+        "writable": true
       }
     ]
   },
@@ -5861,26 +6038,6 @@
           "1": "Closed"
         },
         "writable": true
-      },
-      {
-        "path": "/Relay/4/State",
-        "type": "enum",
-        "name": "Venus relay 5 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        },
-        "writable": true
-      },
-      {
-        "path": "/Relay/5/State",
-        "type": "enum",
-        "name": "Venus relay 6 state",
-        "enum": {
-          "0": "Open",
-          "1": "Closed"
-        },
-        "writable": true
       }
     ],
     "battery": [
@@ -5978,6 +6135,39 @@
           "11": "BL Disabled (Low SoC)",
           "12": "BL Disabled (Low SOC recharge)"
         },
+        "writable": true
+      },
+      {
+        "path": "/Settings/Pump0/AutoStartEnabled",
+        "type": "enum",
+        "name": "Auto start enabled",
+        "enum": {
+          "0": "Disabled",
+          "1": "Enabled"
+        },
+        "writable": true
+      },
+      {
+        "path": "/Settings/Pump0/Mode",
+        "type": "enum",
+        "name": "Mode",
+        "enum": {
+          "0": "Auto",
+          "1": "On",
+          "2": "Off"
+        },
+        "writable": true
+      },
+      {
+        "path": "/Settings/Pump0/StartValue",
+        "type": "float",
+        "name": "Start value (%)",
+        "writable": true
+      },
+      {
+        "path": "/Settings/Pump0/StopValue",
+        "type": "float",
+        "name": "Stop value (%)",
         "writable": true
       },
       {
@@ -6104,6 +6294,16 @@
         "writable": true
       },
       {
+        "path": "/Ac/Control/RemoteGeneratorSelected",
+        "type": "enum",
+        "name": "Select Remote Generator",
+        "enum": {
+          "0": "Generator not selected",
+          "1": "Generator selected"
+        },
+        "writable": true
+      },
+      {
         "path": "/Ac/In/1/CurrentLimit",
         "type": "float",
         "name": "Input 1 current limit (A)",
@@ -6113,6 +6313,16 @@
         "path": "/Ac/In/2/CurrentLimit",
         "type": "float",
         "name": "Input 2 current limit (A)",
+        "writable": true
+      },
+      {
+        "path": "/Dc/0/PreferRenewableEnergy",
+        "type": "enum",
+        "name": "Prefer Renewable Energy",
+        "enum": {
+          "0": "Renewable energy not preferred",
+          "1": "Renewable energy preferred"
+        },
         "writable": true
       },
       {
