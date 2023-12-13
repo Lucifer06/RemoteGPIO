@@ -92,11 +92,11 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
 	
-	rm /etc/rcS.d/S90rgpio_pins.sh
-	rm /dev/gpio/relay_3
-	rm /dev/gpio/relay_4
-	rm /dev/gpio/relay_5
-	rm /dev/gpio/relay_6
+	rm -f /etc/rcS.d/S90rgpio_pins.sh
+	rm -f /dev/gpio/relay_3
+	rm -f /dev/gpio/relay_4
+	rm -f /dev/gpio/relay_5
+	rm -f /dev/gpio/relay_6
 	
 	##
 	## Remove node-red palettes
@@ -112,7 +112,7 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	removeService $packageName
 	restartSystemCalc=true
 		
-	rm -r /data/rgpio
+#	rm -r /data/rgpio
 #	rm -r /data/RemoteGPIO
 	logMessage "++ $packageName uninstalled"
 fi
@@ -136,4 +136,3 @@ fi
 
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript
-
