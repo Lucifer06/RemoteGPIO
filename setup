@@ -43,6 +43,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+###
+### Need to check if config file exists and install the dependencies accordingly here
+#######################
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
 	updateActiveFile /data/rgpio/conf/RemoteGPIO.json
 
@@ -61,6 +64,10 @@ if [ $scriptAction == 'INSTALL' ] ; then
   	##
   	cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/lib/flows/
   	if [ ! -e /data/home/nodered/.node-red/flows.json ]
+
+###
+################################
+
     then
       logMessage "No flows, installing RemoteGPIO.json"
       cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/flows.json
