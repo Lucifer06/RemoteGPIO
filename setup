@@ -50,6 +50,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+###
+### Need to check if config file exists and install the dependencies accordingly here
+#######################
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
 	updateActiveFile /data/rgpio/conf/RemoteGPIO.json
 
@@ -68,6 +71,10 @@ if [ $scriptAction == 'INSTALL' ] ; then
   	##
   	cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/lib/flows/
   	if [ ! -e /data/home/nodered/.node-red/flows.json ]
+  	
+###
+################################
+  	
     then
       logMessage "No flows, installing RemoteGPIO.json"
       cp /data/rgpio/conf/RemoteGPIO.json /data/home/nodered/.node-red/flows.json
@@ -99,11 +106,11 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
 	
-	rm /etc/rcS.d/S90rgpio_pins.sh
-	rm /dev/gpio/relay_3
-	rm /dev/gpio/relay_4
-	rm /dev/gpio/relay_5
-	rm /dev/gpio/relay_6
+	rm -f /etc/rcS.d/S90rgpio_pins.sh
+	rm -f /dev/gpio/relay_3
+	rm -f /dev/gpio/relay_4
+	rm -f /dev/gpio/relay_5
+	rm -f /dev/gpio/relay_6
 	
 	##
 	## Remove node-red palettes
@@ -119,7 +126,7 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	removeService $packageName
 	restartSystemCalc=true
 		
-	rm -r /data/rgpio
+#	rm -r /data/rgpio
 #	rm -r /data/RemoteGPIO
 	logMessage "++ $packageName uninstalled"
 fi
