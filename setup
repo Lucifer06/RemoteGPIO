@@ -44,8 +44,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	fi
 
 	tar -xvzf /data/RemoteGPIO/FileSets/Shared/rgpio.tar.gz -C /data
-    
-	installService $packageName
 
 	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
@@ -123,7 +121,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	svc -d /service/node-red-venus ; svc -u /service/node-red-venus 
   	cd $cwd
 	
-	removeService $packageName
 	restartSystemCalc=true
 		
 #	rm -r /data/rgpio
