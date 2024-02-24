@@ -1,0 +1,14 @@
+#!/bin/sh
+stty -F /dev/ttyUSB0 9600 raw -echo   #CONFIGURE SERIAL PORT
+exec 3</dev/ttyUSB0                     #REDIRECT SERIAL OUTPUT TO FD 3
+  cat <&3 > /tmp/ttyDump.dat &          #REDIRECT SERIAL OUTPUT TO FILE
+  PID=$!                                #SAVE PID TO KILL CAT
+    echo "R" > /dev/ttyUSB0             #SEND COMMAND STRING TO SERIAL PORT
+    echo -e "\x01\x03\x00\x00\x00\x01\x84\x0A" > /dev/ttyUSB0 		#SEND COMMAND STRING TO SERIAL PORT
+    sleep 0.2s                          #WAIT FOR RESPONSE
+  kill $PID                             #KILL CAT PROCESS
+  wait $PID 2>/dev/null                 #SUPRESS "Terminated" output
+
+exec 3<&-                               #FREE FD 3
+cat /tmp/ttyDump.dat 
+
