@@ -14,33 +14,56 @@ MbPage {
 	model: VisualModels {
 		VisibleItemModel {
 
-	                MbEditBox {
-                	        description: qsTr("Unit 2 IP Address")
-                        	maximumLength: 15
+	    	MbEditBox {
+            	description: qsTr("Unit 2 IP Address")
+            	maximumLength: 15
 				item.bind: [rgpioSettings, "/IP"]
-                        	matchString: ".0123456789"
+            	matchString: ".0123456789"
 			}
 
-                        MbItemText {                                                               
-                                text: qsTr("Reboot may be required if unit is not anymore responding on USB protocol")     
-                                wrapMode: Text.WordWrap                                            
-                        }    
+            MbItemOptions {
+                id: protocol
+                description: qsTr("Protocol")
+                bind: [rgpioSettings, "/Protocol"]
+                show: enable.checked
+                possibleValues: [
+                    MbOption {description: qsTr("Modbus via USB"); value: 0},
+                    MbOption {description: qsTr("Modbus via TCP"); value: 1}
+                ]
+            }
 
-                      	 MbSwitch {                                  
-                                id: reboot                           
-                                name: qsTr("Reboot Unit 2?")                 
+            MbItemOptions {
+                id: port
+                description: qsTr("USB Port")
+                bind: [rgpioSettings, "/USB_Port"]
+                show: protocol.value == 0
+                possibleValues: [
+                    MbOption {description: qsTr("USB0"); value: "USB0"},
+                    MbOption {description: qsTr("USB1"); value: "USB1"}
+                ]
+            }
+                        
+        	MbItemText {                                                               
+            	text: qsTr("Reboot may be required if unit is not anymore responding on USB protocol")     
+            	wrapMode: Text.WordWrap                                            
+        	}    
+
+        	MbSwitch {                                  
+            	id: reboot                           
+            	name: qsTr("Reboot Unit 2?")                 
 				bind: [rgpioSettings, "/Reboot"]
-                        }         
+        	}         
+		
 			MbItemOptions {
-                                id: confirm
-                                description: qsTr("PLEASE CONFIRM")
+            	id: confirm
+            	description: qsTr("PLEASE CONFIRM")
 				bind: serviceSetting
-                                show: reboot.checked
-                                possibleValues: [
-                                        MbOption {description: qsTr("Don't reboot Unit"); value: 1},
-                                        MbOption {description: qsTr("Yes, Reboot please"); value: 2}
-                                ]
-                        }
+            	show: reboot.checked
+            	possibleValues: [
+                	MbOption {description: qsTr("Don't reboot Unit"); value: 1},
+                	MbOption {description: qsTr("Yes, Reboot please"); value: 2}
+            	]
+        	}
 		}
 	}
 }
