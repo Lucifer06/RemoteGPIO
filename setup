@@ -52,7 +52,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		exit ## not sure if I need to have this exit here...
 	fi
 
-
+## NEED TO have the devices (/sys) in /data/RemoteGPIO
 	tar -xvzf /data/RemoteGPIO/FileSets/Shared/rgpio.tar.gz -C /data
 	chmod 777 /data/rgpio/conf
 

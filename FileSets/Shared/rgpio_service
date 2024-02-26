@@ -97,15 +97,15 @@ do
 		case $nbunit in                                                                             
                 	0)
 				# 0 Units -> put back previous main page
-				cp /data/RemoteGPIO/Workinprogress/FileSets/v3.21/main_0units.qml /opt/victronenergy/gui/qml/main.qml
+				cp /data/RemoteGPIO/FileSets/v3.21/main_0units.qml /opt/victronenergy/gui/qml/main.qml
 				;;         
 			1)
 				# 1 Units -> update main page
-                                cp /data/RemoteGPIO/Workinprogress/FileSets/v3.21/main_1units.qml /opt/victronenergy/gui/qml/main.qml 
+                                cp /data/RemoteGPIO/FileSets/v3.21/main_1units.qml /opt/victronenergy/gui/qml/main.qml 
 				;;
 			2)
 				# 2 Units -> update main page
-                                cp /data/RemoteGPIO/Workinprogress/FileSets/v3.21/main_2units.qml /opt/victronenergy/gui/qml/main.qml 
+                                cp /data/RemoteGPIO/FileSets/v3.21/main_2units.qml /opt/victronenergy/gui/qml/main.qml 
 				;;
 		esac
 		latch2=$nbunit
