@@ -14,5 +14,5 @@ if [ -f "$scriptDir/DbusRemoteGPIOList" ]; then
 		settings+=$( echo $line | awk -F[:,] '{print $2, ","}' )
 	done < "$scriptDir/DbusSettingsList"
 
-	dbus -y com.victronenergy.settings / RemoveSettings "%[ $settings  ]"
+	dbus -y com.victronenergy.settings / RemoveSettings "%[ $settings  ]" &> /dev/null
 fi

@@ -26,7 +26,7 @@ restartSystemCalc=false
 if [ $scriptAction == 'NONE' ] ; then
 	echo
 	echo "The RemoteGPIO is adding external Relays and Digital Inputs"
-	echo "with external box attached via USB port"
+	echo "with Dingtian IOT Relay devices either connected via USB or TCP"
 	echo
 	standardActionPrompt
 fi
@@ -35,6 +35,7 @@ fi
 
 if [ $scriptAction == 'INSTALL' ] ; then
 	logMessage "++ Installing RemoteGPIO"
+
 ## Checking Venus OS Large is installed
 	ImageType=large
 	if [[ $(< /etc/venus/image-type) != "$ImageType" ]]; then
@@ -42,6 +43,15 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		endScript
 		exit ## not sure if I need to have this exit here...
 	fi
+
+## Checking GuiMods is installed
+	if [ ! -e /data/home/nodered/.node-red/flows.json ]
+	then
+		logMessage "Mandatory: GuiMods needs to be installed before RemoteGPIO"
+		endScript
+		exit ## not sure if I need to have this exit here...
+	fi
+
 
 	tar -xvzf /data/RemoteGPIO/FileSets/Shared/rgpio.tar.gz -C /data
 	chmod 777 /data/rgpio/conf

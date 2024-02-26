@@ -55,7 +55,7 @@ MbPage {
                                 show: enable.checked
                                 possibleValues: [
                                         MbOption {description: qsTr("Modbus via USB"); value: 0},
-                                        MbOption {description: qsTr("Modbus via Ethernet"); value: 1}
+                                        MbOption {description: qsTr("Modbus via TCP"); value: 1}
                                 ]
                         }
                                  

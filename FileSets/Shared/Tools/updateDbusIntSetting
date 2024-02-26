@@ -10,8 +10,8 @@
     dbus-send --system --print-reply=literal --dest=com.victronenergy.settings "$1"\
             com.victronenergy.BusItem.GetValue 
     if (( $? != 0 )); then
-        logMessage "creating dbus Setting $1"
-        dbus -y com.victronenergy.settings / AddSettings "%[ {\"path\":\"$1\", \"default\":0} ]" 
+#        logMessage "creating dbus Setting $1"
+        dbus -y com.victronenergy.settings / AddSettings "%[ {\"path\":\"$1\", \"default\":0} ]" &> /dev/null
     fi
 
 #    dbus -y com.victronenergy.settings "$1" SetValue "$2" &> 

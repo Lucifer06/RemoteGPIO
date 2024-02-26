@@ -8,10 +8,10 @@
 exec 2>&1
 
 
-conf_unit1_relay="/data/RemoteGPIO/Workinprogress/Relays_1-8.conf"
-conf_unit1_digitalinput="/data/RemoteGPIO/Workinprogress/Digital_Inputs_1-8.conf"
-conf_unit2_relay="/data/RemoteGPIO/Workinprogress/Relays_9-16.conf"                            
-conf_unit2_digitalinput="/data/RemoteGPIO/Workinprogress/Digital_Inputs_9-16.conf"  
+conf_unit1_relay="/data/RemoteGPIO/Conf/Relays_1-8.conf"
+conf_unit1_digitalinput="/data/RemoteGPIO/Conf/Digital_Inputs_1-8.conf"
+conf_unit2_relay="/data/RemoteGPIO/Conf/Relays_9-16.conf"                            
+conf_unit2_digitalinput="/data/RemoteGPIO/Conf/Digital_Inputs_9-16.conf"
 zero=0
 prev_const1=0
 prev_const2=0  
@@ -31,9 +31,33 @@ set_setting()
 }
 
 latency=$(dbus -y com.victronenergy.settings  /Settings/RemoteGPIO/Latency GetValue)
-protocol=$(get_setting /Settings/RemoteGPIO/Protocol)
-nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
 
+##
+## Handle up to 2 units and multi-protocol
+###########################################
+
+nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
+case $nbunit in
+		0)
+			# Do nothing
+			;;
+		1)
+			# One unit. Reading Protocol, port and IP address
+			Protocol_unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Protocol)
+			Port_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/USB_Port)
+			IP_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/IP)
+			;;
+		2)
+			# Two units. Reading Protocols, ports and IP addresses
+			Protocol_unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Protocol)
+			Port_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/USB_Port)
+			IP_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/IP)
+			
+			Protocol_unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Protocol)
+			Port_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/USB_Port)
+			IP_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/IP)
+			;;	
+esac
 
 
 ##
@@ -64,11 +88,17 @@ do
                 j=$((256*i))
 	done
 
+	# Trying to limit resources usage so talking to Unit only if relay change
 	if [ $const != $prev_const1 ]
 	then
-
-		#called only if relay change
-		/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 /dev/ttyUSB0 $const >> /dev/null
+		case $Protocol_unit1 in
+			0) # USB
+				/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 $Port_Unit1 $const >> /dev/null
+				;;
+			1) # TCP
+				/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit1 $const >> /dev/null
+				;;
+		esac
 	fi
 	prev_const1=$((const))
 
@@ -77,7 +107,7 @@ do
         ## Handle Unit2 with 8x Relays                                                 
         #################################                                              
         if [ $nbunit -eq 2 ] 
-	then
+		then
         	index=1                                                                        
         	i=1                                                                            
         	j=256                                                                          
@@ -94,13 +124,19 @@ do
         	        index=$((index+1))          
         	        i=$((i*2))                  
         	        j=$((256*i))                
-        	done                                
-        	                                    
+        	done 
+        	                               
+			# Trying to limit resources usage so talking to Unit only if relay change        	                                    
         	if [ $const != $prev_const2 ]        
-        	then                                
-        	                                    
-        	        #called only if relay change
-        	        /data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 /dev/ttyUSB1 $const >> /dev/null
+        	then
+				case $Protocol_unit2 in
+					0) # USB
+						/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 $Port_Unit2 $const >> /dev/null
+						;;
+					1) # TCP
+						/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit2 $const >> /dev/null
+						;;
+				esac                          
         	fi                                                                                                                                      
         	prev_const2=$((const)) 
 	fi
@@ -109,9 +145,17 @@ do
 	##
 	## Handle Unit1 with 8x Digital_Inputs
 	#################################
-        msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 /dev/ttyUSB0) | awk '{print $NF}')        
-        number=$(($msg))   
-
+		case $Protocol_unit1 in
+			0) # USB
+				msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 $Port_Unit1) | awk '{print $NF}')        
+				number=$(($msg))   
+				;;
+			1) # TCP
+				msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 $IP_Unit1) | awk '{print $NF}')        
+				number=$(($msg))
+				;;
+		esac
+        
 	if ((number >= 0 && number <= 255)); then    
 
 		# Parsing number for writing the 8x Input Devices
@@ -129,8 +173,16 @@ do
         #################################                                                                                                               
 	if [ $nbunit -eq 2 ]                                                                                                                  
         then
-        	msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 /dev/ttyUSB1) | awk '{print $NF}')
-        	number=$(($msg))                                                                                                                                   
+			case $Protocol_unit2 in
+				0) # USB
+					msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 $Port_Unit2) | awk '{print $NF}')        
+					number=$(($msg))   
+					;;
+				1) # TCP
+					msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 $IP_Unit2) | awk '{print $NF}')        
+					number=$(($msg))
+					;;
+			esac                                                                                                                                 
                                                                                                                                                            
         	if ((number >= 0 && number <= 255)); then                                                                                                          
                                                                                                                                                            
