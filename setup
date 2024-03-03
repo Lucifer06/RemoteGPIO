@@ -50,7 +50,8 @@ if [ $scriptAction == 'INSTALL' ] ; then
 ##
 ## Prepare the devices in /data/RemoteGPIO/sys and conf folder
 ##############################################################
-	tar -xvf /data/RemoteGPIO/FileSets/Shared/sys.tar -C /data/RemoteGPIO/
+	tar -xvf /data/RemoteGPIO/FileSets/Shared/sys.tar.gz -C /data/RemoteGPIO/
+	tar -xvf /data/RemoteGPIO/FileSets/Shared/bin.tar.gz -C /data/RemoteGPIO/
 	mkdir /data/RemoteGPIO/conf
 	chmod 777 /data/RemoteGPIO/conf
 	touch /data/RemoteGPIO/conf/units.conf
