@@ -30,7 +30,7 @@ set_setting()
 		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2 >> /dev/null                                                                  
 	}
 
-get_IP()
+get_string()
 	{                                                                                                                                                                                                                               
 		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/variant/ { print $2 }'                                                                      
 	}
@@ -49,18 +49,18 @@ case $nbunit in
 		1)
 			# One unit. Reading Protocol, port and IP address
 			Protocol_unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Protocol)
-			Port_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/USB_Port)
-			IP_Unit1=$(get_IP /Settings/RemoteGPIO/Unit1/IP)
+			Port_Unit1=$(get_string /Settings/RemoteGPIO/Unit1/USB_Port)
+			IP_Unit1=$(get_string /Settings/RemoteGPIO/Unit1/IP)
 			;;
 		2)
 			# Two units. Reading Protocols, ports and IP addresses
 			Protocol_unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Protocol)
-			Port_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/USB_Port)
-			IP_Unit1=$(get_IP /Settings/RemoteGPIO/Unit1/IP)
+			Port_Unit1=$(get_string /Settings/RemoteGPIO/Unit1/USB_Port)
+			IP_Unit1=$(get_string /Settings/RemoteGPIO/Unit1/IP)
 			
 			Protocol_unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Protocol)
-			Port_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/USB_Port)
-			IP_Unit2=$(get_IP /Settings/RemoteGPIO/Unit2/IP)
+			Port_Unit2=$(get_string /Settings/RemoteGPIO/Unit2/USB_Port)
+			IP_Unit2=$(get_string /Settings/RemoteGPIO/Unit2/IP)
 			;;	
 esac
 

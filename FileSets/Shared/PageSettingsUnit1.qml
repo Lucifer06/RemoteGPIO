@@ -38,8 +38,8 @@ MbPage {
                 bind: [rgpioSettings, "/USB_Port"]
                 show: protocol.value == 0
                 possibleValues: [
-                    MbOption {description: qsTr("USB0"); value: "USB0"},
-                    MbOption {description: qsTr("USB1"); value: "USB1"}
+                    MbOption {description: qsTr("USB0"); value: "/dev/ttyUSB0"},
+                    MbOption {description: qsTr("USB1"); value: "/dev/ttyUSB1"}
                 ]
             }
                         

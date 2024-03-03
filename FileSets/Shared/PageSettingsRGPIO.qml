@@ -39,7 +39,7 @@ MbPage {
 			MbSubMenu {
 				description: qsTr("Unit 1")
 				subpage: Component { PageSettingsUnit1 {} }
-				show: enable.checked
+				show: enable.checked && numberunits.value == 1
 			}
 
 			MbSubMenu {
