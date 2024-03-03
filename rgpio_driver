@@ -30,6 +30,11 @@ set_setting()
 	dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2 >> /dev/null                                                                  
 }
 
+get_IP()
+	{                                                                                                                                                                                                                               
+        	dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/variant/ { print $2 }'                                                                      
+	}
+
 latency=$(dbus -y com.victronenergy.settings  /Settings/RemoteGPIO/Latency GetValue)
 
 ##
@@ -45,17 +50,18 @@ case $nbunit in
 			# One unit. Reading Protocol, port and IP address
 			Protocol_unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Protocol)
 			Port_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/USB_Port)
-			IP_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/IP)
+			IP_Unit1=$(get_IP /Settings/RemoteGPIO/Unit1/IP)
+							echo $IP_Unit1 >> /toto
 			;;
 		2)
 			# Two units. Reading Protocols, ports and IP addresses
 			Protocol_unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Protocol)
 			Port_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/USB_Port)
-			IP_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/IP)
+			IP_Unit1=$(get_IP /Settings/RemoteGPIO/Unit1/IP)
 			
 			Protocol_unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Protocol)
 			Port_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/USB_Port)
-			IP_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/IP)
+			IP_Unit2=$(get_IP /Settings/RemoteGPIO/Unit2/IP)
 			;;	
 esac
 
@@ -97,6 +103,8 @@ do
 				;;
 			1) # TCP
 				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit1 $const >> /dev/null
+				echo $IP_Unit1 >> /toto
+				echo $const >> /toto
 				;;
 		esac
 	fi

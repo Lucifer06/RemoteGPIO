@@ -37,12 +37,14 @@ do
 			if [ $service != $latch ] 
 			then
 				svc -d /service/rgpio
+				set_setting /Settings/RemoteGPIO/ variant:int32:0
+				svc -t /service/dbus-systemcalc-py
 			fi
 			latch=$((service))
 			;;
 
 		1)
-                        ##
+            ##
 			## Start Service
 			###########################
 			if [ $service != $latch ]
@@ -54,11 +56,11 @@ do
 		2)
 			##
 			## Reboot device
-                        ###########################
+            ###########################
 			if [ $service != $latch ]
                         then
-				Reboot_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Reboot)
-                                Reboot_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Reboot)
+							Reboot_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Reboot)
+                			Reboot_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Reboot)
 				
 				if [ $Reboot_Unit1 = 1 ] 
 				##
@@ -75,7 +77,7 @@ do
                                 if [ $Reboot_Unit2 = 1 ]                                                                                                                                                                                      
 				##
 				## Reboot Unit 2
-                                ####################
+                ####################
 				then                                                                                                                                                                                                          
                                         IP_Unit2=$(get_IP /Settings/RemoteGPIO/Unit2/IP)                                                                                                                                                      
                                         wget http://$IP_Unit2/reboot.cgi  

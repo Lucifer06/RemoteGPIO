@@ -120,6 +120,7 @@ fi
 
 
 #Service
+svc -t /service/dbus-systemcalc-py
 [ ! -f /service/rgpio ] && ln -s /data/RemoteGPIO/service/rgpio /service/rgpio
 
 #For managing reboot of Dingtian IOT devices
