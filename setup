@@ -100,9 +100,12 @@ if [ $scriptAction == 'INSTALL' ] ; then
 #########################################
 	ln -s /data/RemoteGPIO/service/rgpio /service/rgpio
 	ln -s /data/RemoteGPIO/FileSets/Shared/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}')
 	/etc/rcS.d/S90rgpio_pins.sh
 	
 	restartSystemCalc=true
+
+# Restarting the below services myself as it seems PackageManager don't do it automatically...
 	svc -t /service/dbus-systemcalc-py
 	svc -t /service/start-gui
 

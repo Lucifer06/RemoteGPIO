@@ -12,9 +12,9 @@ get_setting()
 	}
 
 set_setting()                                                                                                                                                                     
-        {                                                                                                                                                                         
-                dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
-        }
+    {                                                                                                                                                                         
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
+    }
 
 get_IP()
 	{                                                                                                                                                                                                                               
@@ -37,7 +37,7 @@ do
 			if [ $service != $latch ] 
 			then
 				svc -d /service/rgpio
-				set_setting /Settings/RemoteGPIO/ variant:int32:0
+				set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
 				svc -t /service/dbus-systemcalc-py
 			fi
 			latch=$((service))
