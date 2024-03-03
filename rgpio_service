@@ -110,9 +110,9 @@ do
 #		esac
 		latch2=$nbunit
 		echo $nbunit > /data/RemoteGPIO/conf/units.conf
-		/etc/rcS.d/S90rgpio_pins.sh
 		svc -t /service/dbus-systemcalc-py
 		svc -t /service/dbus-digitalinputs/
+		/etc/rcS.d/S90rgpio_pins.sh
 	fi
 	latch2=$(cat /data/RemoteGPIO/conf/units.conf)  
 

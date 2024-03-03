@@ -103,6 +103,8 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	/etc/rcS.d/S90rgpio_pins.sh
 	
 	restartSystemCalc=true
+	svc -t /service/dbus-systemcalc-py
+	svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
 fi
