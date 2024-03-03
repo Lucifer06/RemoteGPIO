@@ -56,6 +56,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	chmod 777 /data/RemoteGPIO/conf
 	touch /data/RemoteGPIO/conf/units.conf
 	chmod 666 /data/RemoteGPIO/conf/units.conf
+	echo "0" > /data/RemoteGPIO/conf/units.conf
 
 #	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 #	updateActiveFile /etc/venus/gpio_list
