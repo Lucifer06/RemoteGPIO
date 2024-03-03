@@ -9,9 +9,9 @@
 # Description:       rgpio is used to conect expternal Relay box with ModBus/RTU control
 ### END INIT INFO
 
-nbunit=$(cat /data/rgpio/conf/units.conf)
+nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
 
-# Kill existing rgpio service in case the script is called after HW configuration change:
+# Kill existing rgpio_service in case the script is called after HW configuration change:
 kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}')
 
 get_setting()                                                                                                                                                                                                  
@@ -120,9 +120,9 @@ fi
 
 
 #Service
-[ ! -f /service/rgpio ] && ln -s /data/RemoteGPIO/Workinprogress/service/rgpio /service/rgpio
+[ ! -f /service/rgpio ] && ln -s /data/RemoteGPIO/service/rgpio /service/rgpio
 
-#For managing reboot of DTWonder devices
+#For managing reboot of Dingtian IOT devices
 nohup /data/RemoteGPIO/rgpio_service &
 
 exit 0

@@ -22,7 +22,7 @@ get_IP()
 	} 
 
 latch=0
-latch2=$(cat /data/rgpio/conf/units.conf)
+latch2=$(cat /data/RemoteGPIO/conf/units.conf)
 timer=$(date +%s)
 
 while true
@@ -94,27 +94,27 @@ do
 	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
 	if (( $nbunit != $latch2 ))  
 	then
-		case $nbunit in                                                                             
-                	0)
-				# 0 Units -> put back previous main page
-				cp /data/RemoteGPIO/FileSets/v3.21/main_0units.qml /opt/victronenergy/gui/qml/main.qml
-				;;         
-			1)
-				# 1 Units -> update main page
-                                cp /data/RemoteGPIO/FileSets/v3.21/main_1units.qml /opt/victronenergy/gui/qml/main.qml 
-				;;
-			2)
-				# 2 Units -> update main page
-                                cp /data/RemoteGPIO/FileSets/v3.21/main_2units.qml /opt/victronenergy/gui/qml/main.qml 
-				;;
-		esac
+#		case $nbunit in                                                                             
+#                	0)
+#				# 0 Units -> put back previous main page
+#				cp /data/RemoteGPIO/FileSets/v3.21/main_0units.qml /opt/victronenergy/gui/qml/main.qml
+#				;;         
+#			1)
+#				# 1 Units -> update main page
+#                               cp /data/RemoteGPIO/FileSets/v3.21/main_1units.qml /opt/victronenergy/gui/qml/main.qml 
+#				;;
+#			2)
+#				# 2 Units -> update main page
+#                               cp /data/RemoteGPIO/FileSets/v3.21/main_2units.qml /opt/victronenergy/gui/qml/main.qml 
+#				;;
+#		esac
 		latch2=$nbunit
-		echo $nbunit > /data/rgpio/conf/units.conf
+		echo $nbunit > /data/RemoteGPIO/conf/units.conf
 		/etc/rcS.d/S90rgpio_pins.sh
 		svc -t /service/dbus-systemcalc-py
 		svc -t /service/dbus-digitalinputs/
 	fi
-	latch2=$(cat /data/rgpio/conf/units.conf)  
+	latch2=$(cat /data/RemoteGPIO/conf/units.conf)  
 
         ##                                                        
         ## Watchdog                                                              
@@ -127,7 +127,7 @@ do
 		then
 			svc -d /service/rgpio ; svc -u /service/rgpio
 		fi
-#               echo "Hertbeat = "$(date -d@$timer)
+#               echo "Heartbeat = "$(date -d@$timer)
         fi                                               
 
 

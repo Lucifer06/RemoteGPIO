@@ -8,10 +8,10 @@
 exec 2>&1
 
 
-conf_unit1_relay="/data/RemoteGPIO/Conf/Relays_1-8.conf"
-conf_unit1_digitalinput="/data/RemoteGPIO/Conf/Digital_Inputs_1-8.conf"
-conf_unit2_relay="/data/RemoteGPIO/Conf/Relays_9-16.conf"                            
-conf_unit2_digitalinput="/data/RemoteGPIO/Conf/Digital_Inputs_9-16.conf"
+conf_unit1_relay="/data/RemoteGPIO/FileSets/Conf/Relays_1-8.conf"
+conf_unit1_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_1-8.conf"
+conf_unit2_relay="/data/RemoteGPIO/FileSets/Conf/Relays_9-16.conf"                            
+conf_unit2_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_9-16.conf"
 zero=0
 prev_const1=0
 prev_const2=0  
@@ -93,10 +93,10 @@ do
 	then
 		case $Protocol_unit1 in
 			0) # USB
-				/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 $Port_Unit1 $const >> /dev/null
+				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 $Port_Unit1 $const >> /dev/null
 				;;
 			1) # TCP
-				/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit1 $const >> /dev/null
+				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit1 $const >> /dev/null
 				;;
 		esac
 	fi
@@ -131,10 +131,10 @@ do
         	then
 				case $Protocol_unit2 in
 					0) # USB
-						/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 $Port_Unit2 $const >> /dev/null
+						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 $Port_Unit2 $const >> /dev/null
 						;;
 					1) # TCP
-						/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit2 $const >> /dev/null
+						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 $IP_Unit2 $const >> /dev/null
 						;;
 				esac                          
         	fi                                                                                                                                      
@@ -147,11 +147,11 @@ do
 	#################################
 		case $Protocol_unit1 in
 			0) # USB
-				msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 $Port_Unit1) | awk '{print $NF}')        
+				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 $Port_Unit1) | awk '{print $NF}')        
 				number=$(($msg))   
 				;;
 			1) # TCP
-				msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 $IP_Unit1) | awk '{print $NF}')        
+				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 $IP_Unit1) | awk '{print $NF}')        
 				number=$(($msg))
 				;;
 		esac
@@ -175,11 +175,11 @@ do
         then
 			case $Protocol_unit2 in
 				0) # USB
-					msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 $Port_Unit2) | awk '{print $NF}')        
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 $Port_Unit2) | awk '{print $NF}')        
 					number=$(($msg))   
 					;;
 				1) # TCP
-					msg=$(echo -n $(/data/rgpio/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 $IP_Unit2) | awk '{print $NF}')        
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 $IP_Unit2) | awk '{print $NF}')        
 					number=$(($msg))
 					;;
 			esac                                                                                                                                 
