@@ -59,9 +59,9 @@ do
 			## Reboot device
             ###########################
 			if [ $service != $latch ]
-                        then
-							Reboot_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Reboot)
-                			Reboot_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Reboot)
+            then
+				Reboot_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Reboot)
+                Reboot_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Reboot)
 				
 				if [ $Reboot_Unit1 = 1 ] 
 				##
@@ -75,17 +75,17 @@ do
 					set_setting /Settings/Services/RemoteGPIO variant:int32:1
 				fi
 
-                                if [ $Reboot_Unit2 = 1 ]                                                                                                                                                                                      
+                if [ $Reboot_Unit2 = 1 ]                                                                                                                                                                                      
 				##
 				## Reboot Unit 2
                 ####################
 				then                                                                                                                                                                                                          
-                                        IP_Unit2=$(get_IP /Settings/RemoteGPIO/Unit2/IP)                                                                                                                                                      
-                                        wget http://$IP_Unit2/reboot.cgi  
-                                        # Clear reboot flag and put RemoteGPIO service to 1          
-                                        set_setting /Settings/RemoteGPIO/Unit2/Reboot variant:int32:0
-                                        set_setting /Settings/Services/RemoteGPIO variant:int32:1
-                                fi                                                                                                                                                                                                            
+                	IP_Unit2=$(get_IP /Settings/RemoteGPIO/Unit2/IP)                                                                                                                                                      
+                    wget http://$IP_Unit2/reboot.cgi  
+                    # Clear reboot flag and put RemoteGPIO service to 1          
+                    set_setting /Settings/RemoteGPIO/Unit2/Reboot variant:int32:0
+                    set_setting /Settings/Services/RemoteGPIO variant:int32:1
+            	fi                                                                                                                                                                                                            
 			fi
 			latch=$((service))
 			;;	

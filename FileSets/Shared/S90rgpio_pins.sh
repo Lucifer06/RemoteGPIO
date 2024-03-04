@@ -15,9 +15,13 @@ nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
 kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}')
 
 get_setting()                                                                                                                                                                                                  
-        {                                                                                                                                                                                                      
-                dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'                               
-        }
+    {                                                                                                                                                                                                      
+     	dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'                               
+    }
+set_setting()                                                                                                                                                                     
+    {                                                                                                                                                                         
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
+    }
 
 # Clean existing gpio in case HW configuration has changed
 rm -f /dev/gpio/relay_3
@@ -54,23 +58,22 @@ rm -f /dev/gpio/digital_input_j
 rm -f /dev/gpio/digital_input_k
 
 # delte D-Bus entries for the additional Digital Inputs
-dbus -y com.victronenergy.settings /Settings/DigitalInput/5/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/6/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/7/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/8/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/9/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/10/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/11/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/12/Type SetValue %0        
-dbus -y com.victronenergy.settings /Settings/DigitalInput/13/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/14/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/15/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/16/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/17/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/18/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/19/Type SetValue %0
-dbus -y com.victronenergy.settings /Settings/DigitalInput/20/Type SetValue %0
-
+set_setting /Settings/DigitalInput/5/Type variant:int32:0
+set_setting /Settings/DigitalInput/6/Type variant:int32:0
+set_setting /Settings/DigitalInput/7/Type variant:int32:0
+set_setting /Settings/DigitalInput/8/Type variant:int32:0
+set_setting /Settings/DigitalInput/9/Type variant:int32:0
+set_setting /Settings/DigitalInput/10/Type variant:int32:0
+set_setting /Settings/DigitalInput/11/Type variant:int32:0
+set_setting /Settings/DigitalInput/12/Type variant:int32:0
+set_setting /Settings/DigitalInput/13/Type variant:int32:0
+set_setting /Settings/DigitalInput/14/Type variant:int32:0
+set_setting /Settings/DigitalInput/15/Type variant:int32:0
+set_setting /Settings/DigitalInput/16/Type variant:int32:0
+set_setting /Settings/DigitalInput/17/Type variant:int32:0
+set_setting /Settings/DigitalInput/18/Type variant:int32:0
+set_setting /Settings/DigitalInput/19/Type variant:int32:0
+set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
 if [ $nbunit = 1 ]
 then
@@ -95,14 +98,14 @@ then
 	ln -s /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
 
 	# Create D-Bus entries for additional Digital Inputs support
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/5/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/6/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/7/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/8/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/9/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/10/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/11/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/12/Type SetValue %10
+	set_setting /Settings/DigitalInput/5/Type variant:int32:10
+	set_setting /Settings/DigitalInput/6/Type variant:int32:10
+	set_setting /Settings/DigitalInput/7/Type variant:int32:10
+	set_setting /Settings/DigitalInput/8/Type variant:int32:10
+	set_setting /Settings/DigitalInput/9/Type variant:int32:10
+	set_setting /Settings/DigitalInput/10/Type variant:int32:10
+	set_setting /Settings/DigitalInput/11/Type variant:int32:10
+	set_setting /Settings/DigitalInput/12/Type variant:int32:10
 fi
 
 
@@ -146,22 +149,22 @@ then
     ln -s /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
 
 	# Create D-Bus entries for additional Digital Inputs support
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/5/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/6/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/7/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/8/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/9/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/10/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/11/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/12/Type SetValue %10        
-    dbus -y com.victronenergy.settings /Settings/DigitalInput/13/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/14/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/15/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/16/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/17/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/18/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/19/Type SetValue %10
-	dbus -y com.victronenergy.settings /Settings/DigitalInput/20/Type SetValue %10
+	set_setting /Settings/DigitalInput/5/Type variant:int32:10
+	set_setting /Settings/DigitalInput/6/Type variant:int32:10
+	set_setting /Settings/DigitalInput/7/Type variant:int32:10
+	set_setting /Settings/DigitalInput/8/Type variant:int32:10
+	set_setting /Settings/DigitalInput/9/Type variant:int32:10
+	set_setting /Settings/DigitalInput/10/Type variant:int32:10
+	set_setting /Settings/DigitalInput/11/Type variant:int32:10
+	set_setting /Settings/DigitalInput/12/Type variant:int32:10       
+	set_setting /Settings/DigitalInput/13/Type variant:int32:10
+	set_setting /Settings/DigitalInput/14/Type variant:int32:10
+	set_setting /Settings/DigitalInput/15/Type variant:int32:10
+	set_setting /Settings/DigitalInput/16/Type variant:int32:10
+	set_setting /Settings/DigitalInput/17/Type variant:int32:10
+	set_setting /Settings/DigitalInput/18/Type variant:int32:10
+	set_setting /Settings/DigitalInput/19/Type variant:int32:10
+	set_setting /Settings/DigitalInput/20/Type variant:int32:10
 fi                
 
 
