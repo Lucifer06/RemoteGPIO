@@ -107,7 +107,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 
 # Restarting the below services myself as it seems PackageManager don't do it automatically...
 	svc -t /service/dbus-systemcalc-py
-	svc -t /service/start-gui
+#	svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
 fi
@@ -208,6 +208,31 @@ if $restartSystemCalc ; then
 	svc -t /service/dbus-systemcalc-py
 fi
 
+if $restartGui ; then
+	if $userInteraction ; then
+		if yesNoPrompt "Restart the GUI now (y) or issue a do it manually later (n): " ; then
+			logMessage "completed - restarting GUI"
+			restartGuiV1Service
+			exit $EXIT_SUCCESS
+		else
+			echo "GUI must be restarted to activate components"
+			exit $EXIT_RESTART_GUI
+		fi
+	else
+		if $deferGuiRestart ; then
+			logMessage "completed - GUI restart needed"
+			exit $EXIT_RESTART_GUI
+		# GUI restart NOT deferred - do it now
+		else
+			logMessage "completed - restarting GUI"
+			restartGuiV1Service
+			exit $EXIT_SUCCESS
+		fi
+	fi
+fi
+	logMessage "completed"
+	exit $EXIT_SUCCESS
+	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript
 
