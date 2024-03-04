@@ -39,6 +39,7 @@ do
 				svc -d /service/rgpio
 				set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
 				svc -t /service/dbus-systemcalc-py
+				svc -t /service/dbus-digitalinputs/
 			fi
 			latch=$((service))
 			;;

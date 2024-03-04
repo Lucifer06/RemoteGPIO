@@ -69,8 +69,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
 	#updateActiveFile /data/rgpio/conf/RemoteGPIO.json
 
-
-
 	##
 	## Install RemoteGPIO GUI Pages
 	###############################
@@ -80,8 +78,8 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit2.qml /opt/victronenergy/gui/qml/
 
 	##
-	## Create D-Bus entries
-	#######################
+	## Create D-Bus entries for RemoteGPIO
+	######################################
 	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO
 	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
 	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
@@ -94,7 +92,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
 	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
 	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
-
 
 	##
 	## Install and launch RemoteGPIO Services
@@ -191,7 +188,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/USB_Port
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/USB_Port
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Watchdog/RemoteGPIO
-
 	
 	restartSystemCalc=true
 		

@@ -53,6 +53,23 @@ rm -f /dev/gpio/digital_input_i
 rm -f /dev/gpio/digital_input_j
 rm -f /dev/gpio/digital_input_k
 
+# delte D-Bus entries for the additional Digital Inputs
+dbus -y com.victronenergy.settings /Settings/DigitalInput/5/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/6/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/7/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/8/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/9/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/10/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/11/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/12/Type SetValue %0        
+dbus -y com.victronenergy.settings /Settings/DigitalInput/13/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/14/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/15/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/16/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/17/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/18/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/19/Type SetValue %0
+dbus -y com.victronenergy.settings /Settings/DigitalInput/20/Type SetValue %0
 
 
 if [ $nbunit = 1 ]
@@ -76,51 +93,82 @@ then
 	ln -s /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
 	ln -s /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
 	ln -s /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+
+	# Create D-Bus entries for additional Digital Inputs support
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/5/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/6/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/7/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/8/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/9/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/10/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/11/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/12/Type SetValue %10
 fi
+
+
 
 if [ $nbunit = 2 ]                                                
 then                                                              
-        #Relays                                                   
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e        
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f        
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g        
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h        
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i        
+    #Relays                                                   
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e        
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f        
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g        
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h        
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i        
                                                                           
-        #Digital_Inputs                                                   
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
-        ln -s /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
+    #Digital_Inputs                                                   
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
+    ln -s /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
+
+	# Create D-Bus entries for additional Digital Inputs support
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/5/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/6/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/7/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/8/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/9/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/10/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/11/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/12/Type SetValue %10        
+    dbus -y com.victronenergy.settings /Settings/DigitalInput/13/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/14/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/15/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/16/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/17/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/18/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/19/Type SetValue %10
+	dbus -y com.victronenergy.settings /Settings/DigitalInput/20/Type SetValue %10
 fi                
 
 
 
 #Service
 svc -t /service/dbus-systemcalc-py
+svc -t /service/dbus-digitalinputs
 [ ! -f /service/rgpio ] && ln -s /data/RemoteGPIO/service/rgpio /service/rgpio
 
 #For managing reboot of Dingtian IOT devices
