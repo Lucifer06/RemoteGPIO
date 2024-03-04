@@ -18,9 +18,10 @@ source "/data/SetupHelper/CommonResources"
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 packageGitHubUser="Lucifer06"
-packageGitHubBranch="Latest"
+packageGitHubBranch="beta-3.0"
 
 restartSystemCalc=false
+rebootNeeded=false
 
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
@@ -37,9 +38,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	logMessage "++ Installing RemoteGPIO"
 
 
-##
-## Checking GuiMods is installed
-################################
+	##
+	## Checking GuiMods is installed
+	################################
 	if [ ! -e /etc/venus/installedVersion-GuiMods ]
 	then
 		logMessage "Mandatory: GuiMods needs to be installed before RemoteGPIO"
@@ -47,9 +48,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		exit ## not sure if I need to have this exit here...
 	fi
 
-##
-## Prepare the devices in /data/RemoteGPIO/sys and conf folder
-##############################################################
+	##
+	## Prepare the devices in /data/RemoteGPIO/sys and conf folder
+	##############################################################
 	tar -xvf /data/RemoteGPIO/FileSets/Shared/sys.tar.gz -C /data/RemoteGPIO/
 	tar -xvf /data/RemoteGPIO/FileSets/Shared/bin.tar.gz -C /data/RemoteGPIO/
 	mkdir /data/RemoteGPIO/conf
@@ -58,29 +59,29 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	chmod 666 /data/RemoteGPIO/conf/units.conf
 	echo "0" > /data/RemoteGPIO/conf/units.conf
 
-#	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
+	#updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 
-###
-### Need to check if config file exists and install the dependencies accordingly here
-#####################################################################################
+	###
+	### Need to check if config file exists and install the dependencies accordingly here
+	#####################################################################################
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
-#	updateActiveFile /data/rgpio/conf/RemoteGPIO.json
+	#updateActiveFile /data/rgpio/conf/RemoteGPIO.json
 
 
 
-##
-## Install RemoteGPIO GUI Pages
-###############################
+	##
+	## Install RemoteGPIO GUI Pages
+	###############################
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsRGPIO.qml /opt/victronenergy/gui/qml/	
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit1.qml /opt/victronenergy/gui/qml/
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit2.qml /opt/victronenergy/gui/qml/
 
-##
-## Create D-Bus entries
-#######################
+	##
+	## Create D-Bus entries
+	#######################
 	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO
 	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
 	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
@@ -95,9 +96,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
 
 
-##
-## Install and launch RemoteGPIO Services
-#########################################
+	##
+	## Install and launch RemoteGPIO Services
+	#########################################
 	ln -s /data/RemoteGPIO/service/rgpio /service/rgpio
 	ln -s /data/RemoteGPIO/FileSets/Shared/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
 	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}')
@@ -105,11 +106,12 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	
 	restartSystemCalc=true
 	restartGui=true
+	rebootNeeded=false
 
-# Restarting the below services myself as it seems PackageManager don't do it automatically...
+	# Restarting the below services myself as it seems PackageManager don't do it automatically...
 	svc -t /service/dbus-systemcalc-py
 	svc -t /service/dbus-digitalinputs
-#	svc -t /service/start-gui
+	#svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
 fi
@@ -129,12 +131,15 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
 	
 	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-	rm /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
-	rm /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-	rm /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
+	rm -f /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
+	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
+	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 	
 	rm -f /etc/rcS.d/S90rgpio_pins.sh
-	
+
+	##
+	## Delete devices
+	#################	
 	rm -f /dev/gpio/relay_3
 	rm -f /dev/gpio/relay_4
 	rm -f /dev/gpio/relay_5
@@ -168,12 +173,12 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	rm -f /dev/gpio/digital_input_j
 	rm -f /dev/gpio/digital_input_k
 	
-	rm /service/rgpio
-	rm -R /data/RemoteGPIO/conf
+	rm -f /service/rgpio
+	rm -Rf /data/RemoteGPIO/conf
 	
-##
-## Delete D-Bus entries
-#######################
+	##
+	## Delete D-Bus entries
+	#######################
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Services/RemoteGPIO
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/NumberUnits
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Latency
@@ -190,8 +195,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	
 	restartSystemCalc=true
 		
-#	rm -r /data/rgpio
-#	rm -r /data/RemoteGPIO
 	logMessage "++ $packageName uninstalled"
 fi
 
@@ -201,9 +204,9 @@ if $filesUpdated ; then
     ##
     ## Reboot or restart the services
     ##
-#    svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
-#    svc -d /service/gui ; svc -u /service/gui
-#    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
+	#svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
+	#svc -d /service/gui ; svc -u /service/gui
+	#svc -d /service/node-red-venus ; svc -u /service/node-red-venus
     restartGui=true
 fi
 
@@ -213,31 +216,7 @@ if $restartSystemCalc ; then
 	svc -t /service/dbus-digitalinputs
 fi
 
-if $restartGui ; then
-	if $userInteraction ; then
-		if yesNoPrompt "Restart the GUI now (y) or issue a do it manually later (n): " ; then
-			logMessage "completed - restarting GUI"
-			restartGuiService
-			exit $EXIT_SUCCESS
-		else
-			echo "GUI must be restarted to activate components"
-			exit $EXIT_RESTART_GUI
-		fi
-	else
-		if $deferGuiRestart ; then
-			logMessage "completed - GUI restart needed"
-			exit $EXIT_RESTART_GUI
-		# GUI restart NOT deferred - do it now
-		else
-			logMessage "completed - restarting GUI"
-			restartGuiService
-			exit $EXIT_SUCCESS
-		fi
-	fi
-fi
-
 logMessage "completed"
-exit $EXIT_SUCCESS
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript
