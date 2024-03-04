@@ -59,15 +59,10 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	chmod 666 /data/RemoteGPIO/conf/units.conf
 	echo "0" > /data/RemoteGPIO/conf/units.conf
 
-	#updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
+	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
 	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
-
-	###
-	### Need to check if config file exists and install the dependencies accordingly here
-	#####################################################################################
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
-	#updateActiveFile /data/rgpio/conf/RemoteGPIO.json
 
 	##
 	## Install RemoteGPIO GUI Pages
