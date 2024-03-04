@@ -104,9 +104,11 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	/etc/rcS.d/S90rgpio_pins.sh
 	
 	restartSystemCalc=true
+	restartGui=true
 
 # Restarting the below services myself as it seems PackageManager don't do it automatically...
 	svc -t /service/dbus-systemcalc-py
+	svc -t /service/dbus-digitalinputs
 #	svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
@@ -206,13 +208,14 @@ fi
 if $restartSystemCalc ; then
 	logMessage "restarting systemcalc"
 	svc -t /service/dbus-systemcalc-py
+	svc -t /service/dbus-digitalinputs
 fi
 
 if $restartGui ; then
 	if $userInteraction ; then
 		if yesNoPrompt "Restart the GUI now (y) or issue a do it manually later (n): " ; then
 			logMessage "completed - restarting GUI"
-			restartGuiV1Service
+			restartGuiService
 			exit $EXIT_SUCCESS
 		else
 			echo "GUI must be restarted to activate components"
@@ -225,13 +228,14 @@ if $restartGui ; then
 		# GUI restart NOT deferred - do it now
 		else
 			logMessage "completed - restarting GUI"
-			restartGuiV1Service
+			restartGuiService
 			exit $EXIT_SUCCESS
 		fi
 	fi
 fi
-	logMessage "completed"
-	exit $EXIT_SUCCESS
+
+logMessage "completed"
+exit $EXIT_SUCCESS
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript
