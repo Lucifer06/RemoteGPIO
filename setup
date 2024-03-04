@@ -120,6 +120,8 @@ fi
 if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling RemoteGPIO"
 
+	svc -d /service/rgpio
+	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}')
 	
 	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	restoreActiveFile /etc/venus/gpio_list
