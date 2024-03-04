@@ -20,7 +20,7 @@ MbPage {
                                                                                                                                                                       
         VeQItemSortTableModel {                                                                                                                                       
                 id: digitalModel                                                                                                                                      
-                filterRegExp: "/[1-9]$"                                                                                                                               
+//                filterRegExp: "/[1-9]$"                                                                                                                               
                 model: VeQItemTableModel {                                                                                                                            
                         uids: [Utils.path(settingsService, "/Settings/DigitalInput")]                                                                                 
                         flags: VeQItemTableModel.AddChildren |                                                                                                        
