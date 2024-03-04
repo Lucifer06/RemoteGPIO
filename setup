@@ -130,10 +130,39 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	rm /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 	
 	rm -f /etc/rcS.d/S90rgpio_pins.sh
+	
 	rm -f /dev/gpio/relay_3
 	rm -f /dev/gpio/relay_4
 	rm -f /dev/gpio/relay_5
 	rm -f /dev/gpio/relay_6
+	rm -f /dev/gpio/relay_7
+	rm -f /dev/gpio/relay_8
+	rm -f /dev/gpio/relay_9
+	rm -f /dev/gpio/relay_a
+	rm -f /dev/gpio/relay_b
+	rm -f /dev/gpio/relay_c
+	rm -f /dev/gpio/relay_d
+	rm -f /dev/gpio/relay_e
+	rm -f /dev/gpio/relay_f
+	rm -f /dev/gpio/relay_g
+	rm -f /dev/gpio/relay_h
+	rm -f /dev/gpio/relay_i
+	rm -f /dev/gpio/digital_input_5
+	rm -f /dev/gpio/digital_input_6
+	rm -f /dev/gpio/digital_input_7
+	rm -f /dev/gpio/digital_input_8
+	rm -f /dev/gpio/digital_input_9
+	rm -f /dev/gpio/digital_input_a
+	rm -f /dev/gpio/digital_input_b
+	rm -f /dev/gpio/digital_input_c
+	rm -f /dev/gpio/digital_input_d
+	rm -f /dev/gpio/digital_input_e
+	rm -f /dev/gpio/digital_input_f
+	rm -f /dev/gpio/digital_input_g
+	rm -f /dev/gpio/digital_input_h
+	rm -f /dev/gpio/digital_input_i
+	rm -f /dev/gpio/digital_input_j
+	rm -f /dev/gpio/digital_input_k
 	
 	rm /service/rgpio
 	rm -R /data/RemoteGPIO/conf

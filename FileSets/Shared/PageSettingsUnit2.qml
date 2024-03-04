@@ -27,7 +27,7 @@ MbPage {
                 bind: [rgpioSettings, "/Protocol"]
                 show: enable.checked
                 possibleValues: [
-                    MbOption {description: qsTr("Modbus via USB"); value: 0},
+                    MbOption {description: qsTr("Modbus via RS485"); value: 0},
                     MbOption {description: qsTr("Modbus via TCP"); value: 1}
                 ]
             }
@@ -44,7 +44,7 @@ MbPage {
             }
                         
         	MbItemText {                                                               
-            	text: qsTr("Reboot may be required if unit is not anymore responding on USB protocol")     
+            	text: qsTr("Dingtian IOT Relay device needs to be configured with Addr = 2. This applies for both RS485 and TCP protocols")     
             	wrapMode: Text.WordWrap                                            
         	}    
 
