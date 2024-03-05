@@ -71,6 +71,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsRGPIO.qml /opt/victronenergy/gui/qml/	
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit1.qml /opt/victronenergy/gui/qml/
 	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit2.qml /opt/victronenergy/gui/qml/
+	updateActiveFile /opt/victronenergy/gui/qml/MbItemDigitalInput.qml
 
 	##
 	## Create D-Bus entries for RemoteGPIO

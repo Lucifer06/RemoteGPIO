@@ -98,14 +98,14 @@ then
 	ln -s /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
 
 	# Create D-Bus entries for additional Digital Inputs support
-	set_setting /Settings/DigitalInput/5/Type variant:int32:10
-	set_setting /Settings/DigitalInput/6/Type variant:int32:10
-	set_setting /Settings/DigitalInput/7/Type variant:int32:10
-	set_setting /Settings/DigitalInput/8/Type variant:int32:10
-	set_setting /Settings/DigitalInput/9/Type variant:int32:10
-	set_setting /Settings/DigitalInput/10/Type variant:int32:10
-	set_setting /Settings/DigitalInput/11/Type variant:int32:10
-	set_setting /Settings/DigitalInput/12/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/5/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/6/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/7/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/8/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/9/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/10/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/11/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/12/Type variant:int32:10
 fi
 
 
@@ -149,22 +149,22 @@ then
     ln -s /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
 
 	# Create D-Bus entries for additional Digital Inputs support
-	set_setting /Settings/DigitalInput/5/Type variant:int32:10
-	set_setting /Settings/DigitalInput/6/Type variant:int32:10
-	set_setting /Settings/DigitalInput/7/Type variant:int32:10
-	set_setting /Settings/DigitalInput/8/Type variant:int32:10
-	set_setting /Settings/DigitalInput/9/Type variant:int32:10
-	set_setting /Settings/DigitalInput/10/Type variant:int32:10
-	set_setting /Settings/DigitalInput/11/Type variant:int32:10
-	set_setting /Settings/DigitalInput/12/Type variant:int32:10       
-	set_setting /Settings/DigitalInput/13/Type variant:int32:10
-	set_setting /Settings/DigitalInput/14/Type variant:int32:10
-	set_setting /Settings/DigitalInput/15/Type variant:int32:10
-	set_setting /Settings/DigitalInput/16/Type variant:int32:10
-	set_setting /Settings/DigitalInput/17/Type variant:int32:10
-	set_setting /Settings/DigitalInput/18/Type variant:int32:10
-	set_setting /Settings/DigitalInput/19/Type variant:int32:10
-	set_setting /Settings/DigitalInput/20/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/5/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/6/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/7/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/8/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/9/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/10/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/11/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/12/Type variant:int32:10       
+	#set_setting /Settings/DigitalInput/13/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/14/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/15/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/16/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/17/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/18/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/19/Type variant:int32:10
+	#set_setting /Settings/DigitalInput/20/Type variant:int32:10
 fi                
 
 
