@@ -70,18 +70,18 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	##
 	## Create D-Bus entries for RemoteGPIO
 	######################################
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO 
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
-	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Services/RemoteGPIO 
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/NumberUnits
+	/data/RemoteGPIO/tools/createDbusRealSetting /Settings/RemoteGPIO/Latency
+	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
+	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
+	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
+	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
+	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Watchdog/RemoteGPIO
 
 	##
 	## Install and launch RemoteGPIO Services
@@ -89,15 +89,15 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	
 	ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
 	ln -sf /data/RemoteGPIO/FileSets/Shared/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
-	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}')
+	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	/etc/rcS.d/S90rgpio_pins.sh
 	
-	restartSystemCalc=true
+#	restartSystemCalc=true
 	restartGui=true
 
 	# Restarting the below services myself as it seems PackageManager don't do it automatically...
 #	svc -t /service/dbus-systemcalc-py
-	svc -t /service/dbus-digitalinputs
+#	svc -t /service/dbus-digitalinputs
 	#svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
@@ -110,7 +110,7 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling RemoteGPIO"
 
 	svc -d /service/rgpio
-	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}')
+	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	
 	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	restoreActiveFile /etc/venus/gpio_list
