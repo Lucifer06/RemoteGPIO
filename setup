@@ -70,6 +70,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	##
 	## Create D-Bus entries for RemoteGPIO
 	######################################
+	echo "Be patient, creating D-Bus entries..."
 	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Services/RemoteGPIO 
 	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/NumberUnits
 	/data/RemoteGPIO/tools/createDbusRealSetting /Settings/RemoteGPIO/Latency
@@ -88,7 +89,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	#########################################
 	
 	ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
-	ln -sf /data/RemoteGPIO/FileSets/Shared/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+	ln -sf /data/RemoteGPIO/FileSets/VersionIndependent/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
 	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	/etc/rcS.d/S90rgpio_pins.sh
 	
