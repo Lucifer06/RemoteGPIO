@@ -21,12 +21,6 @@ packageGitHubUser="Lucifer06"
 packageGitHubBranch="beta-3.0"
 
 
-set_setting()                                                                                                                                                                     
-    {                                                                                                                                                                         
-		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
-    }
-
-
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
 	echo
@@ -68,9 +62,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	## Install RemoteGPIO GUI Pages
 	###############################
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-#	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsRGPIO.qml /opt/victronenergy/gui/qml/
-#	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit1.qml /opt/victronenergy/gui/qml/
-#	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit2.qml /opt/victronenergy/gui/qml/
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml 
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
@@ -79,30 +70,19 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	##
 	## Create D-Bus entries for RemoteGPIO
 	######################################
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO 
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
-#	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
-#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
-#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
-#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
-#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
-#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
-	set_setting /Settings/Services/RemoteGPIO 		variant:int32:0
-	set_setting /Settings/RemoteGPIO/NumberUnits	variant:int32:0
-	set_setting /Settings/RemoteGPIO/Latency		variant:double:0
-	set_setting /Settings/RemoteGPIO/Unit1/IP		variant:string:0
-	set_setting /Settings/RemoteGPIO/Unit2/IP		variant:string:0
-	set_setting /Settings/RemoteGPIO/Unit1/Reboot	variant:int32:0
-	set_setting /Settings/RemoteGPIO/Unit2/Reboot	variant:int32:0
-	set_setting /Settings/RemoteGPIO/Unit1/Protocol	variant:int32:0
-	set_setting /Settings/RemoteGPIO/Unit2/Protocol	variant:int32:0
-	set_setting /Settings/RemoteGPIO/Unit1/USB_Port	variant:string:0
-	set_setting /Settings/RemoteGPIO/Unit2/USB_Port	variant:string:0
-	set_setting /Settings/Watchdog/RemoteGPIO		variant:int32:0
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO 
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
+	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
+	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
+	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
+	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
+	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
+	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
+
 	##
 	## Install and launch RemoteGPIO Services
 	#########################################
@@ -114,10 +94,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	
 	restartSystemCalc=true
 	restartGui=true
-	rebootNeeded=false
 
 	# Restarting the below services myself as it seems PackageManager don't do it automatically...
-	svc -t /service/dbus-systemcalc-py
+#	svc -t /service/dbus-systemcalc-py
 	svc -t /service/dbus-digitalinputs
 	#svc -t /service/start-gui
 
@@ -228,11 +207,11 @@ if $filesUpdated ; then
     restartGui=true
 fi
 
-if $restartSystemCalc ; then
-	logMessage "restarting systemcalc"
-	svc -t /service/dbus-systemcalc-py
+#if $restartSystemCalc ; then
+#	logMessage "restarting systemcalc"
+#	svc -t /service/dbus-systemcalc-py
 	svc -t /service/dbus-digitalinputs
-fi
+#fi
 
 logMessage "completed"
 	
