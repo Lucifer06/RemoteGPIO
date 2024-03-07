@@ -65,7 +65,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml 
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
-	updateActiveFile /opt/victronenergy/gui/qml/MbItemDigitalInput.qml
 
 	##
 	## Create D-Bus entries for RemoteGPIO
