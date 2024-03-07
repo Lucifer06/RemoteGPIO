@@ -20,8 +20,12 @@ source "/data/SetupHelper/CommonResources"
 packageGitHubUser="Lucifer06"
 packageGitHubBranch="beta-3.0"
 
-restartSystemCalc=false
-rebootNeeded=false
+
+set_setting()                                                                                                                                                                     
+    {                                                                                                                                                                         
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
+    }
+
 
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
@@ -37,22 +41,11 @@ fi
 if [ $scriptAction == 'INSTALL' ] ; then
 	logMessage "++ Installing RemoteGPIO"
 
-
-	##
-	## Checking GuiMods is installed
-	################################
-	if [ ! -e /etc/venus/installedVersion-GuiMods ]
-	then
-		logMessage "Mandatory: GuiMods needs to be installed before RemoteGPIO"
-		endScript
-		exit ## not sure if I need to have this exit here...
-	fi
-
 	##
 	## Prepare the devices in /data/RemoteGPIO/sys and conf folder
 	##############################################################
-	tar -xvf /data/RemoteGPIO/FileSets/Shared/sys.tar.gz -C /data/RemoteGPIO/
-	tar -xvf /data/RemoteGPIO/FileSets/Shared/bin.tar.gz -C /data/RemoteGPIO/
+	tar -xvf /data/RemoteGPIO/FileSets/VersionIndependent/sys.tar.gz -C /data/RemoteGPIO/
+	tar -xvf /data/RemoteGPIO/FileSets/VersionIndependent/bin.tar.gz -C /data/RemoteGPIO/
 	mkdir /data/RemoteGPIO/conf
 	chmod 777 /data/RemoteGPIO/conf
 	touch /data/RemoteGPIO/conf/units.conf
@@ -61,39 +54,61 @@ if [ $scriptAction == 'INSTALL' ] ; then
 
 	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	updateActiveFile /etc/venus/gpio_list
-	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	updateActiveFile /etc/udev/rules.d/serial-starter.rules
+	
+	##
+	## For Large Image only with Node-Red support
+	#############################################
+	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
+	then
+		updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	fi
 
 	##
 	## Install RemoteGPIO GUI Pages
 	###############################
 	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsRGPIO.qml /opt/victronenergy/gui/qml/	
-	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit1.qml /opt/victronenergy/gui/qml/
-	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit2.qml /opt/victronenergy/gui/qml/
+#	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsRGPIO.qml /opt/victronenergy/gui/qml/
+#	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit1.qml /opt/victronenergy/gui/qml/
+#	cp /data/RemoteGPIO/FileSets/Shared/PageSettingsUnit2.qml /opt/victronenergy/gui/qml/
+	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml 
+	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
+	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 	updateActiveFile /opt/victronenergy/gui/qml/MbItemDigitalInput.qml
 
 	##
 	## Create D-Bus entries for RemoteGPIO
 	######################################
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
-	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
-	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
-	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
-
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Services/RemoteGPIO 
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/NumberUnits
+#	/data/RemoteGPIO/tools/updateDbusRealSetting /Settings/RemoteGPIO/Latency
+#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
+#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
+#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
+#	/data/RemoteGPIO/tools/updateDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
+#	/data/RemoteGPIO/tools/updateDbusIntSetting /Settings/Watchdog/RemoteGPIO
+	set_setting /Settings/Services/RemoteGPIO 		variant:int32:0
+	set_setting /Settings/RemoteGPIO/NumberUnits	variant:int32:0
+	set_setting /Settings/RemoteGPIO/Latency		variant:double:0
+	set_setting /Settings/RemoteGPIO/Unit1/IP		variant:string:0
+	set_setting /Settings/RemoteGPIO/Unit2/IP		variant:string:0
+	set_setting /Settings/RemoteGPIO/Unit1/Reboot	variant:int32:0
+	set_setting /Settings/RemoteGPIO/Unit2/Reboot	variant:int32:0
+	set_setting /Settings/RemoteGPIO/Unit1/Protocol	variant:int32:0
+	set_setting /Settings/RemoteGPIO/Unit2/Protocol	variant:int32:0
+	set_setting /Settings/RemoteGPIO/Unit1/USB_Port	variant:string:0
+	set_setting /Settings/RemoteGPIO/Unit2/USB_Port	variant:string:0
+	set_setting /Settings/Watchdog/RemoteGPIO		variant:int32:0
 	##
 	## Install and launch RemoteGPIO Services
 	#########################################
-	ln -s /data/RemoteGPIO/service/rgpio /service/rgpio
-	ln -s /data/RemoteGPIO/FileSets/Shared/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+	
+	ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
+	ln -sf /data/RemoteGPIO/FileSets/Shared/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
 	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}')
 	/etc/rcS.d/S90rgpio_pins.sh
 	
@@ -120,15 +135,26 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	
 	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
 	restoreActiveFile /etc/venus/gpio_list
-	restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
-	
 	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-	rm -f /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
-	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
+#	rm -f /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
+#	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
+#	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
+	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
+	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
+	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 	
 	rm -f /etc/rcS.d/S90rgpio_pins.sh
+
+
+	##
+	## For Large Image only with Node-Red support
+	#############################################
+	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
+	then
+		restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	fi
+
 
 	##
 	## Delete devices

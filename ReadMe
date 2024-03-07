@@ -1,28 +1,23 @@
-*********************    NEW VERSION 3.0 (beta)    **************************
+*********************    NEW VERSION 3.x (beta)    **************************
 
 RemoteGPIO is now working natively with D-Bus and do not anymore require Node-Red to be installed.
 Additionnal Relais are displayed on multiple Relay Overview pages with up 18.
-Digital Interfaces are supported to a limit of 9 within D-Bus (can’t find from where the limitation comes from)
+Digital Interfaces are also supported
 
 In previous version the « driver » for controlling the relays was implemented in Node-Red.
-Now the driver is integrated as a service in Venus OS.
+Now the driver is integrated as native D-Bus and is running as a service in Venus OS.
 
 Node-Red is still useful for adding any logics to turn on or off any relays based on external dependencies.
 These changes are reducing the CPU load (about 4% usage) and are decreasing latency
 
 
 Todo: 
-O/ Update setup script for automatic install with PackageManager
-
 1/ Better management of the USB port and identification
-Plan is to recommend using USB adapters based on FTDI FT232R chipset 
+Plan is to recommend using USB adapters based on FTDI FT232R chipset and program it against RemoteGPIO
 
-2/ TCP control as an alternative to USB and allow user to choose
+2/ Add supports for 3x units (2x are currently supported)
 
-3/ Supports more than 9 Digital Inputs within D-Bus.
-For now it will be required to use Nod-Red and a read of the /dev/gpio states
-If someone knows how and where the limitation is?
-
+3/ Add support of various Dingtian units size (2, 4, 8, 16 I/Os)
 
 
 **************************   OLD   ********************************************

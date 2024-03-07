@@ -2,3 +2,5 @@
 /etc/venus/gpio_list
 /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 /etc/udev/rules.d/serial-starter.rules
+/opt/victronenergy/gui/qml/MbItemDigitalInput.qml
+/opt/victronenergy/gui/qml/PageSettingsIo.qml
