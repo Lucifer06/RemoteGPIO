@@ -10,14 +10,12 @@ Now the driver is integrated as native D-Bus and is running as a service in Venu
 Node-Red is still useful for adding any logics to turn on or off any relays based on external dependencies.
 These changes are reducing the CPU load (about 4% usage) and are decreasing latency
 
+It is recommend using USB adapters based on FTDI FT232R chipset and program it with Product Description = "RemoteGPIO"
 
 Todo: 
-1/ Better management of the USB port and identification
-Plan is to recommend using USB adapters based on FTDI FT232R chipset and program it against RemoteGPIO
+1/ Add supports for 3x units (2x are currently supported)
 
-2/ Add supports for 3x units (2x are currently supported)
-
-3/ Add support of various Dingtian units size (2, 4, 8, 16 I/Os)
+2/ Add support of various Dingtian units size (2, 4, 8, 16 I/Os)
 
 
 **************************   OLD   ********************************************
