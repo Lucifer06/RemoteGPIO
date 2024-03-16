@@ -52,10 +52,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	touch /data/RemoteGPIO/conf/units.conf
 	chmod 666 /data/RemoteGPIO/conf/units.conf
 	echo "0" > /data/RemoteGPIO/conf/units.conf
-
-#	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-#	updateActiveFile /etc/venus/gpio_list
-#	updateActiveFile /etc/udev/rules.d/serial-starter.rules
 	
 	##
 	## For Large Image only with Node-Red support
@@ -63,18 +59,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
 	then
 
-		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patchfile
+		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
 		
-		#updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	fi
-
-	##
-	## Install RemoteGPIO GUI Pages
-	###############################
-#	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-#	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml 
-#	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-#	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 
 	##
 	## Create D-Bus entries for RemoteGPIO
@@ -102,13 +89,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	/etc/rcS.d/S90rgpio_pins.sh
 	
-#	restartSystemCalc=true
-	restartGui=true
-
-	# Restarting the below services myself as it seems PackageManager don't do it automatically...
-#	svc -t /service/dbus-systemcalc-py
-#	svc -t /service/dbus-digitalinputs
-	#svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
 fi
@@ -122,16 +102,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	svc -d /service/rgpio
 	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	
-#	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-#	restoreActiveFile /etc/venus/gpio_list
-#	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
-#	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-#	rm -f /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
-#	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-#	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
-# 	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
-# 	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-#	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 	
 	rm -f /etc/rcS.d/S90rgpio_pins.sh
 
@@ -141,9 +111,8 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	#############################################
 	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
 	then
-		patch -R /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patchfile
+		patch -R /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
 		
-		#restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
 	fi
 
 
@@ -202,28 +171,12 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/USB_Port
 	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Watchdog/RemoteGPIO
 	
-	restartSystemCalc=true
 		
 	logMessage "++ $packageName uninstalled"
 fi
 
 
-
-if $filesUpdated ; then
-    ##
-    ## Reboot or restart the services
-    ##
-	#svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
-	#svc -d /service/gui ; svc -u /service/gui
-	#svc -d /service/node-red-venus ; svc -u /service/node-red-venus
-    restartGui=true
-fi
-
-#if $restartSystemCalc ; then
-#	logMessage "restarting systemcalc"
-#	svc -t /service/dbus-systemcalc-py
 	svc -t /service/dbus-digitalinputs
-#fi
 
 logMessage "completed"
 	
