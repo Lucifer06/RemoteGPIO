@@ -63,22 +63,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		
 	fi
 
-	##
-	## Create D-Bus entries for RemoteGPIO
-	######################################
-	echo "Be patient, creating D-Bus entries..."
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Services/RemoteGPIO 
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/NumberUnits
-	/data/RemoteGPIO/tools/createDbusRealSetting /Settings/RemoteGPIO/Latency
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Watchdog/RemoteGPIO
 
 	##
 	## Install and launch RemoteGPIO Services
@@ -155,21 +139,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	rm -f /service/rgpio
 	rm -Rf /data/RemoteGPIO/conf
 	
-	##
-	## Delete D-Bus entries
-	#######################
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Services/RemoteGPIO
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/NumberUnits
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Latency
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/IP
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/Reboot
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/IP
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/Reboot
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/Protocol
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/Protocol
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/USB_Port
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/USB_Port
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Watchdog/RemoteGPIO
 	
 		
 	logMessage "++ $packageName uninstalled"
@@ -181,5 +150,5 @@ fi
 logMessage "completed"
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
-endScript INSTALL_FILES
+endScript INSTALL_FILES ADD_DBUS_SETTINGS
 
