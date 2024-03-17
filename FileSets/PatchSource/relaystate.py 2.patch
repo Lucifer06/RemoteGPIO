@@ -1,0 +1,34 @@
+--- relaystate.py.source	2024-03-12 16:45:06.263723900 -0700
++++ relaystate.py.edited	2024-03-12 16:45:06.263723900 -0700
+@@ -21,13 +21,30 @@
+ 			('com.victronenergy.settings', [
+ 				 '/Settings/Relay/Function'])] # Managed by the gui
+ 
+ 	def get_settings(self):
+ 		return [
+ 			('/Relay/0/State', '/Settings/Relay/0/InitialState', 0, 0, 1),
+-			('/Relay/1/State', '/Settings/Relay/1/InitialState', 0, 0, 1)
++			('/Relay/1/State', '/Settings/Relay/1/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/2/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/3/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/4/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/5/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/6/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/7/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/8/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/9/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/10/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/11/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/12/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/13/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/14/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/15/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/16/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/17/InitialState', 0, 0, 1),
++			('/Relay/1/State', '/Settings/Relay/18/InitialState', 0, 0, 1)
+ 		]
+ 
+ 	@property
+ 	def relay_function(self):
+ 		return self._dbusmonitor.get_value('com.victronenergy.settings',
+ 			'/Settings/Relay/Function')

@@ -1,0 +1,18 @@
+--- PageSettingsIo.qml.orig	2024-03-16 15:01:54.989260400 -0700
++++ PageSettingsIo.qml	2024-03-16 15:02:02.802040000 -0700
+@@ -80,8 +80,15 @@
+ 
+ 		MbSubMenu {
+ 			description: qsTr("Bluetooth sensors")
+ 			show: haveBluetooth
+ 			subpage: Component { PageSettingsBleSensors {} }
+ 		}
++		
++		MbSubMenu {
++			description: qsTr
++			("RemoteGPIO")
++			subpage: Component {
++			PageSettingsRGPIO {} }
++		}
+ 	}
+ }

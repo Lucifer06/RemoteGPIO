@@ -1,0 +1,125 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Short-Description: Monitors RemoteGPIO dbus Service
+# Description:       Allow stoping and starting RemoteGPIO service from victron GUI
+# Description: 	     It also manage the reboot of the DTWonder devices	
+# Description:	     Also keep units.conf up to date so it creates the gpio at boot time
+## END INIT INFO
+
+get_setting()
+	{
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'
+	}
+
+set_setting()                                                                                                                                                                     
+    {                                                                                                                                                                         
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
+    }
+
+get_IP()
+	{                                                                                                                                                                                                                               
+        	dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/variant/ { print $2 }'                                                                      
+	} 
+
+latch=0
+latch2=$(cat /data/RemoteGPIO/conf/units.conf)
+timer=$(date +%s)
+
+while true
+do
+	service=$(get_setting /Settings/Services/RemoteGPIO)
+
+	case $service in
+		0)
+			##
+			## Stop Service
+			###################
+			if [ $service != $latch ] 
+			then
+				svc -d /service/rgpio
+				set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
+				svc -t /service/dbus-systemcalc-py
+				svc -t /service/dbus-digitalinputs/
+			fi
+			latch=$((service))
+			;;
+
+		1)
+            ##
+			## Start Service
+			###########################
+			if [ $service != $latch ]
+                        then
+                                svc -u /service/rgpio
+			fi
+			latch=$((service))	
+			;;
+		2)
+			##
+			## Reboot device
+            ###########################
+			if [ $service != $latch ]
+            then
+				Reboot_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Reboot)
+                Reboot_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Reboot)
+				
+				if [ $Reboot_Unit1 = 1 ] 
+				##
+				## Reboot Unit1
+				#####################
+				then
+					IP_Unit1=$(get_IP /Settings/RemoteGPIO/Unit1/IP)
+					wget http://$IP_Unit1/reboot.cgi
+					# Clear reboot flag and put RemoteGPIO service to 1
+					set_setting /Settings/RemoteGPIO/Unit1/Reboot variant:int32:0
+					set_setting /Settings/Services/RemoteGPIO variant:int32:1
+				fi
+
+                if [ $Reboot_Unit2 = 1 ]                                                                                                                                                                                      
+				##
+				## Reboot Unit 2
+                ####################
+				then                                                                                                                                                                                                          
+                	IP_Unit2=$(get_IP /Settings/RemoteGPIO/Unit2/IP)                                                                                                                                                      
+                    wget http://$IP_Unit2/reboot.cgi  
+                    # Clear reboot flag and put RemoteGPIO service to 1          
+                    set_setting /Settings/RemoteGPIO/Unit2/Reboot variant:int32:0
+                    set_setting /Settings/Services/RemoteGPIO variant:int32:1
+            	fi                                                                                                                                                                                                            
+			fi
+			latch=$((service))
+			;;	
+	esac
+			
+	##
+	## Update units.conf and re-execute launch script and update GUI - reboot needed to take effects
+	################################################################################################
+	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
+	if (( $nbunit != $latch2 ))  
+	then
+		latch2=$nbunit
+		echo $nbunit > /data/RemoteGPIO/conf/units.conf
+		svc -t /service/dbus-systemcalc-py
+		svc -t /service/dbus-digitalinputs/
+		/etc/rcS.d/S90rgpio_pins.sh
+	fi
+	latch2=$(cat /data/RemoteGPIO/conf/units.conf)  
+
+        ##                                                        
+        ## Watchdog                                                              
+        ################################                                                                                                        
+        if (( (timer + 10) < $(date +%s) ))                                       
+        then                                        
+		watchdog=$(get_setting /Settings/Watchdog/RemoteGPIO)
+                timer=$(date +%s)                                                                                                                                  
+		if (( (watchdog + 10) < timer && service == 1 ))
+		then
+			svc -d /service/rgpio ; svc -u /service/rgpio
+		fi
+#               echo "Heartbeat = "$(date -d@$timer)
+        fi                                               
+
+
+	#Reduce CPU load
+	sleep 1	
+done

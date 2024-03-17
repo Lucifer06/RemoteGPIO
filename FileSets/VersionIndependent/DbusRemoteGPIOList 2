@@ -1,0 +1,12 @@
+{"path":"/Settings/Relay/1/CustomName", "default":""}                                    
+{"path":"/Settings/Relay/1/Show", "default":1, "min":0, "max":1}  
+{"path":"/Settings/Relay/2/InitialState", "default":1, "min":0, "max":1}
+{"path":"/Settings/Relay/2/CustomName", "default":""}                                    
+{"path":"/Settings/Relay/3/Show", "default":1, "min":0, "max":1}
+{"path":"/Settings/Relay/3/InitialState", "default":1, "min":0, "max":1}  
+{"path":"/Settings/Relay/4/CustomName", "default":""}                                    
+{"path":"/Settings/Relay/4/Show", "default":1, "min":0, "max":1}
+{"path":"/Settings/Relay/5/InitialState", "default":1, "min":0, "max":1}  
+{"path":"/Settings/Relay/5/CustomName", "default":""}                                    
+{"path":"/Settings/Relay/6/Show", "default":1, "min":0, "max":1}
+{"path":"/Settings/Relay/6/InitialState", "default":1, "min":0, "max":1}  
