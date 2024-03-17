@@ -1,5 +1,5 @@
---- serial-starter.rules.source	2024-03-12 16:45:06.279348500 -0700
-+++ serial-starter.rules.edited	2024-03-12 16:45:06.263723900 -0700
+--- serial-starter.rules.322	2024-02-26 05:43:09.000000000 -0700
++++ serial-starter.rules	2024-03-16 16:59:04.067739100 -0700
 @@ -1,6 +1,23 @@
 +# ** RemoteGPIO **
 +#
@@ -24,18 +24,3 @@
  # The VE USB RS485 has a FT232R, but that chip can also rs232 etc, so also check default
  ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_MODEL}=="FT232R_USB_UART",            ENV{VE_SERVICE}="rs485:default"
  # Older versions have specific id_model so that is rs485 for sure
-@@ -9,13 +26,13 @@
- ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_MODEL}=="USB485_Iso_stick",           ENV{VE_SERVICE}="rs485"
- # The Zigbee USB to rs485 show up as Serial_Controller_D, so check cgwacs as well
- ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_MODEL}=="USB-Serial_Controller_D",    ENV{VE_SERVICE}="cgwacs:default"
- # 2nd generation Zigbee converter - DRF2658C (USB)
- ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_MODEL}=="CP2102_USB_to_UART_Bridge_Controller", ENV{VE_SERVICE}="cgwacs:default"
- # DRF2658C Zigbee converter with CH340 chip
--ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_VENDOR_ID}=="1a86", ENV{ID_MODEL_ID}=="7523", ENV{VE_SERVICE}="cgwacs:default"
-+#ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_VENDOR_ID}=="1a86", ENV{ID_MODEL_ID}=="7523", ENV{VE_SERVICE}="cgwacs:default"
- 
- 
- # VE.Direct cable should have a specific model-id, if not set it is a FT232EX.
- ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_MODEL}=="VE_Direct_cable",            ENV{VE_SERVICE}="vedirect"
- ACTION=="add", ENV{ID_BUS}=="usb", ENV{ID_MODEL}=="FT232EX",                    ENV{VE_SERVICE}="vedirect:default"
- 
