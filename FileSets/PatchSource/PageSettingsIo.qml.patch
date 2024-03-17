@@ -2,6 +2,17 @@
 +++ PageSettingsIo.qml	2024-03-16 15:02:02.802040000 -0700
 @@ -80,8 +80,15 @@
  
+ 	VeQItemSortTableModel {
+		id: digitalModel
+-		filterRegExp: "/[1-9]$"
+		model: VeQItemTableModel {
+			uids: [Utils.path(settingsService, "/Settings/DigitalInput")]
+			flags: VeQItemTableModel.AddChildren |
+				   VeQItemTableModel.AddNonLeaves |
+				   VeQItemTableModel.DontAddItem
+		}
+	}
+ 
  		MbSubMenu {
  			description: qsTr("Bluetooth sensors")
  			show: haveBluetooth

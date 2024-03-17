@@ -1,4 +1,6 @@
-V3.0:
+v3.1:
+	Venus OS version independant
+v3.0:
 	Native D-Bus and driver installed as a service
 	Node-Red now optional
 	All configuration available from GUI (in I/O Settings)
