@@ -8,17 +8,24 @@
 
 packageLogFile="/var/log/RemoteGPIO/current"
 
-#### following lines incorporate SetupHelper utilities into this script
-# Refer to the SetupHelper ReadMe file for details.
-
-source "/data/SetupHelper/CommonResources"
-
-#### end of lines to include SetupHelper
+#### following lines incorporate helper resources into this script
+pkgDir=$( dirname $0 )
+pkgName=$( basename $pkgDir )
+pkgRoot=$( dirname $pkgDir )
+if [ -e "$pkgDir/HelperResources/IncludeHelpers" ]; then
+	source "$pkgDir/HelperResources/IncludeHelpers"
+elif [ -e "$pkgRoot/SetupHelper/HelperResources/IncludeHelpers" ]; then
+	source "$pkgRoot/SetupHelper/HelperResources/IncludeHelpers"
+else
+	echo "$pkgName: helper files not found - can't continue" | tee -a "/data/log/SetupHelper"
+	exit 1
+fi
+#### end of lines to include helper resources
 
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 packageGitHubUser="Lucifer06"
-packageGitHubBranch="beta-3.0"
+packageGitHubBranch="main"
 
 
 #### running manually and OK to proceed - prompt for input
@@ -45,43 +52,17 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	touch /data/RemoteGPIO/conf/units.conf
 	chmod 666 /data/RemoteGPIO/conf/units.conf
 	echo "0" > /data/RemoteGPIO/conf/units.conf
-
-	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-	updateActiveFile /etc/venus/gpio_list
-	updateActiveFile /etc/udev/rules.d/serial-starter.rules
 	
 	##
 	## For Large Image only with Node-Red support
 	#############################################
 	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
 	then
-		updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+
+		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
+		
 	fi
 
-	##
-	## Install RemoteGPIO GUI Pages
-	###############################
-	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml 
-	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-	updateActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
-
-	##
-	## Create D-Bus entries for RemoteGPIO
-	######################################
-	echo "Be patient, creating D-Bus entries..."
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Services/RemoteGPIO 
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/NumberUnits
-	/data/RemoteGPIO/tools/createDbusRealSetting /Settings/RemoteGPIO/Latency
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit1/IP
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit1/Reboot
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit2/IP
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit2/Reboot
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit1/Protocol
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/RemoteGPIO/Unit2/Protocol
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit1/USB_Port
-	/data/RemoteGPIO/tools/createDbusStringSetting /Settings/RemoteGPIO/Unit2/USB_Port
-	/data/RemoteGPIO/tools/createDbusIntSetting /Settings/Watchdog/RemoteGPIO
 
 	##
 	## Install and launch RemoteGPIO Services
@@ -92,13 +73,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	/etc/rcS.d/S90rgpio_pins.sh
 	
-#	restartSystemCalc=true
-	restartGui=true
-
-	# Restarting the below services myself as it seems PackageManager don't do it automatically...
-#	svc -t /service/dbus-systemcalc-py
-#	svc -t /service/dbus-digitalinputs
-	#svc -t /service/start-gui
 
 	logMessage "++ $packageName installed"
 fi
@@ -112,16 +86,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	svc -d /service/rgpio
 	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
 	
-	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-	restoreActiveFile /etc/venus/gpio_list
-	restoreActiveFile /etc/udev/rules.d/serial-starter.rules
-	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsIo.qml
-#	rm -f /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
-#	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-#	rm -f /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
-	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsRGPIO.qml
-	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
-	restoreActiveFile /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 	
 	rm -f /etc/rcS.d/S90rgpio_pins.sh
 
@@ -131,7 +95,8 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	#############################################
 	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
 	then
-		restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+		patch -R /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
+		
 	fi
 
 
@@ -174,47 +139,16 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	rm -f /service/rgpio
 	rm -Rf /data/RemoteGPIO/conf
 	
-	##
-	## Delete D-Bus entries
-	#######################
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Services/RemoteGPIO
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/NumberUnits
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Latency
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/IP
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/Reboot
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/IP
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/Reboot
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/Protocol
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/Protocol
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit1/USB_Port
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/RemoteGPIO/Unit2/USB_Port
-	/data/RemoteGPIO/tools/updateDbusRemoveSettings /Settings/Watchdog/RemoteGPIO
 	
-	restartSystemCalc=true
 		
 	logMessage "++ $packageName uninstalled"
 fi
 
 
-
-if $filesUpdated ; then
-    ##
-    ## Reboot or restart the services
-    ##
-	#svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
-	#svc -d /service/gui ; svc -u /service/gui
-	#svc -d /service/node-red-venus ; svc -u /service/node-red-venus
-    restartGui=true
-fi
-
-#if $restartSystemCalc ; then
-#	logMessage "restarting systemcalc"
-#	svc -t /service/dbus-systemcalc-py
 	svc -t /service/dbus-digitalinputs
-#fi
 
 logMessage "completed"
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
-endScript
+endScript INSTALL_FILES ADD_DBUS_SETTINGS
 
