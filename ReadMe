@@ -1,3 +1,25 @@
+*********************    NEW VERSION 3.x (beta)    **************************
+
+RemoteGPIO is now working natively with D-Bus and do not anymore require Node-Red to be installed.
+Additionnal Relais are displayed on multiple Relay Overview pages with up 18.
+Digital Interfaces are also supported
+
+In previous version the « driver » for controlling the relays was implemented in Node-Red.
+Now the driver is integrated as native D-Bus and is running as a service in Venus OS.
+
+Node-Red is still useful for adding any logics to turn on or off any relays based on external dependencies.
+These changes are reducing the CPU load (about 4% usage) and are decreasing latency
+
+It is recommend using USB adapters based on FTDI FT232R chipset and program it with Product Description = "RemoteGPIO"
+
+Todo: 
+1/ Add supports for 3x units (2x are currently supported)
+
+2/ Add support of various Dingtian units size (2, 4, 8, 16 I/Os)
+
+
+**************************   OLD   ********************************************
+
 This package is mainly targeting Cerbo GX users that wants to extend Digital Inputs and Relays on their system.
 Please note that there is a conflict with Kwindrem's RpiGpioSetup that is targeting Raspberry pi users
 

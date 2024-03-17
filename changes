@@ -1,7 +1,14 @@
-v1.x:
-	Initial support of rgpio with manuel setup
-v2.x:
-	Fully automated setup with support for PackackageManager (SetupHelper from Windrem)
+V3.0:
+	Native D-Bus and driver installed as a service
+	Node-Red now optional
+	All configuration available from GUI (in I/O Settings)
+v2.4.1
+	last version based on Node-Red
+	supports venus 3.21
 v2.4
 	fix setup file caused error 255
 	update for v3.14, v3.20~45 and v3.20~47
+v2.x:
+	Fully automated setup with support for PackackageManager (SetupHelper from Windrem)
+v1.x:
+	Initial support of rgpio with manuel setup
