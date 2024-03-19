@@ -59,6 +59,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
 	then
 
+		cp /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json.orig
 		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
 		
 	fi
