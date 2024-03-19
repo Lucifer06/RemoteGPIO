@@ -175,6 +175,7 @@ svc -t /service/dbus-digitalinputs
 [ ! -f /service/rgpio ] && ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
 
 #For managing reboot of Dingtian IOT devices
-nohup /data/RemoteGPIO/rgpio_service >/dev/null 2>&1 &
+#nohup /data/RemoteGPIO/rgpio_service >/dev/null 2>&1 &
+svc -t /service/rgpio
 
 exit 0
