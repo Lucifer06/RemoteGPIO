@@ -217,7 +217,7 @@ do
 	then
 		timer=$(date +%s)
 		set_setting /Settings/Watchdog/RemoteGPIO variant:int32:$timer
-		echo "Hertbeat = "$(date -d@$timer)
+		echo "Heartbeat = "$(date -d@$timer)
 	fi
 
 
