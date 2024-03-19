@@ -2,7 +2,7 @@
 ### BEGIN INIT INFO
 # Short-Description: Monitors RemoteGPIO dbus Service
 # Description:       Allow stoping and starting RemoteGPIO service from victron GUI
-# Description: 	     It also manage the reboot of the DTWonder devices	
+# Description: 	     It also manage the reboot of the Dingtian devices	
 # Description:	     Also keep units.conf up to date so it creates the gpio at boot time
 ## END INIT INFO
 
