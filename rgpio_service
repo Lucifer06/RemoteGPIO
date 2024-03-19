@@ -39,7 +39,7 @@ do
 			if [ $service != $latch ] 
 			then
 				svc -d /service/rgpio
-				echo "Stoping RemoteGPIO driver"
+				echo "rgpio_service: Stoping RemoteGPIO driver" >> /var/log/RemoteGPIO/current
 				set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
 				svc -t /service/dbus-systemcalc-py
 				svc -t /service/dbus-digitalinputs/
@@ -54,7 +54,7 @@ do
 			if [ $service != $latch ]
                         then
                                 svc -u /service/rgpio
-                                echo "Starting RemoteGPIO driver"
+                                echo "rgpio_service: Starting RemoteGPIO driver" >> /var/log/RemoteGPIO/current
 			fi
 			latch=$((service))	
 			;;
@@ -101,7 +101,7 @@ do
 	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
 	if (( $nbunit != $latch2 ))  
 	then
-		echo "Configuration been updated"
+		echo "rgpio_service: Configuration been updated" >> /var/log/RemoteGPIO/current
 		latch2=$nbunit
 		echo $nbunit > /data/RemoteGPIO/conf/units.conf
 		svc -t /service/dbus-systemcalc-py
@@ -119,7 +119,7 @@ do
                 timer=$(date +%s)                                                                                                                                  
 			if (( (watchdog + 10) < timer && service == 1 ))
 			then
-				echo "Watchdog: Restarting RemoteGPIO driver"
+				echo "rgpio_service: RemoteGPIO driver restart triggered by watchdog" >> /var/log/RemoteGPIO/current
 				svc -d /service/rgpio ; svc -u /service/rgpio
 			fi
 #               echo "Heartbeat = "$(date -d@$timer)
