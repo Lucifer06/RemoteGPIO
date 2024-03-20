@@ -8,24 +8,23 @@
  		return [
  			('/Relay/0/State', '/Settings/Relay/0/InitialState', 0, 0, 1),
 -			('/Relay/1/State', '/Settings/Relay/1/InitialState', 0, 0, 1)
-+			('/Relay/1/State', '/Settings/Relay/1/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/2/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/3/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/4/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/5/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/6/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/7/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/8/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/9/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/10/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/11/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/12/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/13/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/14/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/15/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/16/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/17/InitialState', 0, 0, 1),
-+			('/Relay/1/State', '/Settings/Relay/18/InitialState', 0, 0, 1)
++			('/Relay/2/State', '/Settings/Relay/2/InitialState', 0, 0, 1),
++			('/Relay/3/State', '/Settings/Relay/3/InitialState', 0, 0, 1),
++			('/Relay/4/State', '/Settings/Relay/4/InitialState', 0, 0, 1),
++			('/Relay/5/State', '/Settings/Relay/5/InitialState', 0, 0, 1),
++			('/Relay/6/State', '/Settings/Relay/6/InitialState', 0, 0, 1),
++			('/Relay/7/State', '/Settings/Relay/7/InitialState', 0, 0, 1),
++			('/Relay/8/State', '/Settings/Relay/8/InitialState', 0, 0, 1),
++			('/Relay/9/State', '/Settings/Relay/9/InitialState', 0, 0, 1),
++			('/Relay/10/State', '/Settings/Relay/10/InitialState', 0, 0, 1),
++			('/Relay/11/State', '/Settings/Relay/11/InitialState', 0, 0, 1),
++			('/Relay/12/State', '/Settings/Relay/12/InitialState', 0, 0, 1),
++			('/Relay/13/State', '/Settings/Relay/13/InitialState', 0, 0, 1),
++			('/Relay/14/State', '/Settings/Relay/14/InitialState', 0, 0, 1),
++			('/Relay/15/State', '/Settings/Relay/15/InitialState', 0, 0, 1),
++			('/Relay/16/State', '/Settings/Relay/16/InitialState', 0, 0, 1),
++			('/Relay/17/State', '/Settings/Relay/17/InitialState', 0, 0, 1),
++			('/Relay/18/State', '/Settings/Relay/18/InitialState', 0, 0, 1)
  		]
  
  	@property
