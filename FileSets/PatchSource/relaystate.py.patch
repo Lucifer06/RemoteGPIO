@@ -26,7 +26,7 @@
 +			('/Relay/17/State', '/Settings/Relay/17/InitialState', 0, 0, 1),
 +			('/Relay/18/State', '/Settings/Relay/18/InitialState', 0, 0, 1)
  		]
- 
+
  	@property
  	def relay_function(self):
  		return self._dbusmonitor.get_value('com.victronenergy.settings',
