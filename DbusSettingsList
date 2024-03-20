@@ -5,8 +5,12 @@
 {"path":"/Settings/RemoteGPIO/Unit1/Reboot", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit2/IP", "default":""}
 {"path":"/Settings/RemoteGPIO/Unit2/Reboot", "default":0}
+{"path":"/Settings/RemoteGPIO/Unit3/IP", "default":""}
+{"path":"/Settings/RemoteGPIO/Unit3/Reboot", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit1/Protocol", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit2/Protocol", "default":0}
+{"path":"/Settings/RemoteGPIO/Unit3/Protocol", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit1/USB_Port", "default":""}
 {"path":"/Settings/RemoteGPIO/Unit2/USB_Port", "default":""}
+{"path":"/Settings/RemoteGPIO/Unit3/USB_Port", "default":""}
 {"path":"/Settings/Watchdog/RemoteGPIO", "default":0}

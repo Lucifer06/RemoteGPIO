@@ -82,30 +82,15 @@ then
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+
 
 	#Digital_Inputs
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
 
-	# Create D-Bus entries for additional Digital Inputs support
-	#set_setting /Settings/DigitalInput/5/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/6/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/7/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/8/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/9/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/10/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/11/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/12/Type variant:int32:10
+
 fi
 
 
@@ -119,16 +104,35 @@ then
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+      
+                                                                          
+    #Digital_Inputs                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+
+
+fi                
+
+
+
+if [ $nbunit = 3 ]                                                
+then                                                              
+    #Relays                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e        
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f        
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g        
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h        
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i        
+       
                                                                           
     #Digital_Inputs                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
@@ -141,30 +145,8 @@ then
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
 
-	# Create D-Bus entries for additional Digital Inputs support
-	#set_setting /Settings/DigitalInput/5/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/6/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/7/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/8/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/9/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/10/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/11/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/12/Type variant:int32:10       
-	#set_setting /Settings/DigitalInput/13/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/14/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/15/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/16/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/17/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/18/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/19/Type variant:int32:10
-	#set_setting /Settings/DigitalInput/20/Type variant:int32:10
+
 fi                
 
 

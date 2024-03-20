@@ -66,6 +66,7 @@ do
             then
 				Reboot_Unit1=$(get_setting /Settings/RemoteGPIO/Unit1/Reboot)
                 Reboot_Unit2=$(get_setting /Settings/RemoteGPIO/Unit2/Reboot)
+				Reboot_Unit3=$(get_setting /Settings/RemoteGPIO/Unit3/Reboot)
 				
 				if [ $Reboot_Unit1 = 1 ] 
 				##
@@ -89,7 +90,20 @@ do
                     # Clear reboot flag and put RemoteGPIO service to 1          
                     set_setting /Settings/RemoteGPIO/Unit2/Reboot variant:int32:0
                     set_setting /Settings/Services/RemoteGPIO variant:int32:1
-            	fi                                                                                                                                                                                                            
+            	fi                                                                                             
+
+				      
+				if [ $Reboot_Unit3 = 1 ]                                                                                                                                                                                      
+				##
+				## Reboot Unit 3
+                ####################
+				then                                                                                                                                                                                                          
+                	IP_Unit3=$(get_IP /Settings/RemoteGPIO/Unit3/IP)                                                                                                                                                      
+                    wget http://$IP_Unit3/reboot.cgi  
+                    # Clear reboot flag and put RemoteGPIO service to 1          
+                    set_setting /Settings/RemoteGPIO/Unit3/Reboot variant:int32:0
+                    set_setting /Settings/Services/RemoteGPIO variant:int32:1
+            	fi                                                                                                            
 			fi
 			latch=$((service))
 			;;	
