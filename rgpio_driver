@@ -161,6 +161,7 @@ do
 				esac                          
         	fi                                                                                                                                      
         	prev_const2=$((const)) 
+	fi
 
 			        ##                                                                             
         ## Handle Unit2 with 2x Relays                                                 
@@ -198,6 +199,7 @@ do
 				esac                          
         	fi                                                                                                                                      
         	prev_const2=$((const)) 
+	fi
 
 
 			        ##                                                                             
