@@ -296,12 +296,12 @@ do
 	##
 	## Heart Beat
 	################################
-	#if (( (timer + 5) < $(date +%s) ))
-	#then
-	#	timer=$(date +%s)
-	#	set_setting /Settings/Watchdog/RemoteGPIO variant:int32:$timer
-	#	echo "Heartbeat = "$(date -d@$timer)
-	#fi
+	if (( (timer + 5) < $(date +%s) ))
+	then
+		timer=$(date +%s)
+		set_setting /Settings/Watchdog/RemoteGPIO variant:int32:$timer
+		echo "Heartbeat = "$(date -d@$timer)
+	fi
 
 
 
