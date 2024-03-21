@@ -256,6 +256,35 @@ do
 	fi
 
 
+	##                                                                                                                                              
+        ## Handle Unit3 with 8x Digital_Inputs                                                                                                          
+        #################################                                                                                                               
+	if [ $nbunit -eq 3 ]                                                                                                                  
+        then
+			case $Protocol_unit3 in
+				0) # RS485
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 3 $Port_Unit3) | awk '{print $NF}')        
+					number=$(($msg))   
+					;;
+				1) # TCP
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 3 $IP_Unit3) | awk '{print $NF}')        
+					number=$(($msg))
+					;;
+			esac                                                                                                                                 
+                                                                                                                                                           
+        	if ((number >= 0 && number <= 255)); then                                                                                                          
+                                                                                                                                                           
+        	        # Parsing number for writing the 8x Input Devices                                                                                          
+                	i=1                                                                                                                                        
+                	for Digital_Input in `cat $conf_unit3_digitalinput`                                                                                             
+                	do                                                                                                                                         
+                	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
+                        	i=$((i*2))
+			done                                                                                                                                       
+        	fi
+	fi
+
+
 
 	##                                                                                                                                              
 	## Latency vs CPU load                                                                                                                      
