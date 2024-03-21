@@ -218,3 +218,24 @@ do
 	fi
 
 
+
+	##                                                                                                                                              
+	## Latency vs CPU load                                                                                                                      
+	#################################
+        sleep $latency                     
+
+
+
+	##
+	## Heart Beat
+	################################
+	if (( (timer + 5) < $(date +%s) ))
+	then
+		timer=$(date +%s)
+		set_setting /Settings/Watchdog/RemoteGPIO variant:int32:$timer
+		echo "Heartbeat = "$(date -d@$timer)
+	fi
+
+
+
+done
