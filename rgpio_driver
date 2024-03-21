@@ -191,10 +191,10 @@ do
         	then
 				case $Protocol_unit3 in
 					0) # RS485
-						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 -a 2 $Port_Unit3 $const >> /dev/null
+						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 -a 3 $Port_Unit3 $const >> /dev/null
 						;;
 					1) # TCP
-						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 2 $IP_Unit3 $const >> /dev/null
+						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 3 $IP_Unit3 $const >> /dev/null
 						;;
 				esac                          
         	fi                                                                                                                                      
