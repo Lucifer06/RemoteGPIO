@@ -216,16 +216,16 @@ do
 	#			;;
 	#	esac
         
-	#if ((number >= 0 && number <= 255)); then    
+	if ((number >= 0 && number <= 255)); then    
 
 		# Parsing number for writing the 8x Input Devices
-	#        i=1                                                                             
-	#        for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
-	#        do
-	#		echo $((($number & $i) != 0)) > $Digital_Input 
-	#		i=$((i*2)) 
-	#	done
-    #    fi
+	        i=1                                                                             
+	        for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
+	        do
+			echo $((($number & $i) != 0)) > $Digital_Input 
+			i=$((i*2)) 
+		done
+        fi
 
 	##                                                                                                                                              
         ## Handle Unit2 with 8x Digital_Inputs                                                                                                          
@@ -243,17 +243,17 @@ do
 	#				;;
 	#		esac                                                                                                                                 
                                                                                                                                                            
-    #    	if ((number >= 0 && number <= 255)); then                                                                                                          
+        	if ((number >= 0 && number <= 255)); then                                                                                                          
                                                                                                                                                            
         	        # Parsing number for writing the 8x Input Devices                                                                                          
-    #            	i=1                                                                                                                                        
-    #            	for Digital_Input in `cat $conf_unit2_digitalinput`                                                                                             
-    #            	do                                                                                                                                         
-    #            	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
-    #                    	i=$((i*2))
-	#		done                                                                                                                                       
-    #    	fi
-	#fi
+                	i=1                                                                                                                                        
+                	for Digital_Input in `cat $conf_unit2_digitalinput`                                                                                             
+                	do                                                                                                                                         
+                	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
+                        	i=$((i*2))
+			done                                                                                                                                       
+        	fi
+	fi
 
 
 	##                                                                                                                                              
@@ -272,17 +272,17 @@ do
 	#				;;
 	#		esac                                                                                                                                 
                                                                                                                                                            
-    #    	if ((number >= 0 && number <= 255)); then                                                                                                          
+        	if ((number >= 0 && number <= 255)); then                                                                                                          
                                                                                                                                                            
         	        # Parsing number for writing the 8x Input Devices                                                                                          
-    #            	i=1                                                                                                                                        
-    #            	for Digital_Input in `cat $conf_unit3_digitalinput`                                                                                             
-    #            	do                                                                                                                                         
-    #            	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
-    #                    	i=$((i*2))
-	#		done                                                                                                                                       
-    #    	fi
-	#fi
+                	i=1                                                                                                                                        
+                	for Digital_Input in `cat $conf_unit3_digitalinput`                                                                                             
+                	do                                                                                                                                         
+                	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
+                        	i=$((i*2))
+			done                                                                                                                                       
+        	fi
+	fi
 
 
 
