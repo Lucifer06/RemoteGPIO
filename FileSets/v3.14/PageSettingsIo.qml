@@ -38,7 +38,7 @@ MbPage {
 		toast.createToast(text, 5000)
 	}
 
-	model: VisualItemModel {
+	model: VisibleItemModel {
 		MbSubMenu {
 			description: qsTr("Analog inputs")
 			show: numAnalogDevices > 0
@@ -80,12 +80,10 @@ MbPage {
 			show: haveBluetooth
 			subpage: Component { PageSettingsBleSensors {} }
 		}
-		
+
 		MbSubMenu {
-			description: qsTr
-			("RemoteGPIO")
-			subpage: Component {
-			PageSettingsRGPIO {} }
+			description: qsTr("RemoteGPIO")
+			subpage: Component { PageSettingsRGPIO {} }
 		}
 	}
 }
