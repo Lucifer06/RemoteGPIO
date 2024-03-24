@@ -1,1 +1,1 @@
-../v3.30~15/PageSettingsIo.qml
+../v3.30/PageSettingsIo.qml
