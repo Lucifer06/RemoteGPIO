@@ -1,9 +1,6 @@
---- relaystate.py.source	2024-03-12 16:45:06.263723900 -0700
-+++ relaystate.py.edited	2024-03-12 16:45:06.263723900 -0700
-@@ -21,13 +21,30 @@
- 			('com.victronenergy.settings', [
- 				 '/Settings/Relay/Function'])] # Managed by the gui
- 
+--- /mnt/c/github/RemoteGPIO.copy/FileSets/PatchSource/relaystate.py.source	2024-02-26 05:42:09.000000000 -0700
++++ /mnt/c/github/RemoteGPIO.copy/FileSets/PatchSource/relaystate.py.edited	2024-03-23 14:42:16.029444300 -0700
+@@ -24,7 +24,24 @@
  	def get_settings(self):
  		return [
  			('/Relay/0/State', '/Settings/Relay/0/InitialState', 0, 0, 1),
@@ -27,8 +24,5 @@
 +			('/Relay/17/State', '/Settings/Relay/17/InitialState', 0, 0, 1),
 +			('/Relay/18/State', '/Settings/Relay/18/InitialState', 0, 0, 1)
  		]
-
+ 
  	@property
- 	def relay_function(self):
- 		return self._dbusmonitor.get_value('com.victronenergy.settings',
- 			'/Settings/Relay/Function')
