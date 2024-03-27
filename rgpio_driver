@@ -282,7 +282,7 @@ do
     #                    	i=$((i*2))
 	#		done                                                                                                                                       
     #    	fi
-	#fi
+	fi
 
 
 
