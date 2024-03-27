@@ -205,27 +205,27 @@ do
 	##
 	## Handle Unit1 with 8x Digital_Inputs
 	#################################
-		case $Protocol_unit1 in
-			0) # RS485
-				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 1 $Port_Unit1) | awk '{print $NF}')        
-				number=$(($msg))   
-				;;
-			1) # TCP
-				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 1 $IP_Unit1) | awk '{print $NF}')        
-				number=$(($msg))
-				;;
-		esac
+	#	case $Protocol_unit1 in
+		#	0) # RS485
+			#	msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 1 $Port_Unit1) | awk '{print $NF}')        
+			#	number=$(($msg))   
+			#	;;
+			#1) # TCP
+			#	msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 1 $IP_Unit1) | awk '{print $NF}')        
+			#	number=$(($msg))
+			#	;;
+	#	esac
         
-	if ((number >= 0 && number <= 255)); then    
+	#if ((number >= 0 && number <= 255)); then    
 
 		# Parsing number for writing the 8x Input Devices
-	        i=1                                                                             
-	        for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
-	        do
-			echo $((($number & $i) != 0)) > $Digital_Input 
-			i=$((i*2)) 
-		done
-        fi
+	    #    i=1                                                                             
+	    #    for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
+	    #    do
+		#	echo $((($number & $i) != 0)) > $Digital_Input 
+		#	i=$((i*2)) 
+		#done
+    #    fi
 
 	##                                                                                                                                              
         ## Handle Unit2 with 8x Digital_Inputs                                                                                                          
