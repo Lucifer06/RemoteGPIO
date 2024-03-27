@@ -1,3 +1,7 @@
+v3.2.16
+	move gpio_list to versionindependent
+v3.2.15
+	move pagesettingsIo.qml to version dependent
 v3.2.0
 	support 3 relay modules
 v3.1:
