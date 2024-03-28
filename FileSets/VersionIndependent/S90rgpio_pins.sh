@@ -28,17 +28,17 @@ nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
 ## Find total number of relays for all modules
 if [ $nbunit = 1 ]
     then
-    nbrelays=nbrelayunit1
+    nbrelays=$nbrelayunit1
 fi
 
 if [ $nbunit = 2 ]
     then
-    nbrelays=( nbrelayunit1 + nbrelayunit2)
+    nbrelays=$(($nbrelayunit1 + $nbrelayunit2))
 fi
 
 if [ $nbunit = 3 ]
     then
-    nbrelays=( nbrelayunit1 + nbrelayunit2 + nbrelayunit3)
+    nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
 fi
 
 
