@@ -18,7 +18,6 @@ MbPage {
             	description: qsTr("Unit 3 IP Address")
             	maximumLength: 15
 				item.bind: [rgpioSettings, "/IP"]
-				show: protocol.value == 1
             	matchString: ".0123456789"
 			}
 
