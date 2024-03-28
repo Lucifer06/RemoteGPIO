@@ -25,7 +25,7 @@ fi
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 packageGitHubUser="drtinaz"
-packageGitHubBranch="beta"
+packageGitHubBranch="alpha"
 
 
 #### running manually and OK to proceed - prompt for input

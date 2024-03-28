@@ -18,6 +18,7 @@ MbPage {
             	description: qsTr("Unit 2 IP Address")
             	maximumLength: 15
 				item.bind: [rgpioSettings, "/IP"]
+				show: protocol.value == 1
             	matchString: ".0123456789"
 			}
 
@@ -29,6 +30,18 @@ MbPage {
                 possibleValues: [
                     MbOption {description: qsTr("Modbus via RS485"); value: 0},
                     MbOption {description: qsTr("Modbus via TCP"); value: 1}
+                ]
+            }
+
+			MbItemOptions {
+                id: numrelays
+                description: qsTr("Number of Relays")
+                bind: [rgpioSettings, "/NumRelays"]
+                show: enable.checked
+                possibleValues: [
+                    MbOption {description: qsTr("2 Relays"); value: 2},
+                    MbOption {description: qsTr("4 Relays"); value: 4},
+                    MbOption {description: qsTr("8 Relays"); value: 8}
                 ]
             }
 
@@ -44,7 +57,7 @@ MbPage {
             }
                         
         	MbItemText {                                                               
-            	text: qsTr("Dingtian IOT Relay device needs to be configured with Addr = 2. This applies for both RS485 and TCP protocols")     
+            	text: qsTr("Dingtian IOT Relay device needs to be configured with Addr = 2. This applies for both RS485 and TCP protocols. When using TCP both TCP server and TCP client protocols must select RTU over TCP")     
             	wrapMode: Text.WordWrap                                            
         	}    
 

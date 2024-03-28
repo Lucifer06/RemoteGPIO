@@ -8,6 +8,9 @@
 {"path":"/Settings/RemoteGPIO/Unit3/IP", "default":""}
 {"path":"/Settings/RemoteGPIO/Unit3/Reboot", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit1/Protocol", "default":0}
+{"path":"/Settings/RemoteGPIO/Unit1/NumRelays", "default":0}
+{"path":"/Settings/RemoteGPIO/Unit2/NumRelays", "default":0}
+{"path":"/Settings/RemoteGPIO/Unit3/NumRelays", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit2/Protocol", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit3/Protocol", "default":0}
 {"path":"/Settings/RemoteGPIO/Unit1/USB_Port", "default":""}
