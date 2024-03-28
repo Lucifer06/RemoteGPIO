@@ -38,8 +38,6 @@ MbPage {
                 description: qsTr("Number of Relays")
                 bind: [rgpioSettings, "/NumRelays"]
                 show: enable.checked
-                text: qsTr("Total number of relays for ALL connected modules MUST NOT exceed 16!")
-                wrapMode: Text.WordWrap
                 possibleValues: [
                     MbOption {description: qsTr("2 Relays"); value: 2},
                     MbOption {description: qsTr("4 Relays"); value: 4},
@@ -60,7 +58,7 @@ MbPage {
             }
                         
         	MbItemText {                                                               
-            	text: qsTr("Dingtian IOT Relay device needs to be configured with Addr = 1. This applies for both RS485 and TCP protocols. When using TCP both TCP server and TCP client protocols must select RTU over TCP")     
+            	text: qsTr("Relay module needs to be configured with Addr = 1. This applies for both RS485 and TCP protocols. When using TCP both TCP server and TCP client protocols must select RTU over TCP. Total number of relays for ALL connected modules MUST NOT exceed 16!")     
             	wrapMode: Text.WordWrap                                            
         	}    
 
