@@ -52,7 +52,8 @@ MbPage {
                 show: protocol.value == 0
                 possibleValues: [
                     MbOption {description: qsTr("USB0"); value: "/dev/ttyUSB0"},
-                    MbOption {description: qsTr("USB1"); value: "/dev/ttyUSB1"}
+					MbOption {description: qsTr("USB1"); value: "/dev/ttyUSB1"},
+                    MbOption {description: qsTr("USB2"); value: "/dev/ttyUSB2"}
                 ]
             }
                         
