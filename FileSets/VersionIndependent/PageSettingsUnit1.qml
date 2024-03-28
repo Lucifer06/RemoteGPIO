@@ -38,6 +38,8 @@ MbPage {
                 description: qsTr("Number of Relays")
                 bind: [rgpioSettings, "/NumRelays"]
                 show: enable.checked
+                text: qsTr("Total number of relays for ALL connected modules MUST NOT exceed 16!")
+                wrapMode: Text.WordWrap
                 possibleValues: [
                     MbOption {description: qsTr("2 Relays"); value: 2},
                     MbOption {description: qsTr("4 Relays"); value: 4},
