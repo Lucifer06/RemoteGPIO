@@ -8,8 +8,8 @@
 exec 2>&1
 
 
-conf_unit1_relay="/data/RemoteGPIO/Conf/Relays_unit1.conf"
-conf_unit1_digitalinput="/data/RemoteGPIO/Conf/Digital_Inputs_unit1.conf"
+conf_unit1_relay="/data/RemoteGPIO/conf/Relays_unit1.conf"
+conf_unit1_digitalinput="/data/RemoteGPIO/conf/Digital_Inputs_unit1.conf"
 conf_unit2_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit2.conf"                            
 conf_unit2_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit2.conf"
 conf_unit3_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit3.conf"                            
