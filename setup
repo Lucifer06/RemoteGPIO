@@ -52,6 +52,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	touch /data/RemoteGPIO/conf/units.conf
 	chmod 666 /data/RemoteGPIO/conf/units.conf
 	echo "0" > /data/RemoteGPIO/conf/units.conf
+	touch /data/RemoteGPIO/conf/relays.conf
+	chmod 666 /data/RemoteGPIO/conf/relays.conf
+	echo "0" > /data/RemoteGPIO/conf/relays.conf
 	
 	##
 	## For Large Image only with Node-Red support

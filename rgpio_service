@@ -135,7 +135,7 @@ do
 	fi
 
 
-	if (( $nbunit != $latch2 || $nbrelays != $latch3))  
+	if (( $nbunit != $latch2 || $nbrelays != $latch3))
 	then
 		echo "rgpio_service: Configuration has been updated" >> /var/log/RemoteGPIO/current
 		latch2=$nbunit
