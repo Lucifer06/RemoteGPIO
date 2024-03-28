@@ -9,10 +9,6 @@
 # Description:       rgpio is used to conect expternal Relay box with ModBus/RTU control
 ### END INIT INFO
 
-nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
-
-# Kill existing rgpio_service in case the script is called after HW configuration change:
-kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
 
 get_setting()                                                                                                                                                                                                  
     {                                                                                                                                                                                                      
@@ -22,6 +18,34 @@ set_setting()
     {                                                                                                                                                                         
 		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
     }
+
+
+nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
+nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
+nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
+nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
+
+## Find total number of relays for all modules
+if [ $nbunit = 1 ]
+    then
+    nbrelays=$nbrelayunit1
+fi
+
+if [ $nbunit = 2 ]
+    then
+    nbrelays=( $nbrelayunit1 + $nbrelayunit2)
+fi
+
+if [ $nbunit = 3 ]
+    then
+    nbrelays=( $nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3)
+fi
+
+
+# Kill existing rgpio_service in case the script is called after HW configuration change:
+kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
+
+
 
 # Clean existing gpio in case HW configuration has changed
 rm -f /dev/gpio/relay_3
@@ -75,7 +99,23 @@ set_setting /Settings/DigitalInput/18/Type variant:int32:0
 set_setting /Settings/DigitalInput/19/Type variant:int32:0
 set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
-if [ $nbunit = 1 ]
+
+if [ $nbrelays = 2 ]
+then
+	#Relays
+	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+
+
+	#Digital_Inputs
+	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+
+
+fi
+
+
+if [ $nbrelays = 4 ]
 then
 	#Relays
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
@@ -95,7 +135,7 @@ fi
 
 
 
-if [ $nbunit = 2 ]                                                
+if [ $nbrelays = 6 ]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
@@ -118,8 +158,34 @@ then
 fi                
 
 
+if [ $nbrelays = 8 ]                                                
+then                                                              
+    #Relays                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+       
+                                                                          
+    #Digital_Inputs                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
 
-if [ $nbunit = 3 ]                                                
+
+fi
+
+
+if [ $nbrelays = 10 ]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
@@ -147,7 +213,127 @@ then
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
 
 
-fi                
+fi
+
+
+
+if [ $nbrelays = 12 ]                                                
+then                                                              
+    #Relays                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e
+       
+                                                                          
+    #Digital_Inputs                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
+
+
+fi
+
+
+
+if [ $nbrelays = 14 ]                                                
+then                                                              
+    #Relays                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g
+       
+                                                                          
+    #Digital_Inputs                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
+
+
+fi
+
+
+
+if [ $nbrelays = 16 ]                                                
+then                                                              
+    #Relays                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i
+       
+                                                                          
+    #Digital_Inputs                                                   
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
+    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
+
+
+fi
 
 
 

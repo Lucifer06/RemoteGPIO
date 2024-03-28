@@ -115,7 +115,7 @@ do
 	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
 	if (( $nbunit != $latch2 ))  
 	then
-		echo "rgpio_service: Configuration been updated" >> /var/log/RemoteGPIO/current
+		echo "rgpio_service: Configuration has been updated" >> /var/log/RemoteGPIO/current
 		latch2=$nbunit
 		echo $nbunit > /data/RemoteGPIO/conf/units.conf
 		svc -t /service/dbus-systemcalc-py
