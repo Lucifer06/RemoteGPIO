@@ -99,7 +99,7 @@ set_setting /Settings/DigitalInput/18/Type variant:int32:0
 set_setting /Settings/DigitalInput/19/Type variant:int32:0
 set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
-
+## insert links for number of relays and DI
 if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]
 then
 	#Relays
@@ -305,7 +305,7 @@ if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
     done
 
     echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
-    for digin in $( seq $seconddigin $lastdigin)
+    for digin in $( seq $firstdigin $lastdigin)
     do
         nb=$digin
         if [[ $nb -eq 10 ]]; then
@@ -373,7 +373,7 @@ if [[ $nbunit -eq 3 ]]
     done
 
     echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
-    for digin in $( seq $seconddigin $lastdigin)
+    for digin in $( seq $firstdigin $lastdigin)
     do
         nb=$digin
         if [[ $nb -eq 10 ]]; then
@@ -401,84 +401,7 @@ if [[ $nbunit -eq 3 ]]
         fi
         echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
     done
-fi
-
-
-
-#    if [ $nbrelayunit1 = 2 ]
-#        then
-#        echo "/dev/gpio/relay_3/value
-#/dev/gpio/relay_4/value" > /data/RemoteGPIO/conf/Relays_unit1.conf
-#        echo "/dev/gpio/digital_input_5/value
-#/dev/gpio/digital_input_6/value" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
-#        fi
-#    if [ $nbrelayunit1 = 4 ]
-#        then
-#        echo "/dev/gpio/relay_3/value
-#/dev/gpio/relay_4/value
-#/dev/gpio/relay_5/value
-#/dev/gpio/relay_6/value" > /data/RemoteGPIO/conf/Relays_unit1.conf
-#        echo "/dev/gpio/digital_input_5/value
-#/dev/gpio/digital_input_6/value
-#/dev/gpio/digital_input_7/value
-#/dev/gpio/digital_input_8/value" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
-#        fi
-#    if [ $nbrelayunit1 = 8 ]
-#        then
-#        echo "/dev/gpio/relay_3/value
-#/dev/gpio/relay_4/value
-#/dev/gpio/relay_5/value
-#/dev/gpio/relay_6/value
-#/dev/gpio/relay_7/value
-#/dev/gpio/relay_8/value
-#/dev/gpio/relay_9/value
-#/dev/gpio/relay_a/value" > /data/RemoteGPIO/conf/Relays_unit1.conf
-#        echo "/dev/gpio/digital_input_5/value
-#/dev/gpio/digital_input_6/value
-#/dev/gpio/digital_input_7/value
-#/dev/gpio/digital_input_8/value
-#/dev/gpio/digital_input_9/value
-#/dev/gpio/digital_input_a/value
-#/dev/gpio/digital_input_b/value
-#/dev/gpio/digital_input_c/value" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
-#        fi
-#    if [ $nbrelayunit1 = 16 ]
-#        then
-#        echo "/dev/gpio/relay_3/value
-#/dev/gpio/relay_4/value
-#/dev/gpio/relay_5/value
-#/dev/gpio/relay_6/value
-#/dev/gpio/relay_7/value
-#/dev/gpio/relay_8/value
-#/dev/gpio/relay_9/value
-#/dev/gpio/relay_a/value
-#/dev/gpio/relay_b/value
-#/dev/gpio/relay_c/value
-#/dev/gpio/relay_d/value
-#/dev/gpio/relay_e/value
-#/dev/gpio/relay_f/value
-#/dev/gpio/relay_g/value
-#/dev/gpio/relay_h/value
-#/dev/gpio/relay_i/value" > /data/RemoteGPIO/conf/Relays_unit1.conf
-#        echo "/dev/gpio/digital_input_5/value
-#/dev/gpio/digital_input_6/value
-#/dev/gpio/digital_input_7/value
-#/dev/gpio/digital_input_8/value
-#/dev/gpio/digital_input_9/value
-#/dev/gpio/digital_input_a/value
-#/dev/gpio/digital_input_b/value
-#/dev/gpio/digital_input_c/value
-#/dev/gpio/digital_input_d/value
-#/dev/gpio/digital_input_e/value
-#/dev/gpio/digital_input_f/value
-#/dev/gpio/digital_input_g/value
-#/dev/gpio/digital_input_h/value
-#/dev/gpio/digital_input_i/value
-#/dev/gpio/digital_input_j/value
-#/dev/gpio/digital_input_k/value" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
-#        fi
-#    fi
-        
+fi        
 
 
 

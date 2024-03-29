@@ -90,7 +90,7 @@ do
 
 
 	##
-	## Handle Unit1 with 4x Relays 
+	## Handle Unit1 with up to 16x Relays 
 	#################################
 	index=1
 	i=1
@@ -126,7 +126,7 @@ do
 
 
         ##                                                                             
-        ## Handle Unit2 with 2x Relays                                                 
+        ## Handle Unit2 with up to 8x Relays                                                 
         #################################                                              
         if [[ $nbunit -eq 2 || $nbunit -eq 3 ]] 
 		then
@@ -164,7 +164,7 @@ do
 	fi
 
 		##                                                                             
-        ## Handle Unit3 with 4x Relays                                                 
+        ## Handle Unit3 with up to 8x Relays                                                 
         #################################                                              
         if [[ $nbunit -eq 3 ]]
 		then
@@ -203,7 +203,7 @@ do
 
 
 	##
-	## Handle Unit1 with 8x Digital_Inputs
+	## Handle Unit1 with up to 16x Digital_Inputs
 	#################################
 		case $Protocol_unit1 in
 			0) # RS485
@@ -228,7 +228,7 @@ do
         fi
 
 	##                                                                                                                                              
-        ## Handle Unit2 with 8x Digital_Inputs                                                                                                          
+        ## Handle Unit2 with up to 8x Digital_Inputs                                                                                                          
         #################################                                                                                                               
 	if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]                                                                                                                  
         then
@@ -257,7 +257,7 @@ do
 
 
 	##                                                                                                                                              
-        ## Handle Unit3 with 8x Digital_Inputs                                                                                                          
+        ## Handle Unit3 with up to 8x Digital_Inputs                                                                                                          
         #################################                                                                                                               
 	if [[ $nbunit -eq 3 ]]
         then
