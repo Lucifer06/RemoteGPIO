@@ -99,7 +99,7 @@ do
 	for Relay in `cat $conf_unit1_relay`
 	do
 		value=`cat $Relay`
-		if [ $value -eq $zero ]
+		if [[ $value -eq $zero ]]
 		then
 			const=$((const+j))
 		else
