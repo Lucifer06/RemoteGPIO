@@ -212,17 +212,17 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
     echo "" > /data/RemoteGPIO/conf/Relays_unit1.conf
     for relay in $( seq 3 $lastrelay )
     do
-    nb=$relay
-    if [ $nb=10 ] then nb=a fi; if [ $nb=11 ] then nb=b fi; if [ $nbrelays=12 ] then nb=c fi; if [ $nb=13 ] then nb=d fi; if [ $nb=14 ] then nb=e fi; if [ $nb=15 ] then nb=f fi; if [ $nb=16 ] then nb=g fi
-    echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit1.conf
+        nb=$relay
+        if [ $nb=10 ] then nb=a fi; if [ $nb=11 ] then nb=b fi; if [ $nbrelays=12 ] then nb=c fi; if [ $nb=13 ] then nb=d fi; if [ $nb=14 ] then nb=e fi; if [ $nb=15 ] then nb=f fi; if [ $nb=16 ] then nb=g fi;
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit1.conf
     done
 
     echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
     for digin in $( seq 5 $lastdigin)
     do
-    nb=$digin
-    if [ $nb=10 ] then nb=a fi; if [ $nb=11 ] then nb=b fi; if [ $nbrelays=12 ] then nb=c fi; if [ $nb=13 ] then nb=d fi; if [ $nb=14 ] then nb=e fi; if [ $nb=15 ] then nb=f fi; if [ $nb=16 ] then nb=g fi; if [ $nb=17 ] then nb=h fi; if [ $nb=18 ] then nb=i fi
-    echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+        nb=$digin
+        #if [ $nb=10 ] then nb=a fi; if [ $nb=11 ] then nb=b fi; if [ $nbrelays=12 ] then nb=c fi; if [ $nb=13 ] then nb=d fi; if [ $nb=14 ] then nb=e fi; if [ $nb=15 ] then nb=f fi; if [ $nb=16 ] then nb=g fi; if [ $nb=17 ] then nb=h fi; if [ $nb=18 ] then nb=i fi
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
     done
 fi
 
