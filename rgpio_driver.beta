@@ -8,12 +8,12 @@
 exec 2>&1
 
 
-conf_unit1_relay="/data/RemoteGPIO/conf/Relays_unit1.conf"
-conf_unit1_digitalinput="/data/RemoteGPIO/conf/Digital_Inputs_unit1.conf"
-conf_unit2_relay="/data/RemoteGPIO/conf/Relays_unit2.conf"                            
-conf_unit2_digitalinput="/data/RemoteGPIO/conf/Digital_Inputs_unit2.conf"
-conf_unit3_relay="/data/RemoteGPIO/conf/Relays_unit3.conf"                            
-conf_unit3_digitalinput="/data/RemoteGPIO/conf/Digital_Inputs_unit3.conf"
+conf_unit1_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf"
+conf_unit1_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf"
+conf_unit2_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit2.conf"                            
+conf_unit2_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit2.conf"
+conf_unit3_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit3.conf"                            
+conf_unit3_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit3.conf"
 zero=0
 prev_const1=0
 prev_const2=0
@@ -90,7 +90,7 @@ do
 
 
 	##
-	## Handle Unit1 with up to 16x Relays 
+	## Handle Unit1 with 4x Relays 
 	#################################
 	index=1
 	i=1
@@ -99,7 +99,7 @@ do
 	for Relay in `cat $conf_unit1_relay`
 	do
 		value=`cat $Relay`
-		if [[ $value -eq $zero ]]
+		if [ $value -eq $zero ]
 		then
 			const=$((const+j))
 		else
@@ -126,7 +126,7 @@ do
 
 
         ##                                                                             
-        ## Handle Unit2 with up to 8x Relays                                                 
+        ## Handle Unit2 with 2x Relays                                                 
         #################################                                              
         if [[ $nbunit -eq 2 || $nbunit -eq 3 ]] 
 		then
@@ -164,9 +164,9 @@ do
 	fi
 
 		##                                                                             
-        ## Handle Unit3 with up to 8x Relays                                                 
+        ## Handle Unit3 with 4x Relays                                                 
         #################################                                              
-        if [[ $nbunit -eq 3 ]]
+        if [ $nbunit -eq 3 ] 
 		then
         	index=1                                                                        
         	i=1                                                                            
@@ -203,7 +203,7 @@ do
 
 
 	##
-	## Handle Unit1 with up to 16x Digital_Inputs
+	## Handle Unit1 with 8x Digital_Inputs
 	#################################
 		case $Protocol_unit1 in
 			0) # RS485
@@ -218,7 +218,7 @@ do
         
 	if ((number >= 0 && number <= 255)); then    
 
-		# Parsing number for writing the Input Devices
+		# Parsing number for writing the 8x Input Devices
 	        i=1                                                                             
 	        for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
 	        do
@@ -228,7 +228,7 @@ do
         fi
 
 	##                                                                                                                                              
-        ## Handle Unit2 with up to 8x Digital_Inputs                                                                                                          
+        ## Handle Unit2 with 8x Digital_Inputs                                                                                                          
         #################################                                                                                                               
 	if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]                                                                                                                  
         then
@@ -245,7 +245,7 @@ do
                                                                                                                                                            
         	if ((number >= 0 && number <= 255)); then                                                                                                          
                                                                                                                                                            
-        	        # Parsing number for writing the Input Devices                                                                                          
+        	        # Parsing number for writing the 8x Input Devices                                                                                          
                 	i=1                                                                                                                                        
                 	for Digital_Input in `cat $conf_unit2_digitalinput`                                                                                             
                 	do                                                                                                                                         
@@ -257,9 +257,9 @@ do
 
 
 	##                                                                                                                                              
-        ## Handle Unit3 with up to 8x Digital_Inputs                                                                                                          
+        ## Handle Unit3 with 8x Digital_Inputs                                                                                                          
         #################################                                                                                                               
-	if [[ $nbunit -eq 3 ]]
+	if [ $nbunit -eq 3 ]                                                                                                                  
         then
 			case $Protocol_unit3 in
 				0) # RS485
@@ -274,7 +274,7 @@ do
                                                                                                                                                            
         	if ((number >= 0 && number <= 255)); then                                                                                                          
                                                                                                                                                            
-        	        # Parsing number for writing the Input Devices                                                                                          
+        	        # Parsing number for writing the 8x Input Devices                                                                                          
                 	i=1                                                                                                                                        
                 	for Digital_Input in `cat $conf_unit3_digitalinput`                                                                                             
                 	do                                                                                                                                         

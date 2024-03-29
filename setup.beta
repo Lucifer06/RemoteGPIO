@@ -1,0 +1,157 @@
+#!/bin/bash
+
+# this script installs RemoteGPIO v3.0 following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
+#
+# this script will accept the following commands on the command line:
+#	setup install
+#	setup uninstall
+
+packageLogFile="/var/log/RemoteGPIO/current"
+
+#### following lines incorporate helper resources into this script
+pkgDir=$( dirname $0 )
+pkgName=$( basename $pkgDir )
+pkgRoot=$( dirname $pkgDir )
+if [ -e "$pkgDir/HelperResources/IncludeHelpers" ]; then
+	source "$pkgDir/HelperResources/IncludeHelpers"
+elif [ -e "$pkgRoot/SetupHelper/HelperResources/IncludeHelpers" ]; then
+	source "$pkgRoot/SetupHelper/HelperResources/IncludeHelpers"
+else
+	echo "$pkgName: helper files not found - can't continue" | tee -a "/data/log/SetupHelper"
+	exit 1
+fi
+#### end of lines to include helper resources
+
+# GitHub account info - fill in as appropriate
+# to include this package in SetupHelper automatic updates
+packageGitHubUser="drtinaz"
+packageGitHubBranch="beta"
+
+
+#### running manually and OK to proceed - prompt for input
+if [ $scriptAction == 'NONE' ] ; then
+	echo
+	echo "The RemoteGPIO is adding external Relays and Digital Inputs"
+	echo "with Dingtian IOT Relay devices either connected via USB or TCP"
+	echo
+	standardActionPrompt
+fi
+
+#### here to do the actual work
+
+if [ $scriptAction == 'INSTALL' ] ; then
+	logMessage "++ Installing RemoteGPIO"
+
+	##
+	## Prepare the devices in /data/RemoteGPIO/sys and conf folder
+	##############################################################
+	tar -xvf /data/RemoteGPIO/FileSets/VersionIndependent/sys.tar.gz -C /data/RemoteGPIO/
+	tar -xvf /data/RemoteGPIO/FileSets/VersionIndependent/bin.tar.gz -C /data/RemoteGPIO/
+	mkdir /data/RemoteGPIO/conf
+	chmod 777 /data/RemoteGPIO/conf
+	touch /data/RemoteGPIO/conf/units.conf
+	chmod 666 /data/RemoteGPIO/conf/units.conf
+	echo "0" > /data/RemoteGPIO/conf/units.conf
+	
+	##
+	## For Large Image only with Node-Red support
+	#############################################
+	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
+	then
+
+		if [ ! -f /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json.orig ]
+		then
+		cp /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json.orig
+		fi
+		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
+		
+	fi
+
+
+	##
+	## Install and launch RemoteGPIO Services
+	#########################################
+	
+	ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
+	ln -sf /data/RemoteGPIO/FileSets/VersionIndependent/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
+	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}') 2>/dev/null
+	/etc/rcS.d/S90rgpio_pins.sh
+	
+
+	logMessage "++ $packageName installed"
+fi
+
+
+# #### uninstalling - check scriptAction again
+# if an install step failed package needs to be removed
+if [ $scriptAction == 'UNINSTALL' ] ; then
+    logMessage "++ Uninstalling RemoteGPIO"
+
+	svc -d /service/rgpio
+	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
+	
+	
+	rm -f /etc/rcS.d/S90rgpio_pins.sh
+
+
+	##
+	## For Large Image only with Node-Red support
+	#############################################
+	if [ $(dbus -y com.victronenergy.settings /Settings/System/ImageType GetValue) == 1 ]
+	then
+		patch -R /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
+		
+	fi
+
+
+	##
+	## Delete devices
+	#################	
+	rm -f /dev/gpio/relay_3
+	rm -f /dev/gpio/relay_4
+	rm -f /dev/gpio/relay_5
+	rm -f /dev/gpio/relay_6
+	rm -f /dev/gpio/relay_7
+	rm -f /dev/gpio/relay_8
+	rm -f /dev/gpio/relay_9
+	rm -f /dev/gpio/relay_a
+	rm -f /dev/gpio/relay_b
+	rm -f /dev/gpio/relay_c
+	rm -f /dev/gpio/relay_d
+	rm -f /dev/gpio/relay_e
+	rm -f /dev/gpio/relay_f
+	rm -f /dev/gpio/relay_g
+	rm -f /dev/gpio/relay_h
+	rm -f /dev/gpio/relay_i
+	rm -f /dev/gpio/digital_input_5
+	rm -f /dev/gpio/digital_input_6
+	rm -f /dev/gpio/digital_input_7
+	rm -f /dev/gpio/digital_input_8
+	rm -f /dev/gpio/digital_input_9
+	rm -f /dev/gpio/digital_input_a
+	rm -f /dev/gpio/digital_input_b
+	rm -f /dev/gpio/digital_input_c
+	rm -f /dev/gpio/digital_input_d
+	rm -f /dev/gpio/digital_input_e
+	rm -f /dev/gpio/digital_input_f
+	rm -f /dev/gpio/digital_input_g
+	rm -f /dev/gpio/digital_input_h
+	rm -f /dev/gpio/digital_input_i
+	rm -f /dev/gpio/digital_input_j
+	rm -f /dev/gpio/digital_input_k
+	
+	rm -f /service/rgpio
+	rm -Rf /data/RemoteGPIO/conf
+	
+	
+		
+	logMessage "++ $packageName uninstalled"
+fi
+
+
+	svc -t /service/dbus-digitalinputs
+
+logMessage "completed"
+	
+# thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
+endScript INSTALL_FILES ADD_DBUS_SETTINGS

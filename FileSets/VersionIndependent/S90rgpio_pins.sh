@@ -9,6 +9,10 @@
 # Description:       rgpio is used to conect expternal Relay box with ModBus/RTU control
 ### END INIT INFO
 
+nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
+
+# Kill existing rgpio_service in case the script is called after HW configuration change:
+kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
 
 get_setting()                                                                                                                                                                                                  
     {                                                                                                                                                                                                      
@@ -20,7 +24,6 @@ set_setting()
     }
 
 
-nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
 nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
 nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
 nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
@@ -40,11 +43,6 @@ if [ $nbunit -eq 3 ]
     then
     nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
 fi
-
-
-# Kill existing rgpio_service in case the script is called after HW configuration change:
-kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
-
 
 
 # Clean existing gpio in case HW configuration has changed
@@ -100,111 +98,104 @@ set_setting /Settings/DigitalInput/19/Type variant:int32:0
 set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
 ## insert links for number of relays and DI
-if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]
-then
-	#Relays
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
+    if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+	    #Relays
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
 
-	#Digital_Inputs
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
-fi
-
-
-if [[ $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]
-then
-	#Relays
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
-
-	#Digital_Inputs
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
-fi
+	    #Digital_Inputs
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    fi
 
 
+    if [[ $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+	    #Relays
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
 
-if [[ $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+	    #Digital_Inputs
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+
+
+    fi
+
+
+
+    if [[ $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
       
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
-fi                
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    fi
 
-
-if [[ $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+    if [[ $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
        
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
-fi
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+    fi
 
 
-if [[ $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
+    if [[ $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
        
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
-fi
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
+    fi
 
 
 
-if [[ $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16  ]]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e
+    if [[ $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16  ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e
        
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
-fi
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
+    fi
 
 
 
-if [[ $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g
+    if [[ $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g
        
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
-fi
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
+    fi
 
 
 
-if [[ $nbrelays -eq 16 ]]
-then
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i
+    if [[ $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i
        
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
-fi
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
+    fi
 
+    ##Create conf files
 
-##Create conf files
-
-#Handle Module 1
-if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
-    then
+    #Handle Module 1
+    #if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
+    #then
     a=2
     b=4
     lastrelay=$(($nbrelayunit1 + $a))
@@ -264,7 +255,9 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
         fi
         echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
     done
+
 fi
+
 
 #Handle Module 2
 if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
