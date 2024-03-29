@@ -188,7 +188,7 @@ fi
 
 
 
-if [$nbrelays -eq 16]
+if [[ $nbrelays -eq 16 ]]
 then
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h
