@@ -338,7 +338,7 @@ fi
 
 ##Create Relays conf files and Digital Inputs conf files
 
-if [ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]
+if [[ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]]
     then
     a=2
     b=4
