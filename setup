@@ -55,6 +55,8 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	touch /data/RemoteGPIO/conf/relays.conf
 	chmod 666 /data/RemoteGPIO/conf/relays.conf
 	echo "0" > /data/RemoteGPIO/conf/relays.conf
+	mkdir /data/RemoteGPIO/FileSets/Conf
+	chmod 777 /data/RemoteGPIO/FileSets/Conf
 	touch /data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf
 	chmod 666 /data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf
 	touch /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf
