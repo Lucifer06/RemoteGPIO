@@ -58,7 +58,6 @@ do
                                 echo "rgpio_service: Starting RemoteGPIO driver" >> /var/log/RemoteGPIO/current
 			fi
 			latch=$((service))
-			latch2=0
 			;;
 		2)
 			##
