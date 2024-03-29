@@ -194,13 +194,11 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
     ##Create conf files
 
     #Handle Module 1
-    #if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
-    #then
     a=2
     b=4
     lastrelay=$(($nbrelayunit1 + $a))
     lastdigin=$(($nbrelayunit1 + $b))
-    echo "" > /data/RemoteGPIO/conf/Relays_unit1.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf
     for relay in $( seq 3 $lastrelay )
     do
         nb=$relay
@@ -223,10 +221,10 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
         elif [[ $nb -eq 18 ]]; then
             nb=i
         fi
-        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit1.conf
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf
     done
 
-    echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf
     for digin in $( seq 5 $lastdigin)
     do
         nb=$digin
@@ -253,7 +251,7 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
         elif [[ $nb -eq 20 ]]; then
             nb=k
         fi
-        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf
     done
 
 fi
@@ -271,7 +269,7 @@ if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
     firstdigin=$(($nbrelayunit1 + $d))
     lastrelay=$(($nbrelayunit1 + $nbrelayunit2 + $a))
     lastdigin=$(($nbrelayunit1 + $nbrelayunit2 + $b))
-    echo "" > /data/RemoteGPIO/conf/Relays_unit2.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Relays_unit2.conf
     for relay in $( seq $firstrelay $lastrelay )
     do
         nb=$relay
@@ -294,10 +292,10 @@ if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
         elif [[ $nb -eq 18 ]]; then
             nb=i
         fi
-        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit2.conf
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Relays_unit2.conf
     done
 
-    echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit2.conf
     for digin in $( seq $firstdigin $lastdigin)
     do
         nb=$digin
@@ -324,7 +322,7 @@ if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
         elif [[ $nb -eq 20 ]]; then
             nb=k
         fi
-        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit2.conf
     done
 fi
 
@@ -339,7 +337,7 @@ if [[ $nbunit -eq 3 ]]
     firstdigin=$(($nbrelayunit1 + $nbrelayunit2 + $d))
     lastrelay=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3 + $a))
     lastdigin=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3 + $b))
-    echo "" > /data/RemoteGPIO/conf/Relays_unit3.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Relays_unit3.conf
     for relay in $( seq $firstrelay $lastrelay )
     do
         nb=$relay
@@ -362,10 +360,10 @@ if [[ $nbunit -eq 3 ]]
         elif [[ $nb -eq 18 ]]; then
             nb=i
         fi
-        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit3.conf
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Relays_unit3.conf
     done
 
-    echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit3.conf
     for digin in $( seq $firstdigin $lastdigin)
     do
         nb=$digin
@@ -392,7 +390,7 @@ if [[ $nbunit -eq 3 ]]
         elif [[ $nb -eq 20 ]]; then
             nb=k
         fi
-        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit3.conf
     done
 fi        
 
