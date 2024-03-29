@@ -26,17 +26,17 @@ nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
 nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
 
 ## Find total number of relays for all modules
-if [ $nbunit = 1 ]
+if [ $nbunit -eq 1 ]
     then
     nbrelays=$nbrelayunit1
 fi
 
-if [ $nbunit = 2 ]
+if [ $nbunit -eq 2 ]
     then
     nbrelays=$(($nbrelayunit1 + $nbrelayunit2))
 fi
 
-if [ $nbunit = 3 ]
+if [ $nbunit -eq 3 ]
     then
     nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
 fi
@@ -100,7 +100,7 @@ set_setting /Settings/DigitalInput/19/Type variant:int32:0
 set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
 
-if [[ $nbrelays = 2 || $nbrelays = 4 || $nbrelays = 6 || $nbrelays = 8 || $nbrelays = 10 || $nbrelays = 12 || $nbrelays = 14 || $nbrelays = 16 ]]
+if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]
 then
 	#Relays
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
@@ -112,7 +112,7 @@ then
 fi
 
 
-if [[ $nbrelays = 4 || $nbrelays = 6 || $nbrelays = 8 || $nbrelays = 10 || $nbrelays = 12 || $nbrelays = 14 || $nbrelays = 16 ]]
+if [[ $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]
 then
 	#Relays
 	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
@@ -125,7 +125,7 @@ fi
 
 
 
-if [[ $nbrelays = 6 || $nbrelays = 8 || $nbrelays = 10 || $nbrelays = 12 || $nbrelays = 14 || $nbrelays = 16 ]]                                                
+if [[ $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
@@ -137,7 +137,7 @@ then
 fi                
 
 
-if [[ $nbrelays = 8 || $nbrelays = 10 || $nbrelays = 12 || $nbrelays = 14 || $nbrelays = 16 ]]                                                
+if [[ $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
@@ -149,7 +149,7 @@ then
 fi
 
 
-if [[ $nbrelays = 10 || $nbrelays = 12 || $nbrelays = 14 || $nbrelays = 16 ]]                                                
+if [[ $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
@@ -162,7 +162,7 @@ fi
 
 
 
-if [[ $nbrelays = 12 || $nbrelays = 14 || $nbrelays = 16  ]]                                                
+if [[ $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16  ]]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
@@ -175,7 +175,7 @@ fi
 
 
 
-if [[ $nbrelays = 14 || $nbrelays = 16 ]]                                                
+if [[ $nbrelays -eq 14 || $nbrelays -eq 16 ]]                                                
 then                                                              
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f
@@ -188,8 +188,8 @@ fi
 
 
 
-if [ $nbrelays = 16 ]                                                
-then                                                              
+if [$nbrelays -eq 16]
+then
     #Relays                                                   
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h
     ln -sf /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i
@@ -203,7 +203,7 @@ fi
 ##Create conf files
 
 #Handle Module 1
-if [[ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]]
+if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
     then
     a=2
     b=4
@@ -227,7 +227,7 @@ if [[ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]]
 fi
 
 #Handle Module 2
-if [[ $nbunit = 2 || $nbunit = 3 ]]
+if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
     then
     a=2
     b=4
