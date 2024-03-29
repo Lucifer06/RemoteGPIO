@@ -25,7 +25,6 @@ get_IP()
 
 latch=0
 latch2=$(cat /data/RemoteGPIO/conf/units.conf)
-latch3=$(cat /data/RemoteGPIO/conf/relays.conf)
 timer=$(date +%s)
 
 while true
@@ -57,8 +56,7 @@ do
                                 svc -u /service/rgpio
                                 echo "rgpio_service: Starting RemoteGPIO driver" >> /var/log/RemoteGPIO/current
 			fi
-			latch=$((service))
-			latch2=0
+			latch=$((service))	
 			;;
 		2)
 			##
@@ -115,39 +113,16 @@ do
 	## Update units.conf and re-execute launch script and update GUI - reboot needed to take effects
 	################################################################################################
 	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
-	nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
-	nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
-	nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
-
-	## Find total number of relays for all modules
-	if [[ $nbunit -eq 1 ]]
-    	then
-    	nbrelays=$nbrelayunit1
-
-	elif [[ $nbunit -eq 2 ]]
-    	then
-    	nbrelays=$(($nbrelayunit1 + $nbrelayunit2))
-
-	elif [[ $nbunit -eq 3 ]]
-		then
-    	nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
-	fi
-
-
-	if (( $nbunit != $latch2 || $nbrelays != $latch3 ))
-	#if (( $nbunit != $latch2))
+	if (( $nbunit != $latch2 ))  
 	then
-		echo "rgpio_service: Configuration has been updated" >> /var/log/RemoteGPIO/current
+		echo "rgpio_service: Configuration been updated" >> /var/log/RemoteGPIO/current
 		latch2=$nbunit
-		latch3=$nbrelays
 		echo $nbunit > /data/RemoteGPIO/conf/units.conf
-		echo $nbrelays > /data/RemoteGPIO/conf/relays.conf
 		svc -t /service/dbus-systemcalc-py
 		svc -t /service/dbus-digitalinputs/
 		/etc/rcS.d/S90rgpio_pins.sh
 	fi
-	latch2=$(cat /data/RemoteGPIO/conf/units.conf)
-	latch3=$(cat /data/RemoteGPIO/conf/relays.conf)
+	latch2=$(cat /data/RemoteGPIO/conf/units.conf)  
 
         ##                                                        
         ## Watchdog                                                              
