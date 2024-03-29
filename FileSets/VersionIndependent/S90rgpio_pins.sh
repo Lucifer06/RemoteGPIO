@@ -215,7 +215,23 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
         nb=$relay
         if [[ $nb -eq 10 ]]; then
             nb=a
-        fi #; if [ $nb=11 ] then nb=b fi; if [ $nbrelays=12 ] then nb=c fi; if [ $nb=13 ] then nb=d fi; if [ $nb=14 ] then nb=e fi; if [ $nb=15 ] then nb=f fi; if [ $nb=16 ] then nb=g fi;
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        fi
         echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit1.conf
     done
 
@@ -223,7 +239,29 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit -eq 3 ]]
     for digin in $( seq 5 $lastdigin)
     do
         nb=$digin
-        #if [ $nb=10 ] then nb=a fi; if [ $nb=11 ] then nb=b fi; if [ $nbrelays=12 ] then nb=c fi; if [ $nb=13 ] then nb=d fi; if [ $nb=14 ] then nb=e fi; if [ $nb=15 ] then nb=f fi; if [ $nb=16 ] then nb=g fi; if [ $nb=17 ] then nb=h fi; if [ $nb=18 ] then nb=i fi
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        elif [[ $nb -eq 19 ]]; then
+            nb=j
+        elif [[ $nb -eq 20 ]]; then
+            nb=k
+        fi
         echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
     done
 fi
