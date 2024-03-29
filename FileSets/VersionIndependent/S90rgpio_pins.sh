@@ -340,8 +340,10 @@ fi
 
 if [ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]
     then
-    lastrelay=$(($nbrelayunit1 + 2))
-    lastdigin=$(($nbrelayunit1 + 4))
+    a=2
+    b=4
+    lastrelay=$(($nbrelayunit1 + $a))
+    lastdigin=$(($nbrelayunit1 + $b))
     echo "/dev/gpio/relay_3/value" > /data/RemoteGPIO/conf/Relays_unit1.conf
     for relay in $( seq 4 $lastrelay )
     do
