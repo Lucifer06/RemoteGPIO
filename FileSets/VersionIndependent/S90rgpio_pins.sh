@@ -338,6 +338,7 @@ fi
 
 ##Create Relays conf files and Digital Inputs conf files
 
+#Handle Module 1
 if [[ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]]
     then
     a=2
@@ -353,6 +354,32 @@ if [[ $nbunit = 1 || $nbunit = 2 || $nbunit = 3 ]]
     for digin in $( seq 6 $lastdigin)
     do
     echo "/dev/gpio/digital_input_$digin/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+    done
+fi
+
+#Handle Module 2
+if [[ $nbunit = 2 || $nbunit = 3 ]]
+    then
+    a=2
+    b=4
+    c=3
+    d=5
+    e=1
+    firstrelay=$(($nbrelayunit1 + $c))
+    firstdigin=$(($nbrelayunit1 + $d))
+    secondrelay=$(($firstrelay + $e))
+    seconddigin=$(($firstdigin + $e))
+    lastrelay=$(($nbrelayunit1 + $nbrelayunit2 + $a))
+    lastdigin=$(($nbrelayunit1 + $nbrelayunit2 + $b))
+    echo "/dev/gpio/relay_$firstrelay/value" > /data/RemoteGPIO/conf/Relays_unit2.conf
+    for relay in $( seq $secondrelay $lastrelay )
+    do
+    echo "/dev/gpio/relay_$relay/value" >> /data/RemoteGPIO/conf/Relays_unit2.conf
+    done
+    echo "/dev/gpio/digital_input_$firstdigin/value" > /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+    for digin in $( seq $seconddigin $lastdigin)
+    do
+    echo "/dev/gpio/digital_input_$digin/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
     done
 fi
 
