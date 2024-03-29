@@ -166,7 +166,7 @@ do
 		##                                                                             
         ## Handle Unit3 with 4x Relays                                                 
         #################################                                              
-        if [ $nbunit -eq 3 ] 
+        if [[ $nbunit -eq 3 ]]
 		then
         	index=1                                                                        
         	i=1                                                                            
@@ -259,7 +259,7 @@ do
 	##                                                                                                                                              
         ## Handle Unit3 with 8x Digital_Inputs                                                                                                          
         #################################                                                                                                               
-	if [ $nbunit -eq 3 ]                                                                                                                  
+	if [[ $nbunit -eq 3 ]]
         then
 			case $Protocol_unit3 in
 				0) # RS485
