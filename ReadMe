@@ -1,4 +1,31 @@
-*********************    NEW VERSION 3.x (beta)    **************************
+*********************    NEW VERSION 4.X (beta)  ********************
+
+RemoteGPIO is now working with up to 3 relay modules, with a total of up to 16 relays/inputs across all connected/active modules.
+
+Module 1 may select 2, 4, 8 or 16 relays/inputs.
+Modules 2 and 3 may select 2,4 or 8 relays/inputs.
+You may select any combination of modules and number of relays/inputs for each module as long as the total number of relays/inputs accross all connected/active modules does not exceed 16x.
+
+Currently the driver is not capable of reading the relay status, only writing the status (switching the relay) to the modules. This means that if any of the relays are controlled outside of venus, the gui relay status will not be updated on any externally controlled status change. Currently the only way to dynamically update the gui from external state changes is thru node-red.
+
+**INSTALLATION INSTRUCTIONS**
+1: Install Kevin Windrem's setup helper. Refer to Kevin's github for instructions.
+	https://github.com/kwindrem/SetupHelper
+
+2: Open Package Manager and install GuiMods.
+
+3: Open Package Manager/inactive packages
+
+4: (For version 3.x) Scroll down and add the package RemoteGPIO
+   (For version 4.x) Click 'new' and add the following:
+		packagename:RemoteGPIO
+		github user:Lucifer06
+		branch/tag: beta
+
+5: Once RemoteGPIO is installed and venus is done rebooting, go to menu/IO/RemoteGPIO and enable RemoteGPIO. Complete your configuration then reboot venus.
+
+
+*********************    NEW VERSION 3.x    **************************
 
 RemoteGPIO is now working natively with D-Bus and do not anymore require Node-Red to be installed.
 Additionnal Relais are displayed on multiple Relay Overview pages with up 18.
