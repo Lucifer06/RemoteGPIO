@@ -1,5 +1,6 @@
-v4.0.1alpha
-	add RemoteGPIO menu items and dbus settings in preperation for selecting number of relays in each module
+v4.0.xxalpha
+	add relay module 3
+	add dynamic number of relays per unit
 v3.3
 	bump to next version number
 v3.2.16
