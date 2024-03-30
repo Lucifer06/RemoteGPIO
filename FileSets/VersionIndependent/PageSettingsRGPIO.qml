@@ -26,7 +26,7 @@ MbPage {
 				show: enable.checked
             	possibleValues: [
                 	MbOption {description: qsTr("1 Unit Installed"); value: 1},
-					MbOption {description: qsTr("2 Unit Installed"); value: 2},
+					MbOption {description: qsTr("2 Units Installed"); value: 2},
                 	MbOption {description: qsTr("3 Units Installed"); value: 3}
             	]
             }

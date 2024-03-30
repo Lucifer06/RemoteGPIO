@@ -1,3 +1,6 @@
+v4.0.xxalpha
+	add relay module 3
+	add dynamic number of relays per unit
 v3.3
 	bump to next version number
 v3.2.16

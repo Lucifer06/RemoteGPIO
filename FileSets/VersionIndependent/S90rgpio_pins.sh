@@ -23,6 +23,28 @@ set_setting()
 		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
     }
 
+
+nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
+nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
+nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
+
+## Find total number of relays for all modules
+if [ $nbunit -eq 1 ]
+    then
+    nbrelays=$nbrelayunit1
+fi
+
+if [ $nbunit -eq 2 ]
+    then
+    nbrelays=$(($nbrelayunit1 + $nbrelayunit2))
+fi
+
+if [ $nbunit -eq 3 ]
+    then
+    nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
+fi
+
+
 # Clean existing gpio in case HW configuration has changed
 rm -f /dev/gpio/relay_3
 rm -f /dev/gpio/relay_4
@@ -75,79 +97,302 @@ set_setting /Settings/DigitalInput/18/Type variant:int32:0
 set_setting /Settings/DigitalInput/19/Type variant:int32:0
 set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
-if [ $nbunit = 1 ]
-then
-	#Relays
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
+## insert links for number of relays and DI
+if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
+    if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+	    #Relays
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
+
+	    #Digital_Inputs
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
+    fi
 
 
-	#Digital_Inputs
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
-	ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+    if [[ $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+	    #Relays
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
 
+	    #Digital_Inputs
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
+	    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
+
+
+    fi
+
+
+
+    if [[ $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
+      
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    fi
+
+    if [[ $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
+       
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
+    fi
+
+
+    if [[ $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
+       
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
+    fi
+
+
+
+    if [[ $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16  ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio113 /dev/gpio/relay_d
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio114 /dev/gpio/relay_e
+       
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio215 /dev/gpio/digital_input_f
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio216 /dev/gpio/digital_input_g
+    fi
+
+
+
+    if [[ $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio115 /dev/gpio/relay_f
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio116 /dev/gpio/relay_g
+       
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio217 /dev/gpio/digital_input_h
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio218 /dev/gpio/digital_input_i
+    fi
+
+
+
+    if [[ $nbrelays -eq 16 ]]; then
+        #Relays
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio117 /dev/gpio/relay_h
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio118 /dev/gpio/relay_i
+       
+        #Digital_Inputs
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio219 /dev/gpio/digital_input_j
+        ln -sf /data/RemoteGPIO/sys/class/gpio/gpio220 /dev/gpio/digital_input_k
+    fi
+
+    ##Create conf files
+
+    #Handle Module 1
+    a=2
+    b=4
+    lastrelay=$(($nbrelayunit1 + $a))
+    lastdigin=$(($nbrelayunit1 + $b))
+    echo "" > /data/RemoteGPIO/conf/Relays_unit1.conf
+    for relay in $( seq 3 $lastrelay )
+    do
+        nb=$relay
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        fi
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit1.conf
+    done
+
+    echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+    for digin in $( seq 5 $lastdigin)
+    do
+        nb=$digin
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        elif [[ $nb -eq 19 ]]; then
+            nb=j
+        elif [[ $nb -eq 20 ]]; then
+            nb=k
+        fi
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+    done
 
 fi
 
 
+#Handle Module 2
+if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
+    then
+    a=2
+    b=4
+    c=3
+    d=5
+    e=1
+    firstrelay=$(($nbrelayunit1 + $c))
+    firstdigin=$(($nbrelayunit1 + $d))
+    lastrelay=$(($nbrelayunit1 + $nbrelayunit2 + $a))
+    lastdigin=$(($nbrelayunit1 + $nbrelayunit2 + $b))
+    echo "" > /data/RemoteGPIO/conf/Relays_unit2.conf
+    for relay in $( seq $firstrelay $lastrelay )
+    do
+        nb=$relay
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        fi
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit2.conf
+    done
 
-if [ $nbunit = 2 ]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
-      
-                                                                          
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
+    echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+    for digin in $( seq $firstdigin $lastdigin)
+    do
+        nb=$digin
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        elif [[ $nb -eq 19 ]]; then
+            nb=j
+        elif [[ $nb -eq 20 ]]; then
+            nb=k
+        fi
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+    done
+fi
 
+#Handle Module 3
+if [[ $nbunit -eq 3 ]]
+    then
+    a=2
+    b=4
+    c=3
+    d=5
+    firstrelay=$(($nbrelayunit1 + $nbrelayunit2 + $c))
+    firstdigin=$(($nbrelayunit1 + $nbrelayunit2 + $d))
+    lastrelay=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3 + $a))
+    lastdigin=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3 + $b))
+    echo "" > /data/RemoteGPIO/conf/Relays_unit3.conf
+    for relay in $( seq $firstrelay $lastrelay )
+    do
+        nb=$relay
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        fi
+        echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/conf/Relays_unit3.conf
+    done
 
-fi                
-
-
-
-if [ $nbunit = 3 ]                                                
-then                                                              
-    #Relays                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio103 /dev/gpio/relay_3
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio104 /dev/gpio/relay_4
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio105 /dev/gpio/relay_5
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio106 /dev/gpio/relay_6
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio107 /dev/gpio/relay_7
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio108 /dev/gpio/relay_8
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio109 /dev/gpio/relay_9
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio110 /dev/gpio/relay_a
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio111 /dev/gpio/relay_b
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio112 /dev/gpio/relay_c
-       
-                                                                          
-    #Digital_Inputs                                                   
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio205 /dev/gpio/digital_input_5
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio206 /dev/gpio/digital_input_6
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio207 /dev/gpio/digital_input_7
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio208 /dev/gpio/digital_input_8
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio209 /dev/gpio/digital_input_9
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio210 /dev/gpio/digital_input_a
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio211 /dev/gpio/digital_input_b
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio212 /dev/gpio/digital_input_c
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio213 /dev/gpio/digital_input_d
-    ln -sf /data/RemoteGPIO/sys/class/gpio/gpio214 /dev/gpio/digital_input_e
-
-
-fi                
+    echo "" > /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
+    for digin in $( seq $firstdigin $lastdigin)
+    do
+        nb=$digin
+        if [[ $nb -eq 10 ]]; then
+            nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
+        elif [[ $nb -eq 13 ]]; then
+            nb=d
+        elif [[ $nb -eq 14 ]]; then
+            nb=e
+        elif [[ $nb -eq 15 ]]; then
+            nb=f
+        elif [[ $nb -eq 16 ]]; then
+            nb=g
+        elif [[ $nb -eq 17 ]]; then
+            nb=h
+        elif [[ $nb -eq 18 ]]; then
+            nb=i
+        elif [[ $nb -eq 19 ]]; then
+            nb=j
+        elif [[ $nb -eq 20 ]]; then
+            nb=k
+        fi
+        echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
+    done
+fi        
 
 
 

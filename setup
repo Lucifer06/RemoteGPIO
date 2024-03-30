@@ -25,7 +25,7 @@ fi
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 packageGitHubUser="drtinaz"
-packageGitHubBranch="beta"
+packageGitHubBranch="alpha"
 
 
 #### running manually and OK to proceed - prompt for input
@@ -52,6 +52,22 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	touch /data/RemoteGPIO/conf/units.conf
 	chmod 666 /data/RemoteGPIO/conf/units.conf
 	echo "0" > /data/RemoteGPIO/conf/units.conf
+	touch /data/RemoteGPIO/conf/relays.conf
+	chmod 666 /data/RemoteGPIO/conf/relays.conf
+	echo "0" > /data/RemoteGPIO/conf/relays.conf
+	touch /data/RemoteGPIO/conf/Relays_unit1.conf
+	chmod 666 /data/RemoteGPIO/conf/Relays_unit1.conf
+	touch /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+	chmod 666 /data/RemoteGPIO/conf/Digital_Inputs_unit1.conf
+	touch /data/RemoteGPIO/conf/Relays_unit2.conf
+	chmod 666 /data/RemoteGPIO/conf/Relays_unit2.conf
+	touch /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+	chmod 666 /data/RemoteGPIO/conf/Digital_Inputs_unit2.conf
+	touch /data/RemoteGPIO/conf/Relays_unit3.conf
+	chmod 666 /data/RemoteGPIO/conf/Relays_unit3.conf
+	touch /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
+	chmod 666 /data/RemoteGPIO/conf/Digital_Inputs_unit3.conf
+
 	
 	##
 	## For Large Image only with Node-Red support
