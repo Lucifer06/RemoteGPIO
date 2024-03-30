@@ -19,7 +19,7 @@ Currently the driver is not capable of reading the relay status, only writing th
 4: (For version 3.x) Scroll down and add the package RemoteGPIO
    (For version 4.x) Click 'new' and add the following:
 		packagename:RemoteGPIO
-		github user:Lucifer06
+		github user:drtinaz
 		branch/tag: beta
 
 5: Once RemoteGPIO is installed and venus is done rebooting, go to menu/IO/RemoteGPIO and enable RemoteGPIO. Complete your configuration then reboot venus.
