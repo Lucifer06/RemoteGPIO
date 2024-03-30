@@ -222,7 +222,7 @@ do
 	        i=1                                                                             
 	        for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
 	        do
-			echo $((($number & $i) != 0)) > $Digital_Input 
+			echo $((($number & $i) != 0)) > $Digital_Input
 			i=$((i*2)) 
 		done
         fi
@@ -289,7 +289,7 @@ do
 	##                                                                                                                                              
 	## Latency vs CPU load                                                                                                                      
 	#################################
-        sleep $latency                     
+    sleep $latency                     
 
 
 
