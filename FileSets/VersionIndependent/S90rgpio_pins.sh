@@ -198,7 +198,7 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
     b=4
     lastrelay=$(($nbrelayunit1 + $a))
     lastdigin=$(($nbrelayunit1 + $b))
-    echo "" > /data/RemoteGPIO/conf/Relays_unit1.conf
+    echo "" > /data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf
     for relay in $( seq 3 $lastrelay )
     do
         nb=$relay
