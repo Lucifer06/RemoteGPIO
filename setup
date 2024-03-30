@@ -157,7 +157,7 @@ fi
 
 logMessage "completed"
 
-#rebootNeeded=true
+rebootNeeded=true
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript INSTALL_FILES ADD_DBUS_SETTINGS
