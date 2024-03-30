@@ -6,7 +6,7 @@ Module 1 may select 2, 4, 8 or 16 relays/inputs.
 Modules 2 and 3 may select 2,4 or 8 relays/inputs.
 You may select any combination of modules and number of relays/inputs for each module as long as the total number of relays/inputs accross all connected/active modules does not exceed 16x.
 
-Currently the driver is not capable of reading the relay status, only writing the status (switching the relay) to the modules. This means that if any of the relays are controlled outside of venus, the gui relay status will not be updated on any externally controlled status change. Currently the only way to dynamically update the gui from external state changes is thru node-red.
+Currently the driver is not capable of reading the relay status, only writing the status (switching the relay) to the modules. This means that if any of the relays are controlled outside of venus, the gui relay status will not be updated on any externally controlled status change. Currently the only way to dynamically update the gui from external state changes is thru node-red. Import the flows json from the Node-red folder. There are instructions in the read flow on how to configure it.
 
 **INSTALLATION INSTRUCTIONS**
 1: Install Kevin Windrem's setup helper. Refer to Kevin's github for instructions.
