@@ -1,4 +1,25 @@
-*********************    NEW VERSION 4.X (beta)  ********************
+*********************************************************
+***********              RemoteGPIO               *******
+***********   PLEASE READ IMPORTANT INFORMATION   ********
+***********   INSTALL/SETUP INSTRUCTIONS BELOW    ********
+**********************************************************
+
+
+*********************    NEW VERSION 3.x    **************************
+
+RemoteGPIO is now working natively with D-Bus and no longer requires Node-Red to be installed.
+Built in relays and additionnal relays (up to a total of 18) are displayed on a single scrolling Relay Overview page (Thank you to Kevin Windrem and GuiMods).
+Additional Digital Inputs are also supported and available for configuration via the IO/Digital Inputs settings page.
+
+In previous version the « driver » for controlling the relays was implemented in Node-Red.
+Now the driver is integrated as native D-Bus and is running as a service in Venus OS.
+
+Node-Red is still useful for adding any logics to turn on or off any relays based on external dependencies.
+These changes are reducing the CPU load (about 4% usage) and are decreasing latency. (Latency can be set in RemoteGPIO configuration menu high/medium/low).
+
+It is recommended to use USB adapters based on FTDI FT232R chipset and program it with Product Description = "RemoteGPIO"
+
+************* UPDATE As of v3.2 ************
 
 RemoteGPIO is now working with up to 3 relay modules, with a total of up to 16 relays/inputs across all connected/active modules. Number of modules and relays per module can be changed dynamically from the RemoteGPIO menu in gui (menu>IO>RemoteGPIO).
 
@@ -6,44 +27,32 @@ Module 1 may select 2, 4, 8 or 16 relays/inputs.
 Modules 2 and 3 may select 2,4 or 8 relays/inputs.
 You may select any combination of modules and number of relays/inputs for each module as long as the total number of relays/inputs accross all connected/active modules does not exceed 16x.
 
-Currently the driver is not capable of reading the relay status, only writing the status (switching the relay) to the modules. This means that if any of the relays are controlled outside of venus, the gui relay status will not be updated on any externally controlled status change. Currently the only way to dynamically update the gui from external state changes is thru node-red. Import the flows json from the Node-red folder. There are instructions in the read flow on how to configure it. If you are using node-red to control any of the external relays, be sure to include a debounce node to avoid looping (Rapid on/off cycling of the relay). I find 100ms to be adequate.
+Currently the driver is not capable of reading the relay status, only writing the status (switching the relay) to the modules. This means that if any of the relays are controlled outside of venus, the gui relay status will not be updated on any externally controlled status change. Currently the only way to dynamically update the gui from external state changes is thru node-red. Import the flows json from the Node-red folder. There are instructions in the read relays flow on how to configure it. If you are using node-red to control any of the external relays, be sure to include a debounce node to avoid looping (Rapid on/off cycling of the relay). I find 100ms to be adequate.
 
-**INSTALLATION INSTRUCTIONS**
-1: Install Kevin Windrem's setup helper. Refer to Kevin's github for instructions.
-	https://github.com/kwindrem/SetupHelper
+*******************************************
+******  INSTALLATION INSTRUCTIONS  ********
+*******************************************
 
-2: Open Package Manager and install GuiMods.
+1:	If Package Manager and GuiMods is already installed and running, skip to step 3.
 
-3: Open Package Manager/inactive packages
+2:	Install Kevin Windrem's setup helper. Refer to Kevin's github for instructions. https://github.com/kwindrem/SetupHelper
 
-4: (For version 3.x) Scroll down and add the package RemoteGPIO
-   (For version 4.x) Click 'new' and add the following:
-		packagename:RemoteGPIO
-		github user:drtinaz
-		branch/tag: beta
+2:	Install GuiMods:
+		a:	Go to settings>package manager>inactive packages
+		b:	Find GuiMods in the list and add it to active packages
+		c:	Wait until GuiMods installs and reboots the gui
 
-5: Once RemoteGPIO is installed and venus is done rebooting, go to menu/IO/RemoteGPIO and enable RemoteGPIO. Complete your configuration then reboot venus.
+3:	Install RemoteGPIO
+		a:	Go to settings>package manager>inactive packages.
+		b:	Find RemoteGPIO in the list and add it to active packages.
+			(If RemoteGPIO is not on the list, it can be added manually > Package Name:RemoteGPIO githubusername:Lucifer06 branch/tag:main)
+		c:	Once install is complete, the system will reboot.
 
-
-*********************    NEW VERSION 3.x    **************************
-
-RemoteGPIO is now working natively with D-Bus and do not anymore require Node-Red to be installed.
-Additionnal Relais are displayed on multiple Relay Overview pages with up 18.
-Digital Interfaces are also supported
-
-In previous version the « driver » for controlling the relays was implemented in Node-Red.
-Now the driver is integrated as native D-Bus and is running as a service in Venus OS.
-
-Node-Red is still useful for adding any logics to turn on or off any relays based on external dependencies.
-These changes are reducing the CPU load (about 4% usage) and are decreasing latency
-
-It is recommend using USB adapters based on FTDI FT232R chipset and program it with Product Description = "RemoteGPIO"
-
-Todo: 
-1/ Add supports for 3x units (2x are currently supported)
-
-2/ Add support of various Dingtian units size (2, 4, 8, 16 I/Os)
-
+4:	Enable and configure RemoteGPIO
+		a:	Go to menu>IO>RemoteGPIO and enable RemoteGPIO.
+		b:	Select number of relay modules
+		c:	For each module unit select the protocol, USB port (if using rs485), IP address of the module, and the number of relays for each module.
+		d:	Reboot the venus device
 
 **************************   OLD   ********************************************
 
