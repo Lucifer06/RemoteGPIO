@@ -24,8 +24,8 @@ fi
 
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
-packageGitHubUser="drtinaz"
-packageGitHubBranch="alpha"
+packageGitHubUser="Lucifer06"
+packageGitHubBranch="main"
 
 
 #### running manually and OK to proceed - prompt for input
@@ -156,8 +156,6 @@ fi
 	svc -t /service/dbus-digitalinputs
 
 logMessage "completed"
-
-#rebootNeeded=true
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript INSTALL_FILES ADD_DBUS_SETTINGS
