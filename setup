@@ -24,6 +24,7 @@ fi
 
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
+
 packageGitHubUser="Lucifer06"
 packageGitHubBranch="main"
 
