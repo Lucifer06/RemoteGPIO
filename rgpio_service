@@ -40,7 +40,7 @@ do
 			if [ $service != $latch ] 
 			then
 				svc -d /service/rgpio
-				echo "rgpio_service: Stoping RemoteGPIO driver" >> /var/log/RemoteGPIO/current
+				echo "rgpio_service: Stopping RemoteGPIO driver" >> /var/log/RemoteGPIO/current
 				set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
 				svc -t /service/dbus-systemcalc-py
 				svc -t /service/dbus-digitalinputs/
