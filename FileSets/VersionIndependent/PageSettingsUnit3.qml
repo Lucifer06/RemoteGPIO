@@ -5,17 +5,17 @@ import "utils.js" as Utils
 MbPage {
 	id: root
 
-        property string rgpioSettings: "dbus/com.victronenergy.settings/Settings/RemoteGPIO/Unit1"
+        property string rgpioSettings: "dbus/com.victronenergy.settings/Settings/RemoteGPIO/Unit3"
         property string serviceSetting: "dbus/com.victronenergy.settings/Settings/Services/RemoteGPIO"
 
-	title: qsTr("Unit 1 Configuration")
+	title: qsTr("Unit 3 Configuration")
 
 
 	model: VisualModels {
 		VisibleItemModel {
 
 	    	MbEditBox {
-            	description: qsTr("Unit 1 IP Address")
+            	description: qsTr("Unit 3 IP Address")
             	maximumLength: 15
 				item.bind: [rgpioSettings, "/IP"]
             	matchString: ".0123456789"
@@ -40,8 +40,7 @@ MbPage {
                 possibleValues: [
                     MbOption {description: qsTr("2 Relays"); value: 2},
                     MbOption {description: qsTr("4 Relays"); value: 4},
-                    MbOption {description: qsTr("8 Relays"); value: 8},
-                    MbOption {description: qsTr("16 Relays"); value: 16}
+                    MbOption {description: qsTr("8 Relays"); value: 8}
                 ]
             }
 
@@ -52,19 +51,19 @@ MbPage {
                 show: protocol.value == 0
                 possibleValues: [
                     MbOption {description: qsTr("USB0"); value: "/dev/ttyUSB0"},
-                    MbOption {description: qsTr("USB1"); value: "/dev/ttyUSB1"},
+					MbOption {description: qsTr("USB1"); value: "/dev/ttyUSB1"},
                     MbOption {description: qsTr("USB2"); value: "/dev/ttyUSB2"}
                 ]
             }
                         
         	MbItemText {                                                               
-            	text: qsTr("Relay module needs to be configured with Addr = 1. This applies for both RS485 and TCP protocols. When using TCP both TCP server and TCP client protocols must select RTU over TCP. Total number of relays for ALL connected modules MUST NOT exceed 16!")     
+            	text: qsTr("Relay module needs to be configured with Addr = 3. This applies for both RS485 and TCP protocols. When using TCP both TCP server and TCP client protocols must select RTU over TCP. Total number of relays for ALL connected modules MUST NOT exceed 16!")     
             	wrapMode: Text.WordWrap                                            
         	}    
 
         	MbSwitch {                                  
             	id: reboot                           
-            	name: qsTr("Reboot Unit 1?")                 
+            	name: qsTr("Reboot Unit 3?")                 
 				bind: [rgpioSettings, "/Reboot"]
         	}         
 		

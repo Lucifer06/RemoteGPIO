@@ -26,7 +26,8 @@ MbPage {
 				show: enable.checked
             	possibleValues: [
                 	MbOption {description: qsTr("1 Unit Installed"); value: 1},
-                	MbOption {description: qsTr("2 Units Installed"); value: 2}
+					MbOption {description: qsTr("2 Units Installed"); value: 2},
+                	MbOption {description: qsTr("3 Units Installed"); value: 3}
             	]
             }
 
@@ -39,13 +40,19 @@ MbPage {
 			MbSubMenu {
 				description: qsTr("Unit 1")
 				subpage: Component { PageSettingsUnit1 {} }
-				show: enable.checked && (numberunits.value == 1 || numberunits.value == 2)
+				show: enable.checked && (numberunits.value == 1 || numberunits.value == 2 || numberunits.value == 3)
 			}
 
 			MbSubMenu {
 				description: qsTr("Unit 2")
 				subpage: Component { PageSettingsUnit2 {} }
-				show: enable.checked && numberunits.value == 2
+				show: enable.checked && (numberunits.value == 2 || numberunits.value == 3)
+			}
+
+			MbSubMenu {
+				description: qsTr("Unit 3")
+				subpage: Component { PageSettingsUnit3 {} }
+				show: enable.checked && numberunits.value == 3
 			}
                                  
             MbItemOptions {
