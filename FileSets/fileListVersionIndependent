@@ -2,4 +2,5 @@
 /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
 /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 /opt/victronenergy/gui/qml/PageSettingsUnit3.qml
+/opt/victronenergy/gui/qml/PageSettingsReadRelays.qml
 /etc/venus/gpio_list

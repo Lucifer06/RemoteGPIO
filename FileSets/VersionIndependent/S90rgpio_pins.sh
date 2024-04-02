@@ -204,22 +204,6 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
         nb=$relay
         if [[ $nb -eq 10 ]]; then
             nb=a
-        elif [[ $nb -eq 11 ]]; then
-            nb=b
-        elif [[ $nb -eq 12 ]]; then
-            nb=c
-        elif [[ $nb -eq 13 ]]; then
-            nb=d
-        elif [[ $nb -eq 14 ]]; then
-            nb=e
-        elif [[ $nb -eq 15 ]]; then
-            nb=f
-        elif [[ $nb -eq 16 ]]; then
-            nb=g
-        elif [[ $nb -eq 17 ]]; then
-            nb=h
-        elif [[ $nb -eq 18 ]]; then
-            nb=i
         fi
         echo "/dev/gpio/relay_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf
     done
@@ -230,26 +214,6 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
         nb=$digin
         if [[ $nb -eq 10 ]]; then
             nb=a
-        elif [[ $nb -eq 11 ]]; then
-            nb=b
-        elif [[ $nb -eq 12 ]]; then
-            nb=c
-        elif [[ $nb -eq 13 ]]; then
-            nb=d
-        elif [[ $nb -eq 14 ]]; then
-            nb=e
-        elif [[ $nb -eq 15 ]]; then
-            nb=f
-        elif [[ $nb -eq 16 ]]; then
-            nb=g
-        elif [[ $nb -eq 17 ]]; then
-            nb=h
-        elif [[ $nb -eq 18 ]]; then
-            nb=i
-        elif [[ $nb -eq 19 ]]; then
-            nb=j
-        elif [[ $nb -eq 20 ]]; then
-            nb=k
         fi
         echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf
     done

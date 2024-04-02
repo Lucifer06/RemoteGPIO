@@ -1,3 +1,7 @@
+v3.2.1
+	Remove menu option for 16x relay module for unit1 (currently not supported)
+	Add support for reading relay state
+	Fix syntax errors and cleanup white space in driver
 v3.2
 	Add support for 3 relays and dynamic sellection of number of relays per unit
 v3.1:

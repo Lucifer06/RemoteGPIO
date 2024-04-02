@@ -10,32 +10,35 @@ exec 2>&1
 
 conf_unit1_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit1.conf"
 conf_unit1_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf"
-conf_unit2_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit2.conf"                            
+conf_unit2_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit2.conf"
 conf_unit2_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit2.conf"
-conf_unit3_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit3.conf"                            
+conf_unit3_relay="/data/RemoteGPIO/FileSets/Conf/Relays_unit3.conf"
 conf_unit3_digitalinput="/data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit3.conf"
 zero=0
 prev_const1=0
 prev_const2=0
 prev_const3=0
+prev_state1=0
+prev_state2=0
+prev_state3=0
 timer=$(date +%s)
 
 ##
 ## Handle Dbus Settings
 ###############################
-get_setting()                                                                                                                                                                                                            
-	{                                                                                                                                                                                                                
-		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'                                         
-	}                                                                                                                                                                                                                
-                                                                                                                                                                                                                         
-set_setting()                                                                                                                                                                                                            
-	{                                                                                                                                                                                                                
-		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2 >> /dev/null                                                                  
+get_setting()
+	{
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'
+	}
+
+set_setting()
+	{
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2 >> /dev/null
 	}
 
 get_string()
-	{                                                                                                                                                                                                                               
-		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/variant/ { print $2 }'                                                                      
+	{
+		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/variant/ { print $2 }'
 	}
 
 latency=$(dbus -y com.victronenergy.settings  /Settings/RemoteGPIO/Latency GetValue)
@@ -45,6 +48,7 @@ latency=$(dbus -y com.victronenergy.settings  /Settings/RemoteGPIO/Latency GetVa
 ###########################################
 
 nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
+readrelays=$(get_setting /Settings/RemoteGPIO/ReadRelays)
 case $nbunit in
 		0)
 			# Do nothing
@@ -90,7 +94,7 @@ do
 
 
 	##
-	## Handle Unit1 with up to 16x Relays 
+	## Handle Unit1 with up to 8x Relays 
 	#################################
 	index=1
 	i=1
@@ -104,15 +108,14 @@ do
 			const=$((const+j))
 		else
 			const=$((const+j+i))
-		fi	
+		fi
 		index=$((index+1))
 		i=$((i*2))
-                j=$((256*i))
+        j=$((256*i))
 	done
 
 	# Trying to limit resources usage so talking to Unit only if relay change
-	if [ $const != $prev_const1 ]
-	then
+	if [ $const != $prev_const1 ]; then
 		case $Protocol_unit1 in
 			0) # RS485
 				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 -a 1 $Port_Unit1 $const >> /dev/null
@@ -121,36 +124,33 @@ do
 				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 1 $IP_Unit1 $const >> /dev/null
 				;;
 		esac
+		prev_const1=$((const))
 	fi
-	prev_const1=$((const))
 
-
-        ##                                                                             
+    ##                                                                             
         ## Handle Unit2 with up to 8x Relays                                                 
         #################################                                              
-        if [[ $nbunit -eq 2 || $nbunit -eq 3 ]] 
-		then
-        	index=1                                                                        
-        	i=1                                                                            
-        	j=256                                                                          
-        	const=0                                                                        
-        	for Relay in `cat $conf_unit2_relay`                                                     
-        	do                               
-        	        value=`cat $Relay`       
-        	        if [ $value -eq $zero ]  
-        	        then                     
+        if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]; then
+        	index=1
+        	i=1
+        	j=256
+        	const=0
+        	for Relay in `cat $conf_unit2_relay`
+        	do
+        	        value=`cat $Relay`
+        	        if [ $value -eq $zero ]
+        	        then
         	                const=$((const+j))
-        	        else                      
+        	        else
         	                const=$((const+j+i))
-        	        fi                          
-        	        index=$((index+1))          
-        	        i=$((i*2))                  
-        	        j=$((256*i))                
-        	done 
-        	                               
-			# Trying to limit resources usage so talking to Unit only if relay change        	                                    
-        	if [ $const != $prev_const2 ]        
-        	then
+        	        fi
+        	        index=$((index+1))
+        	        i=$((i*2))
+        	        j=$((256*i))
+        	done
+
+			# Trying to limit resources usage so talking to Unit only if relay change
+        	if [ $const != $prev_const2 ]; then
 				case $Protocol_unit2 in
 					0) # RS485
 						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 -a 2 $Port_Unit2 $const >> /dev/null
@@ -158,36 +158,34 @@ do
 					1) # TCP
 						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 2 $IP_Unit2 $const >> /dev/null
 						;;
-				esac                          
-        	fi                                                                                                                                      
-        	prev_const2=$((const)) 
-	fi
+				esac
+        	fi
+        	prev_const2=$((const))
+		fi
 
-		##                                                                             
-        ## Handle Unit3 with up to 8x Relays                                                 
-        #################################                                              
-        if [[ $nbunit -eq 3 ]]
-		then
-        	index=1                                                                        
-        	i=1                                                                            
-        	j=256                                                                          
-        	const=0                                                                        
-        	for Relay in `cat $conf_unit3_relay`                                                     
-        	do                               
-        	        value=`cat $Relay`       
-        	        if [ $value -eq $zero ]  
-        	        then                     
-        	                const=$((const+j))
-        	        else                      
-        	                const=$((const+j+i))
-        	        fi                          
-        	        index=$((index+1))          
-        	        i=$((i*2))                  
-        	        j=$((256*i))                
-        	done 
-        	                               
-			# Trying to limit resources usage so talking to Unit only if relay change        	                                    
-        	if [ $const != $prev_const3 ]        
+		##
+        ## Handle Unit3 with up to 8x Relays
+        #################################
+        if [[ $nbunit -eq 3 ]]; then
+        	index=1
+        	i=1
+        	j=256
+        	const=0
+        	for Relay in `cat $conf_unit3_relay`
+        	do
+        	    value=`cat $Relay`
+        	    if [ $value -eq $zero ]; then
+        	        const=$((const+j))
+        	    else
+        	        const=$((const+j+i))
+        	    fi
+        	    index=$((index+1))
+        	    i=$((i*2))
+        	    j=$((256*i))
+        	done
+
+			# Trying to limit resources usage so talking to Unit only if relay change
+        	if [ $const != $prev_const3 ]
         	then
 				case $Protocol_unit3 in
 					0) # RS485
@@ -196,100 +194,190 @@ do
 					1) # TCP
 						/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 3 $IP_Unit3 $const >> /dev/null
 						;;
-				esac                          
-        	fi                                                                                                                                      
-        	prev_const3=$((const)) 
-	fi
+				esac
+        	fi
+        	prev_const3=$((const))
+		fi
 
 
 	##
-	## Handle Unit1 with up to 16x Digital_Inputs
+	## Handle Unit1 with up to 8x Digital_Inputs
 	#################################
 		case $Protocol_unit1 in
 			0) # RS485
-				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 1 $Port_Unit1) | awk '{print $NF}')        
-				number=$(($msg))   
+				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 1 $Port_Unit1) | awk '{print $NF}')
+				number=$(($msg))
 				;;
 			1) # TCP
-				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 1 $IP_Unit1) | awk '{print $NF}')        
+				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 1 $IP_Unit1) | awk '{print $NF}')
 				number=$(($msg))
 				;;
 		esac
-        
-	if ((number >= 0 && number <= 255)); then    
+
+	if ((number >= 0 && number <= 255)); then
 
 		# Parsing number for writing the Input Devices
-	        i=1                                                                             
-	        for Digital_Input in `cat $conf_unit1_digitalinput`                                                      
+	        i=1
+	        for Digital_Input in `cat $conf_unit1_digitalinput`
 	        do
-			echo $((($number & $i) != 0)) > $Digital_Input
-			i=$((i*2)) 
-		done
-        fi
+				echo $((($number & $i) != 0)) > $Digital_Input
+				i=$((i*2))
+			done
+    fi
 
-	##                                                                                                                                              
-        ## Handle Unit2 with up to 8x Digital_Inputs                                                                                                          
-        #################################                                                                                                               
-	if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]                                                                                                                  
+	##
+        ## Handle Unit2 with up to 8x Digital_Inputs
+        #################################
+	if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]
         then
 			case $Protocol_unit2 in
 				0) # RS485
-					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 2 $Port_Unit2) | awk '{print $NF}')        
-					number=$(($msg))   
-					;;
-				1) # TCP
-					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 2 $IP_Unit2) | awk '{print $NF}')        
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 2 $Port_Unit2) | awk '{print $NF}')
 					number=$(($msg))
 					;;
-			esac                                                                                                                                 
+				1) # TCP
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 2 $IP_Unit2) | awk '{print $NF}')
+					number=$(($msg))
+					;;
+			esac
                                                                                                                                                            
-        	if ((number >= 0 && number <= 255)); then                                                                                                          
-                                                                                                                                                           
-        	        # Parsing number for writing the Input Devices                                                                                          
-                	i=1                                                                                                                                        
-                	for Digital_Input in `cat $conf_unit2_digitalinput`                                                                                             
-                	do                                                                                                                                         
-                	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
-                        	i=$((i*2))
-			done                                                                                                                                       
+        	if ((number >= 0 && number <= 255)); then
+            
+        	    # Parsing number for writing the Input Devices
+                i=1
+                for Digital_Input in `cat $conf_unit2_digitalinput`
+                do
+                	echo $((($number & $i) != 0)) > $Digital_Input
+                    i=$((i*2))
+				done
         	fi
+		
 	fi
 
-
-	##                                                                                                                                              
-        ## Handle Unit3 with up to 8x Digital_Inputs                                                                                                          
-        #################################                                                                                                               
+	##
+        ## Handle Unit3 with up to 8x Digital_Inputs
+        #################################
 	if [[ $nbunit -eq 3 ]]
         then
 			case $Protocol_unit3 in
 				0) # RS485
-					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 3 $Port_Unit3) | awk '{print $NF}')        
-					number=$(($msg))   
-					;;
-				1) # TCP
-					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 3 $IP_Unit3) | awk '{print $NF}')        
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 3 $Port_Unit3) | awk '{print $NF}')
 					number=$(($msg))
 					;;
-			esac                                                                                                                                 
-                                                                                                                                                           
-        	if ((number >= 0 && number <= 255)); then                                                                                                          
-                                                                                                                                                           
-        	        # Parsing number for writing the Input Devices                                                                                          
-                	i=1                                                                                                                                        
-                	for Digital_Input in `cat $conf_unit3_digitalinput`                                                                                             
-                	do                                                                                                                                         
-                	        echo $((($number & $i) != 0)) > $Digital_Input                                                                                     
-                        	i=$((i*2))
-			done                                                                                                                                       
+				1) # TCP
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 11 -c 1 -a 3 $IP_Unit3) | awk '{print $NF}')
+					number=$(($msg))
+					;;
+			esac
+            
+        	if ((number >= 0 && number <= 255)); then
+            
+        	    # Parsing number for writing the Input Devices
+                i=1
+                for Digital_Input in `cat $conf_unit3_digitalinput`
+                do
+                	echo $((($number & $i) != 0)) > $Digital_Input
+                    i=$((i*2))
+				done
+
+
         	fi
+
+
+
+
 	fi
 
 
+	if (( readrelays == 1)); then
+			##
+			## Handle reading relays Unit1 with up to 8x Relays
+			#################################
+			case $Protocol_unit1 in
+				0) # RS485
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 2 -s 1 -c 1 -a 1 $Port_Unit1) | awk '{print $NF}')
+					number=$(($msg))
+					;;
+				1) # TCP
+					msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 2 -c 1 -a 1 $IP_Unit1) | awk '{print $NF}')
+					number=$(($msg))
+					;;
+			esac
+        
+		if (( number >= 0 && number <= 255 && number != $prev_state1 )); then
 
-	##                                                                                                                                              
-	## Latency vs CPU load                                                                                                                      
+			# Parsing number for writing the Relay Status
+	    	i=1
+	    	for Relay in `cat $conf_unit1_relay`
+	    	do
+				echo $((($number & $i) != 0)) > $Relay
+				i=$((i*2))
+			done
+			prev_state1=$((number))
+    	fi
+
+		##
+		## Handle reading relays Unit2 with up to 8x Relays
+		#################################
+		if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]; then
+				case $Protocol_unit2 in
+					0) # RS485
+						msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 2 -s 1 -c 1 -a 2 $Port_Unit2) | awk '{print $NF}')
+						number=$(($msg))
+						;;
+					1) # TCP
+						msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 2 -c 1 -a 2 $IP_Unit2) | awk '{print $NF}')
+						number=$(($msg))
+						;;
+				esac
+        
+			if (( number >= 0 && number <= 255 && number != $prev_state2 )); then
+
+				# Parsing number for writing the Relay Status
+	    		i=1
+	    		for Relay in `cat $conf_unit2_relay`
+	    		do
+					echo $((($number & $i) != 0)) > $Relay
+					i=$((i*2))
+				done
+				prev_state2=$((number))
+    		fi
+		fi
+
+
+		##
+		## Handle reading relays Unit3 with up to 8x Relays
+		#################################
+		if [[ $nbunit -eq 3 ]]; then
+				case $Protocol_unit3 in
+					0) # RS485
+						msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 2 -s 1 -c 1 -a 3 $Port_Unit3) | awk '{print $NF}')
+						number=$(($msg))
+						;;
+					1) # TCP
+						msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 2 -c 1 -a 3 $IP_Unit3) | awk '{print $NF}')
+						number=$(($msg))
+						;;
+				esac
+        
+			if (( number >= 0 && number <= 255 && number != $prev_state3 )); then
+
+				# Parsing number for writing the Relay Status
+	    		i=1
+	    		for Relay in `cat $conf_unit3_relay`
+	    		do
+					echo $((($number & $i) != 0)) > $Relay
+					i=$((i*2))
+				done
+				prev_state3=$((number))
+    		fi
+		fi
+	fi
+
+	##
+	## Latency vs CPU load
 	#################################
-    sleep $latency                     
+    sleep $latency
 
 
 

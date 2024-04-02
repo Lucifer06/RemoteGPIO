@@ -1,5 +1,6 @@
 {"path":"/Settings/Services/RemoteGPIO", "default":0}
 {"path":"/Settings/RemoteGPIO/NumberUnits", "default":0}
+{"path":"/Settings/RemoteGPIO/ReadRelays", "default":0}
 {"path":"/Settings/RemoteGPIO/Latency", "default":0.0}
 {"path":"/Settings/RemoteGPIO/Unit1/IP", "default":""}
 {"path":"/Settings/RemoteGPIO/Unit1/Reboot", "default":0}

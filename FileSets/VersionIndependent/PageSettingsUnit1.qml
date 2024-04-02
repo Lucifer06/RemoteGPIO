@@ -40,8 +40,7 @@ MbPage {
                 possibleValues: [
                     MbOption {description: qsTr("2 Relays"); value: 2},
                     MbOption {description: qsTr("4 Relays"); value: 4},
-                    MbOption {description: qsTr("8 Relays"); value: 8},
-                    MbOption {description: qsTr("16 Relays"); value: 16}
+                    MbOption {description: qsTr("8 Relays"); value: 8}
                 ]
             }
 

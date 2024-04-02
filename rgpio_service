@@ -26,6 +26,7 @@ get_IP()
 latch=0
 latch2=$(cat /data/RemoteGPIO/conf/units.conf)
 latch3=$(cat /data/RemoteGPIO/conf/relays.conf)
+latch4=$(cat /data/RemoteGPIO/conf/readrelays.conf)
 timer=$(date +%s)
 
 while true
@@ -114,6 +115,7 @@ do
 	## Update units.conf and re-execute launch script and update GUI - reboot needed to take effects
 	################################################################################################
 	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
+	readrelays=$(get_setting /Settings/RemoteGPIO/ReadRelays)
 	nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
 	nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
 	nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
@@ -133,20 +135,23 @@ do
 	fi
 
 
-	if [[ $nbunit != $latch2 || $nbrelays != $latch3 ]]
+	if [[ $nbunit != $latch2 || $nbrelays != $latch3 || $readrelays != $latch4 ]]
 	#if (( $nbunit != $latch2))
 	then
 		echo "rgpio_service: Configuration has been updated" >> /var/log/RemoteGPIO/current
 		latch2=$nbunit
 		latch3=$nbrelays
+		latch4=$readrelays
 		echo $nbunit > /data/RemoteGPIO/conf/units.conf
 		echo $nbrelays > /data/RemoteGPIO/conf/relays.conf
+		echo $readrelays > /data/RemoteGPIO/conf/readrelays.conf
 		svc -t /service/dbus-systemcalc-py
 		svc -t /service/dbus-digitalinputs/
 		/etc/rcS.d/S90rgpio_pins.sh
 	fi
 	latch2=$(cat /data/RemoteGPIO/conf/units.conf)
 	latch3=$(cat /data/RemoteGPIO/conf/relays.conf)
+	latch4=$(cat /data/RemoteGPIO/conf/readrelays.conf)
 
         ##                                                        
         ## Watchdog                                                              
