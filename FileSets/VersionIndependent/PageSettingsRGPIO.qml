@@ -38,6 +38,12 @@ MbPage {
             }                                                                     
 
 			MbSubMenu {
+				description: qsTr("Read Relay State")
+				subpage: Component { PageSettingsReadRelays {} }
+				show: enable.checked
+			}
+
+			MbSubMenu {
 				description: qsTr("Unit 1")
 				subpage: Component { PageSettingsUnit1 {} }
 				show: enable.checked && (numberunits.value == 1 || numberunits.value == 2 || numberunits.value == 3)

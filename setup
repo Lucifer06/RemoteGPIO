@@ -25,8 +25,8 @@ fi
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 
-packageGitHubUser="Lucifer06"
-packageGitHubBranch="main"
+packageGitHubUser="drtinaz"
+packageGitHubBranch="dev"
 
 
 #### running manually and OK to proceed - prompt for input
@@ -56,6 +56,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	touch /data/RemoteGPIO/conf/relays.conf
 	chmod 666 /data/RemoteGPIO/conf/relays.conf
 	echo "0" > /data/RemoteGPIO/conf/relays.conf
+	touch /data/RemoteGPIO/conf/readrelays.conf
+	chmod 666 /data/RemoteGPIO/conf/readrelays.conf
+	echo "0" > /data/RemoteGPIO/conf/readrelays.conf
 
 	
 	##

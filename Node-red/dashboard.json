@@ -1,0 +1,1756 @@
+[
+    {
+        "id": "a74334d56276c4c0",
+        "type": "tab",
+        "label": "External Relays Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "11cbe7416f3c484f",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/2/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/2/State",
+            "type": "enum",
+            "name": "Venus relay 3 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "aa54b8193260ea50",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/2/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/2/State",
+            "type": "enum",
+            "name": "Venus relay 3 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "36e56445fa45be12"
+            ]
+        ]
+    },
+    {
+        "id": "5c356ec76d4246a9",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/3/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/3/State",
+            "type": "enum",
+            "name": "Venus relay 4 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 200,
+        "wires": [
+            [
+                "2befb503d7286d7e"
+            ]
+        ]
+    },
+    {
+        "id": "42eb72df71fc112f",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/3/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/3/State",
+            "type": "enum",
+            "name": "Venus relay 4 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "313fd5a0d43607d5",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/4/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/4/State",
+            "type": "enum",
+            "name": "Venus relay 5 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 280,
+        "wires": [
+            [
+                "aafeb733fc190793"
+            ]
+        ]
+    },
+    {
+        "id": "a059c848ecfd203a",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/5/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/5/State",
+            "type": "enum",
+            "name": "Venus relay 6 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 360,
+        "wires": [
+            [
+                "b70458125ff71b5b"
+            ]
+        ]
+    },
+    {
+        "id": "f08d4cbc9e108eea",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/4/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/4/State",
+            "type": "enum",
+            "name": "Venus relay 5 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6903c0617b06ce14",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/5/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/5/State",
+            "type": "enum",
+            "name": "Venus relay 6 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d9b45d7c764c25fe",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/6/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/6/State",
+            "type": "enum",
+            "name": "Venus relay 7 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 440,
+        "wires": [
+            [
+                "070557521befd27d"
+            ]
+        ]
+    },
+    {
+        "id": "bf1892d4ee568501",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/7/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/7/State",
+            "type": "enum",
+            "name": "Venus relay 8 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 520,
+        "wires": [
+            [
+                "f268cf9c5ae64382"
+            ]
+        ]
+    },
+    {
+        "id": "07bef43eeb7faa31",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/8/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/8/State",
+            "type": "enum",
+            "name": "Venus relay 9 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 600,
+        "wires": [
+            [
+                "8a2dc22b7e520693"
+            ]
+        ]
+    },
+    {
+        "id": "679dd4b802f6a906",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/9/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/9/State",
+            "type": "enum",
+            "name": "Venus relay 10 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 680,
+        "wires": [
+            [
+                "207fd5f2008a619c"
+            ]
+        ]
+    },
+    {
+        "id": "daaa41f300a2aec4",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/6/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/6/State",
+            "type": "enum",
+            "name": "Venus relay 7 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "e22debec5197fb22",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/7/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/7/State",
+            "type": "enum",
+            "name": "Venus relay 8 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "0ce44df1c10d9080",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/8/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/8/State",
+            "type": "enum",
+            "name": "Venus relay 9 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "6a4fa065758a17ad",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/9/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/9/State",
+            "type": "enum",
+            "name": "Venus relay 10 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "36e56445fa45be12",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 120,
+        "wires": [
+            [
+                "1ffc4e312d5dede0"
+            ]
+        ]
+    },
+    {
+        "id": "2befb503d7286d7e",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 200,
+        "wires": [
+            [
+                "a8ba17a4c0a517b0"
+            ]
+        ]
+    },
+    {
+        "id": "aafeb733fc190793",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 280,
+        "wires": [
+            [
+                "f1db7c11dd9658bf"
+            ]
+        ]
+    },
+    {
+        "id": "b70458125ff71b5b",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 360,
+        "wires": [
+            [
+                "9d5045fda0c63704"
+            ]
+        ]
+    },
+    {
+        "id": "070557521befd27d",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 440,
+        "wires": [
+            [
+                "377c393163b765a7"
+            ]
+        ]
+    },
+    {
+        "id": "f268cf9c5ae64382",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "d59905c44241cc0f"
+            ]
+        ]
+    },
+    {
+        "id": "8a2dc22b7e520693",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 600,
+        "wires": [
+            [
+                "17970ddbbf4a044c"
+            ]
+        ]
+    },
+    {
+        "id": "207fd5f2008a619c",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 680,
+        "wires": [
+            [
+                "904fda9e7b4f731b"
+            ]
+        ]
+    },
+    {
+        "id": "1ffc4e312d5dede0",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "name": "",
+        "label": "switch 3",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 1,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 120,
+        "wires": [
+            [
+                "11cbe7416f3c484f"
+            ]
+        ]
+    },
+    {
+        "id": "a8ba17a4c0a517b0",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "name": "",
+        "label": "switch 4",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 2,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "42eb72df71fc112f"
+            ]
+        ]
+    },
+    {
+        "id": "f1db7c11dd9658bf",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "name": "",
+        "label": "switch 5",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 3,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 280,
+        "wires": [
+            [
+                "f08d4cbc9e108eea"
+            ]
+        ]
+    },
+    {
+        "id": "9d5045fda0c63704",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "name": "",
+        "label": "switch 6",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 4,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 360,
+        "wires": [
+            [
+                "6903c0617b06ce14"
+            ]
+        ]
+    },
+    {
+        "id": "377c393163b765a7",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 7",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 5,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 440,
+        "wires": [
+            [
+                "daaa41f300a2aec4"
+            ]
+        ]
+    },
+    {
+        "id": "d59905c44241cc0f",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 8",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 6,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 520,
+        "wires": [
+            [
+                "e22debec5197fb22"
+            ]
+        ]
+    },
+    {
+        "id": "17970ddbbf4a044c",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 9",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 7,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 600,
+        "wires": [
+            [
+                "0ce44df1c10d9080"
+            ]
+        ]
+    },
+    {
+        "id": "904fda9e7b4f731b",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 10",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 8,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 680,
+        "wires": [
+            [
+                "6a4fa065758a17ad"
+            ]
+        ]
+    },
+    {
+        "id": "ae0d443a3995bc50",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/10/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/10/State",
+            "type": "enum",
+            "name": "Venus relay 11 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "59d8b7cfa765bc6d",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/10/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/10/State",
+            "type": "enum",
+            "name": "Venus relay 11 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 760,
+        "wires": [
+            [
+                "b231d76a8e197824"
+            ]
+        ]
+    },
+    {
+        "id": "1b9506ed55e598f4",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/11/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/11/State",
+            "type": "enum",
+            "name": "Venus relay 12 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 840,
+        "wires": [
+            [
+                "f768f8fb2e508bbf"
+            ]
+        ]
+    },
+    {
+        "id": "fc457ce4034c72dc",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/11/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/11/State",
+            "type": "enum",
+            "name": "Venus relay 12 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "c15bfbb39118a998",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/12/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/12/State",
+            "type": "enum",
+            "name": "Venus relay 13 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 920,
+        "wires": [
+            [
+                "09d06086c5aaf442"
+            ]
+        ]
+    },
+    {
+        "id": "5e020eacc5fd3eda",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/13/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/13/State",
+            "type": "enum",
+            "name": "Venus relay 14 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 1000,
+        "wires": [
+            [
+                "dec7e559ad680136"
+            ]
+        ]
+    },
+    {
+        "id": "7d8eb971fe3cc313",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/12/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/12/State",
+            "type": "enum",
+            "name": "Venus relay 13 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "c0c0ae2014dbb1b8",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/13/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/13/State",
+            "type": "enum",
+            "name": "Venus relay 14 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "943dd85e51a1568c",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/14/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/14/State",
+            "type": "enum",
+            "name": "Venus relay 15 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 1080,
+        "wires": [
+            [
+                "dd1ffa3144a99af1"
+            ]
+        ]
+    },
+    {
+        "id": "88bba9e577852155",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/15/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/15/State",
+            "type": "enum",
+            "name": "Venus relay 16 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 1160,
+        "wires": [
+            [
+                "8ba8f6221eb4e6f3"
+            ]
+        ]
+    },
+    {
+        "id": "c5495eb4fa1cb8f9",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/16/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/16/State",
+            "type": "enum",
+            "name": "Venus relay 17 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 1240,
+        "wires": [
+            [
+                "fe7999df742b852b"
+            ]
+        ]
+    },
+    {
+        "id": "08459fc23e78a444",
+        "type": "victron-input-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/17/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Relay/17/State",
+            "type": "enum",
+            "name": "Venus relay 18 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            }
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 240,
+        "y": 1320,
+        "wires": [
+            [
+                "90e72bcabbe18d6d"
+            ]
+        ]
+    },
+    {
+        "id": "d0ebc7d3a84f1dbb",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/14/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/14/State",
+            "type": "enum",
+            "name": "Venus relay 15 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "7e8a4ff146d1745b",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/15/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/15/State",
+            "type": "enum",
+            "name": "Venus relay 16 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": true,
+        "x": 860,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "84ba8c1449da5fda",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/16/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/16/State",
+            "type": "enum",
+            "name": "Venus relay 17 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "d6723559579586b6",
+        "type": "victron-output-relay",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "service": "com.victronenergy.system/0",
+        "path": "/Relay/17/State",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus device"
+        },
+        "pathObj": {
+            "path": "/Relay/17/State",
+            "type": "enum",
+            "name": "Venus relay 18 state",
+            "enum": {
+                "0": "Open",
+                "1": "Closed"
+            },
+            "writable": true
+        },
+        "initial": "",
+        "name": "",
+        "onlyChanges": false,
+        "x": 860,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "b231d76a8e197824",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 760,
+        "wires": [
+            [
+                "b1a65d7777a1c133"
+            ]
+        ]
+    },
+    {
+        "id": "f768f8fb2e508bbf",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 840,
+        "wires": [
+            [
+                "ffdbaf75d5e9b33c"
+            ]
+        ]
+    },
+    {
+        "id": "09d06086c5aaf442",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 920,
+        "wires": [
+            [
+                "200aa0955eb5ae01"
+            ]
+        ]
+    },
+    {
+        "id": "dec7e559ad680136",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 1000,
+        "wires": [
+            [
+                "b9f1b3d7cbbe1486"
+            ]
+        ]
+    },
+    {
+        "id": "dd1ffa3144a99af1",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 1080,
+        "wires": [
+            [
+                "7ace539c426e0d87"
+            ]
+        ]
+    },
+    {
+        "id": "8ba8f6221eb4e6f3",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 1160,
+        "wires": [
+            [
+                "a4b1dd903e2178e6"
+            ]
+        ]
+    },
+    {
+        "id": "fe7999df742b852b",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 1240,
+        "wires": [
+            [
+                "51d8f25c68fa6113"
+            ]
+        ]
+    },
+    {
+        "id": "90e72bcabbe18d6d",
+        "type": "debounce",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "time": "100",
+        "name": "",
+        "x": 480,
+        "y": 1320,
+        "wires": [
+            [
+                "f770e8dd7d22988f"
+            ]
+        ]
+    },
+    {
+        "id": "b1a65d7777a1c133",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 11",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 9,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 760,
+        "wires": [
+            [
+                "ae0d443a3995bc50"
+            ]
+        ]
+    },
+    {
+        "id": "ffdbaf75d5e9b33c",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 12",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 10,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 840,
+        "wires": [
+            [
+                "fc457ce4034c72dc"
+            ]
+        ]
+    },
+    {
+        "id": "200aa0955eb5ae01",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 13",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 11,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 920,
+        "wires": [
+            [
+                "7d8eb971fe3cc313"
+            ]
+        ]
+    },
+    {
+        "id": "b9f1b3d7cbbe1486",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 14",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 12,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 1000,
+        "wires": [
+            [
+                "c0c0ae2014dbb1b8"
+            ]
+        ]
+    },
+    {
+        "id": "7ace539c426e0d87",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 15",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 13,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 1080,
+        "wires": [
+            [
+                "d0ebc7d3a84f1dbb"
+            ]
+        ]
+    },
+    {
+        "id": "a4b1dd903e2178e6",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 16",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 14,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 1160,
+        "wires": [
+            [
+                "7e8a4ff146d1745b"
+            ]
+        ]
+    },
+    {
+        "id": "51d8f25c68fa6113",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 17",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 15,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 1240,
+        "wires": [
+            [
+                "84ba8c1449da5fda"
+            ]
+        ]
+    },
+    {
+        "id": "f770e8dd7d22988f",
+        "type": "ui_switch",
+        "z": "a74334d56276c4c0",
+        "d": true,
+        "name": "",
+        "label": "switch 18",
+        "tooltip": "",
+        "group": "102c64759ace5093",
+        "order": 16,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 620,
+        "y": 1320,
+        "wires": [
+            [
+                "d6723559579586b6"
+            ]
+        ]
+    },
+    {
+        "id": "102c64759ace5093",
+        "type": "ui_group",
+        "name": "Relays",
+        "tab": "2e029130b699bcc0",
+        "order": 1,
+        "disp": true,
+        "width": "8",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "2e029130b699bcc0",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
