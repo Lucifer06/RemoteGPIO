@@ -18,9 +18,9 @@ zero=0
 prev_const1=0
 prev_const2=0
 prev_const3=0
-prev_state1=0
-prev_state2=0
-prev_state3=0
+prev_statea=0
+prev_stateb=0
+prev_statec=0
 timer=$(date +%s)
 
 ##
@@ -48,7 +48,8 @@ latency=$(dbus -y com.victronenergy.settings  /Settings/RemoteGPIO/Latency GetVa
 ###########################################
 
 nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
-readrelays=$(get_setting /Settings/RemoteGPIO/ReadRelays)
+#readrelays=$(get_setting /Settings/RemoteGPIO/ReadRelays)
+readrelays=0
 case $nbunit in
 		0)
 			# Do nothing
@@ -115,19 +116,20 @@ do
 	done
 
 	# Trying to limit resources usage so talking to Unit only if relay change
-	if [ $const != $prev_const1 ]; then
-		case $Protocol_unit1 in
-			0) # RS485
-				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 -a 1 $Port_Unit1 $const >> /dev/null
-				;;
-			1) # TCP
-				/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 1 $IP_Unit1 $const >> /dev/null
-				;;
-		esac
-		prev_const1=$((const))
+	if [[ $const != $prev_const1 ]]
+		then
+			case $Protocol_unit1 in
+				0) # RS485
+					/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 3 -s 1 -c 1 -a 1 $Port_Unit1 $const >> /dev/null
+					;;
+				1) # TCP
+					/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m enc -1 -r 3 -c 1 -a 1 $IP_Unit1 $const >> /dev/null
+					;;
+			esac
+			prev_const1=$((const))
 	fi
 
-    ##                                                                             
+    	##                                                                             
         ## Handle Unit2 with up to 8x Relays                                                 
         #################################                                              
         if [[ $nbunit -eq 2 || $nbunit -eq 3 ]]; then
@@ -200,9 +202,9 @@ do
 		fi
 
 
-	##
-	## Handle Unit1 with up to 8x Digital_Inputs
-	#################################
+		##
+		## Handle Unit1 with up to 8x Digital_Inputs
+		#################################
 		case $Protocol_unit1 in
 			0) # RS485
 				msg=$(echo -n $(/data/RemoteGPIO/bin/modpoll/arm-linux-gnueabihf/modpoll -m rtu -b 115200 -p none -d 8 -1 -r 11 -s 1 -c 1 -a 1 $Port_Unit1) | awk '{print $NF}')
@@ -240,7 +242,7 @@ do
 					number=$(($msg))
 					;;
 			esac
-                                                                                                                                                           
+
         	if ((number >= 0 && number <= 255)); then
             
         	    # Parsing number for writing the Input Devices
@@ -282,14 +284,10 @@ do
 
 
         	fi
-
-
-
-
 	fi
 
 
-	if (( readrelays == 1)); then
+	if [[ $readrelays -eq 1 ]]; then
 			##
 			## Handle reading relays Unit1 with up to 8x Relays
 			#################################
@@ -304,7 +302,7 @@ do
 					;;
 			esac
         
-		if (( number >= 0 && number <= 255 && number != $prev_state1 )); then
+		if (( number >= 0 && number <= 255 && number != prev_statea )); then
 
 			# Parsing number for writing the Relay Status
 	    	i=1
@@ -313,7 +311,7 @@ do
 				echo $((($number & $i) != 0)) > $Relay
 				i=$((i*2))
 			done
-			prev_state1=$((number))
+			prev_statea=$((number))
     	fi
 
 		##
@@ -331,7 +329,7 @@ do
 						;;
 				esac
         
-			if (( number >= 0 && number <= 255 && number != $prev_state2 )); then
+			if (( number >= 0 && number <= 255 && number != prev_stateb )); then
 
 				# Parsing number for writing the Relay Status
 	    		i=1
@@ -340,7 +338,7 @@ do
 					echo $((($number & $i) != 0)) > $Relay
 					i=$((i*2))
 				done
-				prev_state2=$((number))
+				prev_stateb=$((number))
     		fi
 		fi
 
@@ -359,9 +357,7 @@ do
 						number=$(($msg))
 						;;
 				esac
-        
-			if (( number >= 0 && number <= 255 && number != $prev_state3 )); then
-
+			if (( number >= 0 && number <= 255 && number != prev_statec )); then
 				# Parsing number for writing the Relay Status
 	    		i=1
 	    		for Relay in `cat $conf_unit3_relay`
@@ -369,7 +365,7 @@ do
 					echo $((($number & $i) != 0)) > $Relay
 					i=$((i*2))
 				done
-				prev_state3=$((number))
+				prev_statec=$((number))
     		fi
 		fi
 	fi
