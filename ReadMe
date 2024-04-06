@@ -4,6 +4,11 @@
 ***********   INSTALL/SETUP INSTRUCTIONS BELOW    ********
 **********************************************************
 
+Raspberry is partially supported: Relay is OK, DigitalInputs is KO
+CerboGX is confirmed to perfectly work
+Don't know for any other GX devices
+
+
 ************* UPDATE as of v3.2.1 **********
 
 Now supports reading of external relay state and dynamically updating the gui. (Useful for those people who have methods of switching the relays from external sources, such as switches connected directly to the relay modules). If using node-red logic to control the external relays, it is important that you also include a debounce method to eliminate looping. This feature is disabled by default and can be enabled from within RemoteGPIO settings.
