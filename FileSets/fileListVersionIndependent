@@ -2,5 +2,8 @@
 /opt/victronenergy/gui/qml/PageSettingsUnit1.qml
 /opt/victronenergy/gui/qml/PageSettingsUnit2.qml
 /opt/victronenergy/gui/qml/PageSettingsUnit3.qml
-/opt/victronenergy/gui/qml/PageSettingsReadRelays.qml
+/opt/victronenergy/gui/qml/PageSettingsUnit1Options.qml
+/opt/victronenergy/gui/qml/PageSettingsUnit2Options.qml
+/opt/victronenergy/gui/qml/PageSettingsUnit3Options.qml
 /etc/venus/gpio_list
+/etc/rcS.d/S90rgpio_pins.sh

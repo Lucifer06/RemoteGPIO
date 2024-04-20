@@ -55,28 +55,16 @@ MbPage {
                     MbOption {description: qsTr("USB2"); value: "/dev/ttyUSB2"}
                 ]
             }
+
+            MbSubMenu {
+				description: qsTr("Additional Options")
+				subpage: Component { PageSettingsUnit1Options {} }
+			}
                         
         	MbItemText {                                                               
             	text: qsTr("Relay module needs to be configured with Addr = 1. This applies for both RS485 and TCP protocols. When using TCP both TCP server and TCP client protocols must select RTU over TCP. Total number of relays for ALL connected modules MUST NOT exceed 16!")     
             	wrapMode: Text.WordWrap                                            
         	}    
-
-        	MbSwitch {                                  
-            	id: reboot                           
-            	name: qsTr("Reboot Unit 1?")                 
-				bind: [rgpioSettings, "/Reboot"]
-        	}         
-		
-			MbItemOptions {
-            	id: confirm
-            	description: qsTr("PLEASE CONFIRM")
-				bind: serviceSetting
-            	show: reboot.checked
-            	possibleValues: [
-                	MbOption {description: qsTr("Don't reboot Unit"); value: 1},
-                	MbOption {description: qsTr("Yes, Reboot please"); value: 2}
-            	]
-        	}
 		}
 	}
 }

@@ -9,10 +9,9 @@
 # Description:       rgpio is used to conect expternal Relay box with ModBus/RTU control
 ### END INIT INFO
 
-nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
-
 # Kill existing rgpio_service in case the script is called after HW configuration change:
-kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
+#kill $(ps | grep '{rgpio_monitor}' | grep -v grep | awk '{print $1}') 2>/dev/null
+#svc -d /service/rgpio_monitor
 
 get_setting()                                                                                                                                                                                                  
     {                                                                                                                                                                                                      
@@ -23,10 +22,11 @@ set_setting()
 		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
     }
 
-
+nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
 nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
 nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
 nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
+service=$(get_setting /Settings/Services/RemoteGPIO)
 
 ## Find total number of relays for all modules
 if [ $nbunit -eq 1 ]
@@ -44,6 +44,10 @@ if [ $nbunit -eq 3 ]
     nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
 fi
 
+if [ $service -eq 0 ]
+    then
+    nbrelays=0
+fi
 
 # Clean existing gpio in case HW configuration has changed
 rm -f /dev/gpio/relay_3
@@ -363,9 +367,12 @@ fi
 #Service
 svc -t /service/dbus-systemcalc-py
 svc -t /service/dbus-digitalinputs
-[ ! -f /service/rgpio ] && ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
+svc -t /service/rgpio_driver
+#svc -u /service/rgpio_monitor
+svc -t /service/start-gui
+#[ ! -f /service/rgpio ] && ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
 
 #For managing reboot of Dingtian IOT devices
-nohup /data/RemoteGPIO/rgpio_service >/dev/null 2>&1 &
+#nohup /data/RemoteGPIO/rgpio_service >/dev/null 2>&1 &
 
 exit 0
