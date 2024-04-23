@@ -11,6 +11,10 @@ Don't know for any other GX devices
 
 ************* UPDATE as of v3.2.1 **********
 
+Several settings menu enhancements. Added option to enable/disable digital inputs per module. Added option to 'Restart RemoteGPIO' from the menu. Overall cpu usage can be reduced by up to 75% depending on number of modules and options selected.
+
+************* UPDATE as of v3.2.1 **********
+
 Now supports reading of external relay state and dynamically updating the gui. (Useful for those people who have methods of switching the relays from external sources, such as switches connected directly to the relay modules). If using node-red logic to control the external relays, it is important that you also include a debounce method to eliminate looping. This feature is disabled by default and can be enabled from within RemoteGPIO settings.
 
 ************* UPDATE As of v3.2 ************

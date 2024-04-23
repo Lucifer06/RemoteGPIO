@@ -48,7 +48,6 @@ readdigin2=$(get_setting /Settings/RemoteGPIO/Unit2/ReadDigin)
 readrelays3=$(get_setting /Settings/RemoteGPIO/Unit3/ReadRelays)
 readdigin3=$(get_setting /Settings/RemoteGPIO/Unit3/ReadDigin)
 
-#latency=$(dbus -y com.victronenergy.settings  /Settings/RemoteGPIO/Latency GetValue)
 
 ##
 ## Handle up to 3 units and multi-protocol
@@ -388,7 +387,7 @@ do
 	##
 	## Latency vs CPU load
 	#################################
-    sleep 0.1 #$latency
+    sleep 0.1
 
 
 

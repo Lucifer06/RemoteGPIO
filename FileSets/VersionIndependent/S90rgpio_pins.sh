@@ -9,10 +9,6 @@
 # Description:       rgpio is used to conect expternal Relay box with ModBus/RTU control
 ### END INIT INFO
 
-# Kill existing rgpio_service in case the script is called after HW configuration change:
-#kill $(ps | grep '{rgpio_monitor}' | grep -v grep | awk '{print $1}') 2>/dev/null
-#svc -d /service/rgpio_monitor
-
 get_setting()                                                                                                                                                                                                  
     {                                                                                                                                                                                                      
      	dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'                               
@@ -28,7 +24,7 @@ nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
 nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
 service=$(get_setting /Settings/Services/RemoteGPIO)
 
-## Find total number of relays for all modules
+## Find total number of relays for all active modules
 if [ $nbunit -eq 1 ]
     then
     nbrelays=$nbrelayunit1
@@ -101,7 +97,7 @@ set_setting /Settings/DigitalInput/18/Type variant:int32:0
 set_setting /Settings/DigitalInput/19/Type variant:int32:0
 set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
-## insert links for number of relays and DI
+## insert links for number of relays and Digital Inputs
 if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
     if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
 	    #Relays
@@ -368,11 +364,5 @@ fi
 svc -t /service/dbus-systemcalc-py
 svc -t /service/dbus-digitalinputs
 svc -t /service/rgpio_driver
-#svc -u /service/rgpio_monitor
-#svc -t /service/start-gui
-#[ ! -f /service/rgpio ] && ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
-
-#For managing reboot of Dingtian IOT devices
-#nohup /data/RemoteGPIO/rgpio_service >/dev/null 2>&1 &
 
 exit 0
