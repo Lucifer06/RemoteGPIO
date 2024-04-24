@@ -50,9 +50,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	tar -xvf /data/RemoteGPIO/FileSets/VersionIndependent/bin.tar.gz -C /data/RemoteGPIO/
 	mkdir /data/RemoteGPIO/conf
 	chmod 777 /data/RemoteGPIO/conf
-	touch /data/RemoteGPIO/conf/units.conf
-	chmod 666 /data/RemoteGPIO/conf/units.conf
-	echo "0" > /data/RemoteGPIO/conf/units.conf
 	touch /data/RemoteGPIO/conf/relays.conf
 	chmod 666 /data/RemoteGPIO/conf/relays.conf
 	echo "0" > /data/RemoteGPIO/conf/relays.conf
@@ -71,16 +68,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
 		
 	fi
-
-
-	##
-	## Install and launch RemoteGPIO Services
-	#########################################
-	
-	ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
-	ln -sf /data/RemoteGPIO/FileSets/VersionIndependent/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
-	kill $(ps | grep '{rgpio_driver}' | grep -v grep | awk '{print $1}') 2>/dev/null
-	/etc/rcS.d/S90rgpio_pins.sh
 	
 
 	logMessage "++ $packageName installed"
@@ -92,11 +79,6 @@ fi
 if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling RemoteGPIO"
 
-	svc -d /service/rgpio
-	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
-	
-	
-	rm -f /etc/rcS.d/S90rgpio_pins.sh
 
 
 	##
@@ -145,7 +127,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	rm -f /dev/gpio/digital_input_j
 	rm -f /dev/gpio/digital_input_k
 	
-	rm -f /service/rgpio
 	rm -Rf /data/RemoteGPIO/conf
 	
 	
@@ -159,5 +140,4 @@ fi
 logMessage "completed"
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
-endScript INSTALL_FILES ADD_DBUS_SETTINGS
-
+endScript INSTALL_FILES ADD_DBUS_SETTINGS INSTALL_SERVICES
