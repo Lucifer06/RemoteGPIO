@@ -1,5 +1,5 @@
 v3.3.0
-	No more reboot required after configuration change, just ise restart RemoteGPIO services.
+	No more reboot required after configuration change, just use restart RemoteGPIO services.
 	CPU resources optimisations
 v3.2.3
 	Add 'additional options' menu for each module. Add 'read relay state' and 'enable digital inputs' options to additional options menus. Move 'module reboot' to additional options menus. Remove user setting for latency. Renamed rgpio_service to rgpio_monitor and is now a real service independant of the rgpio_driver. Added 'restart RemoteGPIO' to the settings menu.
