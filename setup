@@ -69,7 +69,6 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		cp /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json.orig
 		fi
 		patch /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json /data/RemoteGPIO/FileSets/PatchSource/services.json.patch
-		
 	fi
 
 
@@ -90,7 +89,7 @@ fi
 # #### uninstalling - check scriptAction again
 # if an install step failed package needs to be removed
 if [ $scriptAction == 'UNINSTALL' ] ; then
-    logMessage "++ Uninstalling RemoteGPIO"
+    	logMessage "++ Uninstalling RemoteGPIO"
 
 	svc -d /service/rgpio
 	kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
@@ -147,17 +146,14 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	
 	rm -f /service/rgpio
 	rm -Rf /data/RemoteGPIO/conf
-	
-	
 		
 	logMessage "++ $packageName uninstalled"
 fi
 
 
-	svc -t /service/dbus-digitalinputs
+svc -t /service/dbus-digitalinputs
 
 logMessage "completed"
 	
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript INSTALL_FILES ADD_DBUS_SETTINGS
-
