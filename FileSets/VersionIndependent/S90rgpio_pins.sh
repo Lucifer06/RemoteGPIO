@@ -9,11 +9,6 @@
 # Description:       rgpio is used to conect expternal Relay box with ModBus/RTU control
 ### END INIT INFO
 
-nbunit=$(cat /data/RemoteGPIO/conf/units.conf)
-
-# Kill existing rgpio_service in case the script is called after HW configuration change:
-kill $(ps | grep '{rgpio_service}' | grep -v grep | awk '{print $1}') 2>/dev/null
-
 get_setting()                                                                                                                                                                                                  
     {                                                                                                                                                                                                      
      	dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.GetValue | awk '/int32/ { print $3 }'                               
@@ -23,12 +18,13 @@ set_setting()
 		dbus-send --print-reply=literal --system --type=method_call --dest=com.victronenergy.settings $1 com.victronenergy.BusItem.SetValue $2  
     }
 
-
+nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
 nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
 nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
 nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
+service=$(get_setting /Settings/Services/RemoteGPIO)
 
-## Find total number of relays for all modules
+## Find total number of relays for all active modules
 if [ $nbunit -eq 1 ]
     then
     nbrelays=$nbrelayunit1
@@ -44,6 +40,10 @@ if [ $nbunit -eq 3 ]
     nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
 fi
 
+if [ $service -eq 0 ]
+    then
+    nbrelays=0
+fi
 
 # Clean existing gpio in case HW configuration has changed
 rm -f /dev/gpio/relay_3
@@ -80,24 +80,24 @@ rm -f /dev/gpio/digital_input_j
 rm -f /dev/gpio/digital_input_k
 
 # Disable D-Bus entries for the additional Digital Inputs
-set_setting /Settings/DigitalInput/5/Type variant:int32:0
-set_setting /Settings/DigitalInput/6/Type variant:int32:0
-set_setting /Settings/DigitalInput/7/Type variant:int32:0
-set_setting /Settings/DigitalInput/8/Type variant:int32:0
-set_setting /Settings/DigitalInput/9/Type variant:int32:0
-set_setting /Settings/DigitalInput/10/Type variant:int32:0
-set_setting /Settings/DigitalInput/11/Type variant:int32:0
-set_setting /Settings/DigitalInput/12/Type variant:int32:0
-set_setting /Settings/DigitalInput/13/Type variant:int32:0
-set_setting /Settings/DigitalInput/14/Type variant:int32:0
-set_setting /Settings/DigitalInput/15/Type variant:int32:0
-set_setting /Settings/DigitalInput/16/Type variant:int32:0
-set_setting /Settings/DigitalInput/17/Type variant:int32:0
-set_setting /Settings/DigitalInput/18/Type variant:int32:0
-set_setting /Settings/DigitalInput/19/Type variant:int32:0
-set_setting /Settings/DigitalInput/20/Type variant:int32:0
+#set_setting /Settings/DigitalInput/5/Type variant:int32:0
+#set_setting /Settings/DigitalInput/6/Type variant:int32:0
+#set_setting /Settings/DigitalInput/7/Type variant:int32:0
+#set_setting /Settings/DigitalInput/8/Type variant:int32:0
+#set_setting /Settings/DigitalInput/9/Type variant:int32:0
+#set_setting /Settings/DigitalInput/10/Type variant:int32:0
+#set_setting /Settings/DigitalInput/11/Type variant:int32:0
+#set_setting /Settings/DigitalInput/12/Type variant:int32:0
+#set_setting /Settings/DigitalInput/13/Type variant:int32:0
+#set_setting /Settings/DigitalInput/14/Type variant:int32:0
+#set_setting /Settings/DigitalInput/15/Type variant:int32:0
+#set_setting /Settings/DigitalInput/16/Type variant:int32:0
+#set_setting /Settings/DigitalInput/17/Type variant:int32:0
+#set_setting /Settings/DigitalInput/18/Type variant:int32:0
+#set_setting /Settings/DigitalInput/19/Type variant:int32:0
+#set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
-## insert links for number of relays and DI
+## insert links for number of relays and Digital Inputs
 if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
     if [[ $nbrelays -eq 2 || $nbrelays -eq 4 || $nbrelays -eq 6 || $nbrelays -eq 8 || $nbrelays -eq 10 || $nbrelays -eq 12 || $nbrelays -eq 14 || $nbrelays -eq 16 ]]; then
 	    #Relays
@@ -363,9 +363,6 @@ fi
 #Service
 svc -t /service/dbus-systemcalc-py
 svc -t /service/dbus-digitalinputs
-[ ! -f /service/rgpio ] && ln -sf /data/RemoteGPIO/service/rgpio /service/rgpio
-
-#For managing reboot of Dingtian IOT devices
-nohup /data/RemoteGPIO/rgpio_service >/dev/null 2>&1 &
+svc -t /service/rgpio_driver
 
 exit 0

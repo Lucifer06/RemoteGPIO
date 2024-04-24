@@ -6,7 +6,7 @@
 # Description:	     Also keep units.conf up to date so it creates the gpio at boot time
 ## END INIT INFO
 
-#exec 2>&1
+exec 2>&1
 
 get_setting()
 	{
@@ -24,9 +24,9 @@ get_IP()
 	} 
 
 latch=0
-latch2=$(cat /data/RemoteGPIO/conf/units.conf)
-latch3=$(cat /data/RemoteGPIO/conf/relays.conf)
 timer=$(date +%s)
+
+
 
 while true
 do
@@ -39,11 +39,12 @@ do
 			###################
 			if [ $service != $latch ]
 			then
-				svc -d /service/rgpio
-				echo "rgpio_service: Stopping RemoteGPIO driver" >> /var/log/RemoteGPIO/current
-				set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
-				svc -t /service/dbus-systemcalc-py
-				svc -t /service/dbus-digitalinputs/
+				svc -d /service/rgpio_driver
+				echo "rgpio_driver: Stopping RemoteGPIO driver" >> /var/log/RemoteGPIO/current
+				#set_setting /Settings/RemoteGPIO/NumberUnits variant:int32:0
+				/etc/rcS.d/S90rgpio_pins.sh
+				#svc -t /service/dbus-systemcalc-py
+				#svc -t /service/dbus-digitalinputs/
 			fi
 			latch=$((service))
 			;;
@@ -54,8 +55,9 @@ do
 			###########################
 			if [ $service != $latch ]
                         then
-                                svc -u /service/rgpio
-                                echo "rgpio_service: Starting RemoteGPIO driver" >> /var/log/RemoteGPIO/current
+                                svc -u /service/rgpio_driver
+                                echo "rgpio_driver: Starting RemoteGPIO driver" >> /var/log/RemoteGPIO/current
+								/etc/rcS.d/S90rgpio_pins.sh
 			fi
 			latch=$((service))
 			;;
@@ -106,48 +108,25 @@ do
                     set_setting /Settings/Services/RemoteGPIO variant:int32:1
             	fi                                                                                                            
 			fi
-			latch=$((service))
+			#latch=$((service))
 			;;	
+		3)
+			##
+			## Restart Service
+			###########################
+			if [ $service != $latch ]
+                then
+                    svc -t /service/rgpio_driver
+                    echo "rgpio_driver: Restarting RemoteGPIO driver" >> /var/log/RemoteGPIO/current
+					/etc/rcS.d/S90rgpio_pins.sh
+					set_setting /Settings/Services/RemoteGPIO variant:int32:1
+					set_setting /Settings/RemoteGPIO/Restart variant:int32:0
+			fi
+			#latch=$((service))
+			;;
 	esac
-			
-	##
-	## Update units.conf and re-execute launch script and update GUI - reboot needed to take effects
-	################################################################################################
-	nbunit=$(get_setting /Settings/RemoteGPIO/NumberUnits)
-	nbrelayunit1=$(get_setting /Settings/RemoteGPIO/Unit1/NumRelays)
-	nbrelayunit2=$(get_setting /Settings/RemoteGPIO/Unit2/NumRelays)
-	nbrelayunit3=$(get_setting /Settings/RemoteGPIO/Unit3/NumRelays)
 
-	## Find total number of relays for all modules
-	if [[ $nbunit -eq 1 ]]
-    	then
-    	nbrelays=$nbrelayunit1
-
-	elif [[ $nbunit -eq 2 ]]
-    	then
-    	nbrelays=$(($nbrelayunit1 + $nbrelayunit2))
-
-	elif [[ $nbunit -eq 3 ]]
-		then
-    	nbrelays=$(($nbrelayunit1 + $nbrelayunit2 + $nbrelayunit3))
-	fi
-
-
-	if [[ $nbunit != $latch2 || $nbrelays != $latch3 ]]
-	then
-		echo "rgpio_service: Configuration has been updated" >> /var/log/RemoteGPIO/current
-		latch2=$nbunit
-		latch3=$nbrelays
-		echo $nbunit > /data/RemoteGPIO/conf/units.conf
-		echo $nbrelays > /data/RemoteGPIO/conf/relays.conf
-		svc -t /service/dbus-systemcalc-py
-		svc -t /service/dbus-digitalinputs/
-		/etc/rcS.d/S90rgpio_pins.sh
-	fi
-	latch2=$(cat /data/RemoteGPIO/conf/units.conf)
-	latch3=$(cat /data/RemoteGPIO/conf/relays.conf)
-
-        ##                                                        
+    ##                                                        
         ## Watchdog                                                              
         ################################                                                                                                        
         if (( (timer + 10) < $(date +%s) ))                                       
@@ -156,13 +135,13 @@ do
                 timer=$(date +%s)                                                                                                                                  
 			if (( (watchdog + 10) < timer && service == 1 ))
 			then
-				echo "rgpio_service: RemoteGPIO driver restart triggered by watchdog" >> /var/log/RemoteGPIO/current
-				svc -d /service/rgpio ; svc -u /service/rgpio
+				echo "rgpio_driver: RemoteGPIO driver restart triggered by watchdog" >> /var/log/RemoteGPIO/current
+				svc -d /service/rgpio_driver ; svc -u /service/rgpio_driver
 			fi
                echo "Heartbeat = "$(date -d@$timer)
         fi                                               
 
 
 	#Reduce CPU load
-	sleep 1	
+	sleep 2
 done

@@ -32,16 +32,10 @@ MbPage {
             }
 
             MbItemText {                
-                text: qsTr("Changing the configuration requires to reboot Venus OS")
+                text: qsTr("Changing the configuration requires to restart service")
                 wrapMode: Text.WordWrap                                       
                 show: enable.checked                                          
             }                                                                     
-
-			MbSubMenu {
-				description: qsTr("Read Relay State")
-				subpage: Component { PageSettingsReadRelays {} }
-				show: enable.checked
-			}
 
 			MbSubMenu {
 				description: qsTr("Unit 1")
@@ -60,17 +54,23 @@ MbPage {
 				subpage: Component { PageSettingsUnit3 {} }
 				show: enable.checked && numberunits.value == 3
 			}
-                                 
-            MbItemOptions {
-                id: latency
-                description: qsTr("Latency")
-                bind: [rgpioSettings, "/Latency"]                            
-                show: enable.checked   
-                possibleValues: [   
-                    MbOption {description: qsTr("Minimum Latency - CPU load will be high"); value: 0},
-                    MbOption {description: qsTr("Medium Latency - CPU load will be arround 4%"); value: 0.1},
-                    MbOption {description: qsTr("High Latency - CPU load will be low"); value: 0.9}
-                ]  
+
+			MbSwitch {                                  
+            	id: restart                           
+            	name: qsTr("Restart RemoteGPIO Service")
+				bind: [rgpioSettings, "/Restart"]
+				show: enable.checked                 
+        	}         
+		
+			MbItemOptions {
+            	id: confirm
+            	description: qsTr("PLEASE CONFIRM")
+				bind: serviceSetting
+            	show: restart.checked
+            	possibleValues: [
+                	MbOption {description: qsTr("Restart Service"); value: 3},
+                	MbOption {description: qsTr("Do Not Restart Service"); value: 1}
+            	]
         	}
 		}
 	}
