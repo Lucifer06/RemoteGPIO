@@ -79,23 +79,6 @@ rm -f /dev/gpio/digital_input_i
 rm -f /dev/gpio/digital_input_j
 rm -f /dev/gpio/digital_input_k
 
-# Disable D-Bus entries for the additional Digital Inputs
-#set_setting /Settings/DigitalInput/5/Type variant:int32:0
-#set_setting /Settings/DigitalInput/6/Type variant:int32:0
-#set_setting /Settings/DigitalInput/7/Type variant:int32:0
-#set_setting /Settings/DigitalInput/8/Type variant:int32:0
-#set_setting /Settings/DigitalInput/9/Type variant:int32:0
-#set_setting /Settings/DigitalInput/10/Type variant:int32:0
-#set_setting /Settings/DigitalInput/11/Type variant:int32:0
-#set_setting /Settings/DigitalInput/12/Type variant:int32:0
-#set_setting /Settings/DigitalInput/13/Type variant:int32:0
-#set_setting /Settings/DigitalInput/14/Type variant:int32:0
-#set_setting /Settings/DigitalInput/15/Type variant:int32:0
-#set_setting /Settings/DigitalInput/16/Type variant:int32:0
-#set_setting /Settings/DigitalInput/17/Type variant:int32:0
-#set_setting /Settings/DigitalInput/18/Type variant:int32:0
-#set_setting /Settings/DigitalInput/19/Type variant:int32:0
-#set_setting /Settings/DigitalInput/20/Type variant:int32:0
 
 ## insert links for number of relays and Digital Inputs
 if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
@@ -214,6 +197,10 @@ if [[ $nbunit -eq 1 || $nbunit -eq 2 || $nbunit = 3 ]]; then
         nb=$digin
         if [[ $nb -eq 10 ]]; then
             nb=a
+        elif [[ $nb -eq 11 ]]; then
+            nb=b
+        elif [[ $nb -eq 12 ]]; then
+            nb=c
         fi
         echo "/dev/gpio/digital_input_$nb/value" >> /data/RemoteGPIO/FileSets/Conf/Digital_Inputs_unit1.conf
     done

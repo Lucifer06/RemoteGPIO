@@ -1,3 +1,5 @@
+v3.3.2
+	Fix error when creating unit 1 digital input conf file
 v3.3.0
 	No more reboot required after configuration change, just use restart RemoteGPIO services.
 	CPU resources optimisations
