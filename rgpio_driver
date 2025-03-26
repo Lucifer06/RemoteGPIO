@@ -2,7 +2,7 @@
 
 ### BEGIN INIT INFO
 # Short-Description: Driver to send Relays values and read Digital Inputs in loop for ever
-# Description:       rgpio is used to connect external Relay box with ModBus/RTU control
+# Description:       rgpio is used to connect external Relay box with ModBus/RTU or TCP control
 ### END INIT INFO
 
 exec 2>&1
