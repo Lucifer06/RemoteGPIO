@@ -1,0 +1,15 @@
+#! /bin/sh
+
+if ! test -e /dev/gpio/digital_input_1; then
+    svc -d .
+    exit 0
+fi
+
+if ! test -e /dev/gpio/digital_input_1/edge; then
+    flags=--poll=poll
+fi
+# RemoteGPIO requires poll
+# Force polling for MK2 (and may be rPi) as we cannot mix epoll and poll methods
+flags=--poll=poll
+
+exec $(dirname $0)/dbus_digitalinputs.py $flags /dev/gpio/digital_input_*
