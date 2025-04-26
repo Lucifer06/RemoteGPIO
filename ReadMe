@@ -11,15 +11,15 @@ Thanks to drtinaz for the optimisations added since first v3.x release
 
 
 ************* UPDATE as of v3.3.0 **********
+Supports for Cerbo GX MK2 and more likely Raspberry Pi as well
 
+************* UPDATE as of v3.3.0 **********
 Several settings menu enhancements. Added option to enable/disable digital inputs per module. Added option to 'Restart RemoteGPIO' from the menu. Overall cpu usage can be reduced by up to 75% depending on number of modules and options selected.
 
 ************* UPDATE as of v3.2.1 **********
-
 Now supports reading of external relay state and dynamically updating the gui. (Useful for those people who have methods of switching the relays from external sources, such as switches connected directly to the relay modules). If using node-red logic to control the external relays, it is important that you also include a debounce method to eliminate looping. This feature is disabled by default and can be enabled from within RemoteGPIO settings.
 
 ************* UPDATE As of v3.2 ************
-
 RemoteGPIO is now working with up to 3 relay modules, with a total of up to 16 relays/inputs across all connected/active modules. Number of modules and relays per module can be changed dynamically from the RemoteGPIO menu in gui (menu>IO>RemoteGPIO).
 
 Each module may select 2, 4 or 8 relays/inputs.

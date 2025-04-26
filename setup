@@ -69,6 +69,11 @@ if [ $scriptAction == 'INSTALL' ] ; then
 		
 	fi
 	
+	##
+	## For supports of Cerbo GX MK2
+	###############################
+	patch /opt/victronenergy/dbus-digitalinputs/start-digitalinputs.sh /data/RemoteGPIO/FileSets/PatchSource/start-digitalinputs.sh.patch
+
 
 	logMessage "++ $packageName installed"
 fi
