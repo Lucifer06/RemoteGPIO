@@ -127,21 +127,23 @@ do
 	esac
 
     ##                                                        
-        ## Watchdog                                                              
-        ################################                                                                                                        
-        if (( (timer + 10) < $(date +%s) ))                                       
+    ## Watchdog                                                              
+    ################################                                                                                                        
+    if (( (timer + 10) < $(date +%s) ))                                       
         then                                        
 			watchdog=$(get_setting /Settings/Watchdog/RemoteGPIO)
-                timer=$(date +%s)                                                                                                                                  
-			if (( (watchdog + 10) < timer && service == 1 ))
+            timer=$(date +%s)                                                                                                                                  
+		if (( (watchdog + 10) < timer && service == 1 ))
 			then
 				echo "rgpio_driver: RemoteGPIO driver restart triggered by watchdog" >> /var/log/RemoteGPIO/current
 				svc -d /service/rgpio_driver ; svc -u /service/rgpio_driver
-			fi
-               echo "Heartbeat = "$(date -d@$timer)
-        fi                                               
+		fi
+        echo "Heartbeat = "$(date -d@$timer)
+    fi                                               
 
 
-	#Reduce CPU load
-	sleep 2
+	##
+	## Latency vs CPU load
+	#################################
+    sleep 3
 done

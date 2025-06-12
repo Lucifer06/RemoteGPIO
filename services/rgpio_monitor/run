@@ -1,4 +1,4 @@
 #!/bin/sh
 echo "*** starting RemoteGPIO ***"
 exec 2>&1
-exec /data/RemoteGPIO/rgpio_monitor
+exec nice -n 19 /data/RemoteGPIO/rgpio_monitor

@@ -387,7 +387,7 @@ do
 	##
 	## Latency vs CPU load
 	#################################
-#    sleep 0.1
+    sleep 3
 
 
 
