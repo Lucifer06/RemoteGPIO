@@ -74,7 +74,11 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	###############################
 	patch /opt/victronenergy/dbus-digitalinputs/start-digitalinputs.sh /data/RemoteGPIO/FileSets/PatchSource/start-digitalinputs.sh.patch
 
-
+	##
+	## Add RemoteGPIO menus and remove the limit of 9 Digital Inputs
+	################################################################
+	patch /opt/victronenergy/gui/qml/PageSettingsIo.qml /data/RemoteGPIO/FileSets/PatchSource/PageSettingsIo.qml.patch
+	
 	logMessage "++ $packageName installed"
 fi
 
