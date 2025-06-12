@@ -77,7 +77,7 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	##
 	## Add RemoteGPIO menus and remove the limit of 9 Digital Inputs
 	################################################################
-	patch /opt/victronenergy/gui/qml/PageSettingsIo.qml /data/RemoteGPIO/FileSets/PatchSource/PageSettingsIo.qml.patch
+	#patch /opt/victronenergy/gui/qml/PageSettingsIo.qml /data/RemoteGPIO/FileSets/PatchSource/PageSettingsIo.qml.patch
 	
 	logMessage "++ $packageName installed"
 fi
