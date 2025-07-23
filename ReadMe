@@ -4,6 +4,34 @@
 ***********   INSTALL/SETUP INSTRUCTIONS BELOW    ********
 **********************************************************
 
+
+
+
+*************************
+**                     **
+** MAJOR UPDATE v4.0.0 **
+**                     **
+*************************
+
+Version 4.x brings several changes:
+1/ The communication with Dingtian Module is now using MQTT
+This is much more efficient with lower CPU footprint
+It allows also higher number of Relays and Digital Inputs (limit currently not identified)
+
+2/ Supports Venus OS GUI v2
+It means that this version requires Venus OS 3.6.x minimal version to work
+It also means there are no more dependenties with GUIMODS
+
+3/ Supports Interrupt based DigitalInputs
+In the past RemoteGPIO was relying on a regular polling for updating the DI status
+With interrupt support, ePoll is enabled in Venus OS and is much more efficient
+
+
+More to come:
+Zero configuration with automatic Relays and Inputs (assuming Dingtian modul is correctly configured)
+Keep supports of PackageManager
+
+
 Raspberry is partially supported: Relay is OK, DigitalInputs is KO
 CerboGX is confirmed to perfectly work
 Don't know for any other GX devices
