@@ -2,7 +2,6 @@
 
 import configparser
 import paho.mqtt.client as mqtt
-# MODIFIED: Removed the specific enum import as it was causing issues
 import os
 import sys
 import logging
@@ -19,6 +18,7 @@ CONFIG_FILE = '/data/RemoteGPIO/conf/config.ini'
 MODULE_NAME = 'rgpio_module'
 MODULE_PATH = f'/data/RemoteGPIO/{MODULE_NAME}.ko' # Path to your .ko module
 MIN_GPIOS = 8 # Minimum number of GPIOs to create, even if config is empty
+DBUS_SERVICE_PATH = '/service/dbus-digitalinputs' # Path to the dependent service
 
 def export_gpios(gpio_base, count):
     """
@@ -90,7 +90,7 @@ def manage_kernel_module(config_path, module_path):
         subprocess.run(cmd, check=True, capture_output=True, text=True)
         
     except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to load kernel module: {e.stderr}")
+        logger.error(f"Failed to load kernel module: {e.stderr.strip()}")
         return None, None, 0
     
     logger.info("Kernel module loaded successfully.")
@@ -144,7 +144,6 @@ def manage_kernel_module(config_path, module_path):
 
     return base_gpio, trigger_path, total_inputs
 
-# MODIFIED: Function now requires gpio_base to create symlinks
 def create_io_ext_files(config_path, gpio_base):
     """
     Creates the /run/io-ext directory structure, pins.conf files,
@@ -176,10 +175,9 @@ def create_io_ext_files(config_path, gpio_base):
                 pins_content.append(f"tag\t{serial}")
                 
                 for i in range(1, num_inputs + 1):
-                    # MODIFIED: Changed final tab to a space
                     pins_content.append(f"input\t/run/io-ext/{serial}/input_{i} {i}")
 
-                    # NEW: Create symbolic link for the input
+                    # Create symbolic link for the input
                     gpio_num = gpio_base + virtual_gpio_offset
                     link_target = f"/sys/class/gpio/gpio{gpio_num}"
                     link_path = os.path.join(device_dir, f"input_{i}")
@@ -193,7 +191,6 @@ def create_io_ext_files(config_path, gpio_base):
                     virtual_gpio_offset += 1 # Increment offset for each input
                 
                 for i in range(1, num_relays + 1):
-                    # MODIFIED: Changed final tab to a space
                     pins_content.append(f"relay\t/run/io-ext/{serial}/relay_{i} {i}")
                 
                 # Write pins.conf file
@@ -207,21 +204,13 @@ def create_io_ext_files(config_path, gpio_base):
         logger.error(f"Failed to create io-ext files: {e}")
 
 class GpioBridge:
-    # Constructor now accepts trigger_path
     def __init__(self, gpio_base, trigger_path, config_path):
         self.gpio_base = gpio_base
-        self.trigger_file = trigger_path # Use the dynamic path
+        self.trigger_file = trigger_path
         self.config = configparser.ConfigParser()
-
-        if not os.path.exists(config_path):
-            logger.error(f"Configuration file not found: {config_path}")
-            sys.exit(1)
         self.config.read(config_path)
-
         self.mqtt_to_gpio_map = {}
         self.virtual_gpio_offset = 0
-        
-        # The check is now done in the management function
         self.setup_device_mappings()
 
     def setup_device_mappings(self):
@@ -231,97 +220,96 @@ class GpioBridge:
                 try:
                     topic_base = self.config[section]['topic_base']
                     num_inputs = int(self.config[section]['num_inputs'])
-                    
                     logger.info(f"Device {section}: {num_inputs} inputs, base topic {topic_base}")
-
                     for i in range(num_inputs):
                         mqtt_topic = f"{topic_base}/input/{i + 1}"
                         virtual_line = self.virtual_gpio_offset
-                        
                         self.mqtt_to_gpio_map[mqtt_topic] = virtual_line
                         logger.info(f"  - Mapping: {mqtt_topic} -> Virtual line {virtual_line} (GPIO {self.gpio_base + virtual_line})")
-                        
                         self.virtual_gpio_offset += 1
                 except (KeyError, ValueError) as e:
                     logger.error(f"Configuration error in section {section}: {e}")
-        
         logger.info(f"Mapping finished. {len(self.mqtt_to_gpio_map)} total inputs.")
 
     def on_mqtt_message(self, client, userdata, msg):
         topic = msg.topic
         payload = msg.payload.decode()
         logger.debug(f"Message received - Topic: {topic}, Payload: {payload}")
-
         virtual_line = self.mqtt_to_gpio_map.get(topic)
         if virtual_line is None:
             return
-
         try:
             gpio_num = self.gpio_base + virtual_line
             gpio_value_path = f"/sys/class/gpio/gpio{gpio_num}/value"
             gpio_direction_path = f"/sys/class/gpio/gpio{gpio_num}/direction"
-
             with open(gpio_direction_path, 'w') as f:
                 f.write('out')
             with open(gpio_value_path, 'w') as f:
                 f.write(payload)
             with open(gpio_direction_path, 'w') as f:
                 f.write('in')
-            
             with open(self.trigger_file, "w") as f:
                 f.write(str(virtual_line))
-
         except Exception as e:
             logger.error(f"Error while processing message for {topic}: {e}")
 
     def start(self):
         broker_config = self.config['mqtt_broker']
-        # MODIFIED: Pass the API version as a raw integer (1) to bypass enum issues.
-        # This is the first argument for paho-mqtt v2.x.
         client = mqtt.Client(1)
         client.on_message = self.on_mqtt_message
-        
         if broker_config.get('username'):
             client.username_pw_set(broker_config['username'], broker_config.get('password'))
-
         logger.info(f"Connecting to MQTT broker at {broker_config['address']}:{broker_config['port']}")
         client.connect(broker_config['address'], int(broker_config['port']), 60)
-
         for topic in self.mqtt_to_gpio_map.keys():
             logger.info(f"Subscribing to {topic}")
             client.subscribe(topic)
-
         logger.info("MQTT to rgpio bridge started. Waiting for messages...")
         client.loop_forever()
-
 
 if __name__ == "__main__":
     logger.info("--- Starting rgpio driver for virtual inputs ---")
     
-    # Step 1: Manage kernel module and get GPIO base and trigger path
-    gpio_base_num, trigger_path, total_inputs_count = manage_kernel_module(
-        config_path=CONFIG_FILE, module_path=MODULE_PATH)
-    
-    if gpio_base_num is None or trigger_path is None:
-        logger.critical("Could not configure kernel module. The script will exit.")
-        sys.exit(1)
-    
-    # NEW Step 2: Export all necessary GPIOs to make them visible
-    if not export_gpios(gpio_base=gpio_base_num, count=total_inputs_count):
-        logger.critical("Failed to export GPIOs. The script will exit.")
-        sys.exit(1)
-
-    # Step 3: Create io-ext configuration files and symlinks
-    create_io_ext_files(config_path=CONFIG_FILE, gpio_base=gpio_base_num)
-        
-    # Step 4: Start the MQTT bridge with the retrieved information
     try:
+        # Stop dependent services before managing kernel modules
+        if os.path.exists(DBUS_SERVICE_PATH):
+            logger.info(f"Stopping dependent service: {DBUS_SERVICE_PATH}")
+            subprocess.run(["svc", "-d", DBUS_SERVICE_PATH], capture_output=True)
+            time.sleep(1) # Give the service time to stop
+
+        # Step 1: Manage kernel module
+        gpio_base_num, trigger_path, total_inputs_count = manage_kernel_module(
+            config_path=CONFIG_FILE, module_path=MODULE_PATH)
+        
+        if gpio_base_num is None or trigger_path is None:
+            logger.critical("Could not configure kernel module. The script will exit.")
+            sys.exit(1) # The finally block will handle the restart
+        
+        # Step 2: Export GPIOs
+        if not export_gpios(gpio_base=gpio_base_num, count=total_inputs_count):
+            logger.critical("Failed to export GPIOs. The script will exit.")
+            sys.exit(1) # The finally block will handle the restart
+
+        # Step 3: Create io-ext files
+        create_io_ext_files(config_path=CONFIG_FILE, gpio_base=gpio_base_num)
+            
+        # Step 4: Restart the service now that setup is complete
+        if os.path.exists(DBUS_SERVICE_PATH):
+            logger.info(f"Restarting dependent service: {DBUS_SERVICE_PATH}")
+            subprocess.run(["svc", "-u", DBUS_SERVICE_PATH])
+
+        # Step 5: Start the MQTT bridge
         bridge = GpioBridge(gpio_base=gpio_base_num, trigger_path=trigger_path, config_path=CONFIG_FILE)
         bridge.start()
+
     except KeyboardInterrupt:
         logger.info("Script shutdown requested by user.")
     except Exception as e:
         logger.critical(f"A fatal error occurred: {e}")
     finally:
+        # Ensure the dependent service is running when this script exits, for any reason.
+        if os.path.exists(DBUS_SERVICE_PATH):
+            logger.info(f"Ensuring dependent service '{DBUS_SERVICE_PATH}' is running on exit.")
+            subprocess.run(["svc", "-u", DBUS_SERVICE_PATH])
         logger.info("--- rgpio driver stopped ---")
 
