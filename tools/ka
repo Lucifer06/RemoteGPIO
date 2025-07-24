@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# FIND PROCESS
+function p(){
+        ps  | grep -i $1 | grep -v grep
+}
+
+
+    cnt=$( p $1 | wc -l)  # total count of processes found
+    klevel=${2:-15}       # kill level, defaults to 15 if argument 2 is empty
+
+    echo -e "\nSearching for '$1' -- Found" $cnt "Running Processes .. "
+    p $1
+
+    echo -e '\nTerminating' $cnt 'processes .. '
+
+    ps   |  grep -i $1 |  grep -v grep   | awk '{print $1}' | xargs sudo kill 
+    echo -e "Done!\n"
+
+    echo "Running search again:"
+    p "$1"
+    echo -e "\n"

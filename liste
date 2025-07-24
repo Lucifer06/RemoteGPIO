@@ -1,0 +1,498 @@
+Settings/DigitalInput/1/AlarmSetting                                                                             0
+Settings/DigitalInput/1/Count                                                                                    0
+Settings/DigitalInput/1/CustomName                                                                          EDF IN
+Settings/DigitalInput/1/InvertAlarm                                                                              0
+Settings/DigitalInput/1/InvertTranslation                                                                        0
+Settings/DigitalInput/1/Multiplier                                                                           0.001
+Settings/DigitalInput/1/Type                                                                                     0
+Settings/DigitalInput/10/AlarmSetting                                                                            0
+Settings/DigitalInput/10/Count                                                                                   0
+Settings/DigitalInput/10/CustomName
+Settings/DigitalInput/10/InvertAlarm                                                                             0
+Settings/DigitalInput/10/InvertTranslation                                                                       0
+Settings/DigitalInput/10/Multiplier                                                                          0.001
+Settings/DigitalInput/10/Type                                                                                    0
+Settings/DigitalInput/11/AlarmSetting                                                                            0
+Settings/DigitalInput/11/Count                                                                                   0
+Settings/DigitalInput/11/CustomName
+Settings/DigitalInput/11/InvertAlarm                                                                             0
+Settings/DigitalInput/11/InvertTranslation                                                                       0
+Settings/DigitalInput/11/Multiplier                                                                          0.001
+Settings/DigitalInput/11/Type                                                                                    0
+Settings/DigitalInput/12/AlarmSetting                                                                            0
+Settings/DigitalInput/12/Count                                                                                   0
+Settings/DigitalInput/12/CustomName
+Settings/DigitalInput/12/InvertAlarm                                                                             0
+Settings/DigitalInput/12/InvertTranslation                                                                       0
+Settings/DigitalInput/12/Multiplier                                                                          0.001
+Settings/DigitalInput/12/Type                                                                                    0
+Settings/DigitalInput/2/AlarmSetting                                                                             0
+Settings/DigitalInput/2/Count                                                                                    0
+Settings/DigitalInput/2/CustomName                                                                          SOURCE
+Settings/DigitalInput/2/InvertAlarm                                                                              0
+Settings/DigitalInput/2/InvertTranslation                                                                        0
+Settings/DigitalInput/2/Multiplier                                                                           0.001
+Settings/DigitalInput/2/Type                                                                                     0
+Settings/DigitalInput/3/AlarmSetting                                                                             1
+Settings/DigitalInput/3/Count                                                                                    0
+Settings/DigitalInput/3/CustomName                                                                  SMOKE DETECTOR
+Settings/DigitalInput/3/InvertAlarm                                                                              1
+Settings/DigitalInput/3/InvertTranslation                                                                        1
+Settings/DigitalInput/3/Multiplier                                                                           0.001
+Settings/DigitalInput/3/Type                                                                                     0
+Settings/DigitalInput/4/AlarmSetting                                                                             0
+Settings/DigitalInput/4/Count                                                                                    0
+Settings/DigitalInput/4/CustomName
+Settings/DigitalInput/4/InvertAlarm                                                                              0
+Settings/DigitalInput/4/InvertTranslation                                                                        0
+Settings/DigitalInput/4/Multiplier                                                                           0.001
+Settings/DigitalInput/4/Type                                                                                     0
+Settings/DigitalInput/5/AlarmSetting                                                                             0
+Settings/DigitalInput/5/Count                                                                                    0
+Settings/DigitalInput/5/CustomName
+Settings/DigitalInput/5/InvertAlarm                                                                              0
+Settings/DigitalInput/5/InvertTranslation                                                                        0
+Settings/DigitalInput/5/Multiplier                                                                           0.001
+Settings/DigitalInput/5/Type                                                                                     0
+Settings/DigitalInput/6/AlarmSetting                                                                             0
+Settings/DigitalInput/6/Count                                                                                    0
+Settings/DigitalInput/6/CustomName
+Settings/DigitalInput/6/InvertAlarm                                                                              0
+Settings/DigitalInput/6/InvertTranslation                                                                        0
+Settings/DigitalInput/6/Multiplier                                                                           0.001
+Settings/DigitalInput/6/Type                                                                                     0
+Settings/DigitalInput/7/AlarmSetting                                                                             0
+Settings/DigitalInput/7/Count                                                                                    0
+Settings/DigitalInput/7/CustomName
+Settings/DigitalInput/7/InvertAlarm                                                                              0
+Settings/DigitalInput/7/InvertTranslation                                                                        0
+Settings/DigitalInput/7/Multiplier                                                                           0.001
+Settings/DigitalInput/7/Type                                                                                     0
+Settings/DigitalInput/8/AlarmSetting                                                                             0
+Settings/DigitalInput/8/Count                                                                                    0
+Settings/DigitalInput/8/CustomName
+Settings/DigitalInput/8/InvertAlarm                                                                              0
+Settings/DigitalInput/8/InvertTranslation                                                                        0
+Settings/DigitalInput/8/Multiplier                                                                           0.001
+Settings/DigitalInput/8/Type                                                                                     0
+Settings/DigitalInput/9/AlarmSetting                                                                             0
+Settings/DigitalInput/9/Count                                                                                    0
+Settings/DigitalInput/9/CustomName
+Settings/DigitalInput/9/InvertAlarm                                                                              0
+Settings/DigitalInput/9/InvertTranslation                                                                        0
+Settings/DigitalInput/9/Multiplier                                                                           0.001
+Settings/DigitalInput/9/Type            									 0 
+Settings/DigitalInput/rgpio_io_50_input_1/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_1/Count                                                                  1
+Settings/DigitalInput/rgpio_io_50_input_1/CustomName                                                   Generic I/O
+Settings/DigitalInput/rgpio_io_50_input_1/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_1/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_1/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_1/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_2/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_2/Count                                                                  0
+Settings/DigitalInput/rgpio_io_50_input_2/CustomName
+Settings/DigitalInput/rgpio_io_50_input_2/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_2/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_2/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_2/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_3/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_3/Count                                                                  0
+Settings/DigitalInput/rgpio_io_50_input_3/CustomName
+Settings/DigitalInput/rgpio_io_50_input_3/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_3/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_3/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_3/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_4/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_4/Count                                                                  0
+Settings/DigitalInput/rgpio_io_50_input_4/CustomName
+Settings/DigitalInput/rgpio_io_50_input_4/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_4/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_4/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_4/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_5/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_5/Count                                                                  0
+Settings/DigitalInput/rgpio_io_50_input_5/CustomName
+Settings/DigitalInput/rgpio_io_50_input_5/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_5/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_5/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_5/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_6/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_6/Count                                                                  0
+Settings/DigitalInput/rgpio_io_50_input_6/CustomName
+Settings/DigitalInput/rgpio_io_50_input_6/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_6/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_6/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_6/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_7/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_7/Count                                                                  0
+Settings/DigitalInput/rgpio_io_50_input_7/CustomName                                                         TGPIO
+Settings/DigitalInput/rgpio_io_50_input_7/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_7/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_7/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_7/Type                                                                   0
+Settings/DigitalInput/rgpio_io_50_input_8/AlarmSetting                                                           0
+Settings/DigitalInput/rgpio_io_50_input_8/Count                                                                  1
+Settings/DigitalInput/rgpio_io_50_input_8/CustomName
+Settings/DigitalInput/rgpio_io_50_input_8/InvertAlarm                                                            0
+Settings/DigitalInput/rgpio_io_50_input_8/InvertTranslation                                                      0
+Settings/DigitalInput/rgpio_io_50_input_8/Multiplier                                                         0.001
+Settings/DigitalInput/rgpio_io_50_input_8/Type                                                                   0
+Settings/DigitalInput/titi23_input_1/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_1/Count                                                                       0
+Settings/DigitalInput/titi23_input_1/CustomName
+Settings/DigitalInput/titi23_input_1/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_1/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_1/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_1/Type                                                                        0
+Settings/DigitalInput/titi23_input_2/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_2/Count                                                                       0
+Settings/DigitalInput/titi23_input_2/CustomName
+Settings/DigitalInput/titi23_input_2/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_2/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_2/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_2/Type                                                                        0
+Settings/DigitalInput/titi23_input_3/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_3/Count                                                                       0
+Settings/DigitalInput/titi23_input_3/CustomName
+Settings/DigitalInput/titi23_input_3/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_3/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_3/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_3/Type                                                                        0
+Settings/DigitalInput/titi23_input_4/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_4/Count                                                                       0
+Settings/DigitalInput/titi23_input_4/CustomName
+Settings/DigitalInput/titi23_input_4/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_4/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_4/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_4/Type                                                                        0
+Settings/DigitalInput/titi23_input_5/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_5/Count                                                                       0
+Settings/DigitalInput/titi23_input_5/CustomName
+Settings/DigitalInput/titi23_input_5/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_5/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_5/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_5/Type                                                                        0
+Settings/DigitalInput/titi23_input_6/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_6/Count                                                                       0
+Settings/DigitalInput/titi23_input_6/CustomName
+Settings/DigitalInput/titi23_input_6/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_6/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_6/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_6/Type                                                                        0
+Settings/DigitalInput/titi23_input_7/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_7/Count                                                                       0
+Settings/DigitalInput/titi23_input_7/CustomName
+Settings/DigitalInput/titi23_input_7/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_7/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_7/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_7/Type                                                                        0
+Settings/DigitalInput/titi23_input_8/AlarmSetting                                                                0
+Settings/DigitalInput/titi23_input_8/Count                                                                       0
+Settings/DigitalInput/titi23_input_8/CustomName
+Settings/DigitalInput/titi23_input_8/InvertAlarm                                                                 0
+Settings/DigitalInput/titi23_input_8/InvertTranslation                                                           0
+Settings/DigitalInput/titi23_input_8/Multiplier                                                              0.001
+Settings/DigitalInput/titi23_input_8/Type                                                                        0
+Settings/DigitalInput/titi_input_1/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_1/Count                                                                         0
+Settings/DigitalInput/titi_input_1/CustomName
+Settings/DigitalInput/titi_input_1/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_1/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_1/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_1/Type                                                                          0
+Settings/DigitalInput/titi_input_2/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_2/Count                                                                         0
+Settings/DigitalInput/titi_input_2/CustomName
+Settings/DigitalInput/titi_input_2/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_2/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_2/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_2/Type                                                                          0
+Settings/DigitalInput/titi_input_3/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_3/Count                                                                         0
+Settings/DigitalInput/titi_input_3/CustomName
+Settings/DigitalInput/titi_input_3/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_3/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_3/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_3/Type                                                                          0
+Settings/DigitalInput/titi_input_4/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_4/Count                                                                         0
+Settings/DigitalInput/titi_input_4/CustomName
+Settings/DigitalInput/titi_input_4/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_4/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_4/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_4/Type                                                                          0
+Settings/DigitalInput/titi_input_5/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_5/Count                                                                         0
+Settings/DigitalInput/titi_input_5/CustomName
+Settings/DigitalInput/titi_input_5/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_5/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_5/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_5/Type                                                                          0
+Settings/DigitalInput/titi_input_6/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_6/Count                                                                         0
+Settings/DigitalInput/titi_input_6/CustomName
+Settings/DigitalInput/titi_input_6/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_6/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_6/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_6/Type                                                                          0
+Settings/DigitalInput/titi_input_7/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_7/Count                                                                         0
+Settings/DigitalInput/titi_input_7/CustomName
+Settings/DigitalInput/titi_input_7/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_7/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_7/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_7/Type                                                                          0
+Settings/DigitalInput/titi_input_8/AlarmSetting                                                                  0
+Settings/DigitalInput/titi_input_8/Count                                                                         0
+Settings/DigitalInput/titi_input_8/CustomName
+Settings/DigitalInput/titi_input_8/InvertAlarm                                                                   0
+Settings/DigitalInput/titi_input_8/InvertTranslation                                                             0
+Settings/DigitalInput/titi_input_8/Multiplier                                                                0.001
+Settings/DigitalInput/titi_input_8/Type                                                                          0
+Settings/DigitalInput/toto1_input_1/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_1/Count                                                                        0
+Settings/DigitalInput/toto1_input_1/CustomName
+Settings/DigitalInput/toto1_input_1/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_1/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_1/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_1/Type                                                                         0
+Settings/DigitalInput/toto1_input_2/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_2/Count                                                                        0
+Settings/DigitalInput/toto1_input_2/CustomName
+Settings/DigitalInput/toto1_input_2/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_2/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_2/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_2/Type                                                                         0
+Settings/DigitalInput/toto1_input_3/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_3/Count                                                                        0
+Settings/DigitalInput/toto1_input_3/CustomName
+Settings/DigitalInput/toto1_input_3/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_3/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_3/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_3/Type                                                                         0
+Settings/DigitalInput/toto1_input_4/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_4/Count                                                                        0
+Settings/DigitalInput/toto1_input_4/CustomName
+Settings/DigitalInput/toto1_input_4/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_4/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_4/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_4/Type                                                                         0
+Settings/DigitalInput/toto1_input_5/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_5/Count                                                                        0
+Settings/DigitalInput/toto1_input_5/CustomName
+Settings/DigitalInput/toto1_input_5/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_5/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_5/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_5/Type                                                                         0
+Settings/DigitalInput/toto1_input_6/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_6/Count                                                                        0
+Settings/DigitalInput/toto1_input_6/CustomName
+Settings/DigitalInput/toto1_input_6/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_6/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_6/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_6/Type                                                                         0
+Settings/DigitalInput/toto1_input_7/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_7/Count                                                                        0
+Settings/DigitalInput/toto1_input_7/CustomName
+Settings/DigitalInput/toto1_input_7/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_7/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_7/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_7/Type                                                                         0
+Settings/DigitalInput/toto1_input_8/AlarmSetting                                                                 0
+Settings/DigitalInput/toto1_input_8/Count                                                                        0
+Settings/DigitalInput/toto1_input_8/CustomName
+Settings/DigitalInput/toto1_input_8/InvertAlarm                                                                  0
+Settings/DigitalInput/toto1_input_8/InvertTranslation                                                            0
+Settings/DigitalInput/toto1_input_8/Multiplier                                                               0.001
+Settings/DigitalInput/toto1_input_8/Type                                                                         0
+Settings/Devices/mqtt_io/CustomName                                                                         MQTOTO
+Settings/Devices/mqtt_io/Relay/1/CustomName                                                                   Rel1
+Settings/Devices/mqtt_io/Relay/1/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/1/Group                                                                        GRP1
+Settings/Devices/mqtt_io/Relay/1/ShowUIControl                                                                   0
+Settings/Devices/mqtt_io/Relay/1/Type                                                                            0
+Settings/Devices/mqtt_io/Relay/2/CustomName                                                                  Rel 2
+Settings/Devices/mqtt_io/Relay/2/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/2/Group                                                                        GRP1
+Settings/Devices/mqtt_io/Relay/2/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/2/Type                                                                            0
+Settings/Devices/mqtt_io/Relay/3/CustomName                                                                   Rel3
+Settings/Devices/mqtt_io/Relay/3/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/3/Group                                                                        GRP3
+Settings/Devices/mqtt_io/Relay/3/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/3/Type                                                                            0
+Settings/Devices/mqtt_io/Relay/4/CustomName
+Settings/Devices/mqtt_io/Relay/4/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/4/Group
+Settings/Devices/mqtt_io/Relay/4/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/4/Type                                                                            0
+Settings/Devices/mqtt_io/Relay/5/CustomName
+Settings/Devices/mqtt_io/Relay/5/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/5/Group
+Settings/Devices/mqtt_io/Relay/5/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/5/Type                                                                            0
+Settings/Devices/mqtt_io/Relay/6/CustomName                                                                  REL 6
+Settings/Devices/mqtt_io/Relay/6/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/6/Group
+Settings/Devices/mqtt_io/Relay/6/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/6/Type                                                                            1
+Settings/Devices/mqtt_io/Relay/7/CustomName
+Settings/Devices/mqtt_io/Relay/7/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/7/Group
+Settings/Devices/mqtt_io/Relay/7/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/7/Type                                                                            1
+Settings/Devices/mqtt_io/Relay/8/CustomName
+Settings/Devices/mqtt_io/Relay/8/Function                                                                        2
+Settings/Devices/mqtt_io/Relay/8/Group
+Settings/Devices/mqtt_io/Relay/8/ShowUIControl                                                                   1
+Settings/Devices/mqtt_io/Relay/8/Type                                                                            1
+Settings/Devices/rgpio_io/CustomName                                                                      RGPIO #1
+Settings/Devices/rgpio_io/Relay/1/CustomName                                                                  Rel1
+Settings/Devices/rgpio_io/Relay/1/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/1/Group                                                                       GRP1
+Settings/Devices/rgpio_io/Relay/1/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/1/Type                                                                           0
+Settings/Devices/rgpio_io/Relay/2/CustomName
+Settings/Devices/rgpio_io/Relay/2/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/2/Group
+Settings/Devices/rgpio_io/Relay/2/ShowUIControl                                                                  0
+Settings/Devices/rgpio_io/Relay/2/Type                                                                           1
+Settings/Devices/rgpio_io/Relay/3/CustomName
+Settings/Devices/rgpio_io/Relay/3/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/3/Group
+Settings/Devices/rgpio_io/Relay/3/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/3/Type                                                                           1
+Settings/Devices/rgpio_io/Relay/4/CustomName
+Settings/Devices/rgpio_io/Relay/4/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/4/Group
+Settings/Devices/rgpio_io/Relay/4/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/4/Type                                                                           1
+Settings/Devices/rgpio_io/Relay/5/CustomName
+Settings/Devices/rgpio_io/Relay/5/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/5/Group
+Settings/Devices/rgpio_io/Relay/5/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/5/Type                                                                           1
+Settings/Devices/rgpio_io/Relay/6/CustomName
+Settings/Devices/rgpio_io/Relay/6/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/6/Group
+Settings/Devices/rgpio_io/Relay/6/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/6/Type                                                                           1
+Settings/Devices/rgpio_io/Relay/7/CustomName
+Settings/Devices/rgpio_io/Relay/7/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/7/Group
+Settings/Devices/rgpio_io/Relay/7/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/7/Type                                                                           1
+Settings/Devices/rgpio_io/Relay/8/CustomName
+Settings/Devices/rgpio_io/Relay/8/Function                                                                       2
+Settings/Devices/rgpio_io/Relay/8/Group
+Settings/Devices/rgpio_io/Relay/8/ShowUIControl                                                                  1
+Settings/Devices/rgpio_io/Relay/8/Type                                                                           1
+Settings/Devices/rgpio_io_50/CustomName                                                                   RGPIO #1
+Settings/Devices/rgpio_io_50/Relay/1/CustomName                                                               Rel1
+Settings/Devices/rgpio_io_50/Relay/1/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/1/Group                                                                    GRP1
+Settings/Devices/rgpio_io_50/Relay/1/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/1/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/1/Type                                                                        0
+Settings/Devices/rgpio_io_50/Relay/2/CustomName
+Settings/Devices/rgpio_io_50/Relay/2/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/2/Group                                                                    GRP2
+Settings/Devices/rgpio_io_50/Relay/2/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/2/State                                                                       1
+Settings/Devices/rgpio_io_50/Relay/2/Type                                                                        1
+Settings/Devices/rgpio_io_50/Relay/3/CustomName
+Settings/Devices/rgpio_io_50/Relay/3/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/3/Group
+Settings/Devices/rgpio_io_50/Relay/3/ShowUIControl                                                               0
+Settings/Devices/rgpio_io_50/Relay/3/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/3/Type                                                                        1
+Settings/Devices/rgpio_io_50/Relay/4/CustomName
+Settings/Devices/rgpio_io_50/Relay/4/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/4/Group                                                                    GRP2
+Settings/Devices/rgpio_io_50/Relay/4/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/4/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/4/Type                                                                        1
+Settings/Devices/rgpio_io_50/Relay/5/CustomName
+Settings/Devices/rgpio_io_50/Relay/5/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/5/Group
+Settings/Devices/rgpio_io_50/Relay/5/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/5/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/5/Type                                                                        1
+Settings/Devices/rgpio_io_50/Relay/6/CustomName
+Settings/Devices/rgpio_io_50/Relay/6/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/6/Group
+Settings/Devices/rgpio_io_50/Relay/6/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/6/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/6/Type                                                                        1
+Settings/Devices/rgpio_io_50/Relay/7/CustomName
+Settings/Devices/rgpio_io_50/Relay/7/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/7/Group
+Settings/Devices/rgpio_io_50/Relay/7/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/7/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/7/Type                                                                        1
+Settings/Devices/rgpio_io_50/Relay/8/CustomName
+Settings/Devices/rgpio_io_50/Relay/8/Function                                                                    2
+Settings/Devices/rgpio_io_50/Relay/8/Group
+Settings/Devices/rgpio_io_50/Relay/8/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_50/Relay/8/State                                                                       0
+Settings/Devices/rgpio_io_50/Relay/8/Type                                                                        1
+Settings/Devices/rgpio_io_50_input_1/ClassAndVrmInstance                                           digitalinput:18
+Settings/Devices/rgpio_io_50_input_2/ClassAndVrmInstance                                           digitalinput:19
+Settings/Devices/rgpio_io_50_input_3/ClassAndVrmInstance                                           digitalinput:20
+Settings/Devices/rgpio_io_50_input_4/ClassAndVrmInstance                                           digitalinput:21
+Settings/Devices/rgpio_io_50_input_5/ClassAndVrmInstance                                           digitalinput:22
+Settings/Devices/rgpio_io_50_input_6/ClassAndVrmInstance                                           digitalinput:23
+Settings/Devices/rgpio_io_50_input_7/ClassAndVrmInstance                                           digitalinput:24
+Settings/Devices/rgpio_io_50_input_8/ClassAndVrmInstance                                           digitalinput:25
+Settings/Devices/rgpio_io_51/CustomName                                                                   RGPIO #2
+Settings/Devices/rgpio_io_51/Relay/1/CustomName                                                           Rel TITI
+Settings/Devices/rgpio_io_51/Relay/1/Function                                                                    2
+Settings/Devices/rgpio_io_51/Relay/1/Group                                                                    GRP2
+Settings/Devices/rgpio_io_51/Relay/1/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_51/Relay/1/State                                                                       0
+Settings/Devices/rgpio_io_51/Relay/1/Type                                                                        1
+Settings/Devices/rgpio_io_51/Relay/2/CustomName
+Settings/Devices/rgpio_io_51/Relay/2/Function                                                                    2
+Settings/Devices/rgpio_io_51/Relay/2/Group
+Settings/Devices/rgpio_io_51/Relay/2/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_51/Relay/2/State                                                                       0
+Settings/Devices/rgpio_io_51/Relay/2/Type                                                                        1
+Settings/Devices/rgpio_io_51/Relay/3/CustomName
+Settings/Devices/rgpio_io_51/Relay/3/Function                                                                    2
+Settings/Devices/rgpio_io_51/Relay/3/Group
+Settings/Devices/rgpio_io_51/Relay/3/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_51/Relay/3/State                                                                       0
+Settings/Devices/rgpio_io_51/Relay/3/Type                                                                        1
+Settings/Devices/rgpio_io_51/Relay/4/CustomName
+Settings/Devices/rgpio_io_51/Relay/4/Function                                                                    2
+Settings/Devices/rgpio_io_51/Relay/4/Group
+Settings/Devices/rgpio_io_51/Relay/4/ShowUIControl                                                               1
+Settings/Devices/rgpio_io_51/Relay/4/State                                                                       0
+Settings/Devices/rgpio_io_51/Relay/4/Type                                                                        1
+Settings/Devices/titi23_input_1/ClassAndVrmInstance                                                digitalinput:42
+Settings/Devices/titi23_input_2/ClassAndVrmInstance                                                digitalinput:43
+Settings/Devices/titi23_input_3/ClassAndVrmInstance                                                digitalinput:44
+Settings/Devices/titi23_input_4/ClassAndVrmInstance                                                digitalinput:45
+Settings/Devices/titi23_input_5/ClassAndVrmInstance                                                digitalinput:46
+Settings/Devices/titi23_input_6/ClassAndVrmInstance                                                digitalinput:47
+Settings/Devices/titi23_input_7/ClassAndVrmInstance                                                digitalinput:48
+Settings/Devices/titi23_input_8/ClassAndVrmInstance                                                digitalinput:49
+Settings/Devices/titi_input_1/ClassAndVrmInstance                                                  digitalinput:34
+Settings/Devices/titi_input_2/ClassAndVrmInstance                                                  digitalinput:35
+Settings/Devices/titi_input_3/ClassAndVrmInstance                                                  digitalinput:36
+Settings/Devices/titi_input_4/ClassAndVrmInstance                                                  digitalinput:37
+Settings/Devices/titi_input_5/ClassAndVrmInstance                                                  digitalinput:38
+Settings/Devices/titi_input_6/ClassAndVrmInstance                                                  digitalinput:39
+Settings/Devices/titi_input_7/ClassAndVrmInstance                                                  digitalinput:40
+Settings/Devices/titi_input_8/ClassAndVrmInstance                                                  digitalinput:41
+Settings/Devices/toto1_input_1/ClassAndVrmInstance                                                 digitalinput:26
+Settings/Devices/toto1_input_2/ClassAndVrmInstance                                                 digitalinput:27
+Settings/Devices/toto1_input_3/ClassAndVrmInstance                                                 digitalinput:28
+Settings/Devices/toto1_input_4/ClassAndVrmInstance                                                 digitalinput:29
+Settings/Devices/toto1_input_5/ClassAndVrmInstance                                                 digitalinput:30
+Settings/Devices/toto1_input_6/ClassAndVrmInstance                                                 digitalinput:31
+Settings/Devices/toto1_input_7/ClassAndVrmInstance                                                 digitalinput:32
+Settings/Devices/toto1_input_8/ClassAndVrmInstance                                                 digitalinput:33
+
+
