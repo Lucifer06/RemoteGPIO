@@ -4,9 +4,17 @@
 #include <linux/platform_device.h>
 #include <linux/irq.h>
 #include <linux/irqdomain.h>
+#include <linux/moduleparam.h> // NOUVEAU : Nécessaire pour les paramètres de module
 
-#define DRIVER_NAME "rgpio"
-#define NUM_GPIOS 8
+#define DRIVER_NAME "rgpio_module" // MODIFIÉ : Pour correspondre au nouveau nom
+
+// NOUVEAU : Variable pour stocker le nombre de GPIOs
+static int num_gpios = 8; // Valeur par défaut si non spécifiée
+
+// NOUVEAU : Déclaration du paramètre de module
+// 'num_gpios' est le nom du paramètre, 'int' est son type, 0644 sont les permissions
+module_param(num_gpios, int, 0644);
+MODULE_PARM_DESC(num_gpios, "Nombre de GPIOs virtuels à créer (défaut: 8)");
 
 struct rgpio_chip {
     struct gpio_chip chip;
@@ -14,7 +22,7 @@ struct rgpio_chip {
 };
 
 // Fonction pour déclencher une interruption sur une ligne spécifique
-    static ssize_t trigger_irq_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+static ssize_t trigger_irq_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
     long line;
     int ret;
     struct gpio_chip *chip = dev_get_drvdata(dev);
@@ -22,13 +30,13 @@ struct rgpio_chip {
     ret = kstrtol(buf, 10, &line);
     if (ret) return ret;
 
-    if (line < 0 || line >= NUM_GPIOS) {
+    // MODIFIÉ : Vérifie par rapport au nombre dynamique de GPIOs
+    if (line < 0 || line >= num_gpios) {
         dev_err(dev, "Ligne invalide : %ld\n", line);
         return -EINVAL;
     }
 
     dev_info(dev, "Déclenchement de l'interruption virtuelle sur la ligne %ld\n", line);
-    // On déclenche l'interruption associée à la ligne GPIO
     generic_handle_irq(irq_find_mapping(chip->irq.domain, line));
 
     return count;
@@ -58,19 +66,18 @@ static int rgpio_probe(struct platform_device *pdev) {
     rgpio->chip.parent = &pdev->dev;
     rgpio->chip.owner = THIS_MODULE;
     rgpio->chip.base = -1;
-    rgpio->chip.ngpio = NUM_GPIOS;
+    rgpio->chip.ngpio = num_gpios; // MODIFIÉ : Utilise notre variable dynamique
     rgpio->chip.can_sleep = false;
 
     platform_set_drvdata(pdev, &rgpio->chip);
 
     // Crée un domaine d'interruption pour nos GPIOs virtuels
-    irq_domain = irq_domain_create_linear(pdev->dev.fwnode, NUM_GPIOS, &irq_generic_chip_ops, NULL);
+    irq_domain = irq_domain_create_linear(pdev->dev.fwnode, num_gpios, &irq_generic_chip_ops, NULL); // MODIFIÉ
     if (!irq_domain) {
         dev_err(&pdev->dev, "Impossible de créer le domaine IRQ\n");
         return -ENOMEM;
     }
 
-    // Associe le domaine d'interruption au gpiochip en utilisant la nouvelle API
     ret = gpiochip_irqchip_add_domain(&rgpio->chip, irq_domain);
     if (ret) {
         dev_err(&pdev->dev, "Impossible d'ajouter le domaine irqchip\n");
@@ -78,14 +85,12 @@ static int rgpio_probe(struct platform_device *pdev) {
         return ret;
     }
 
-    // Enregistre le gpio_chip auprès du noyau
     ret = devm_gpiochip_add_data(&pdev->dev, &rgpio->chip, NULL);
     if (ret < 0) {
         dev_err(&pdev->dev, "Impossible d'enregistrer le gpiochip\n");
         return ret;
     }
 
-    // Crée notre attribut sysfs "trigger_irq"
     ret = sysfs_create_group(&pdev->dev.kobj, &rgpio_chip_group);
     if (ret) {
         dev_err(&pdev->dev, "Impossible de créer le groupe sysfs\n");
@@ -95,6 +100,8 @@ static int rgpio_probe(struct platform_device *pdev) {
     return 0;
 }
 
+// ... Le reste du fichier (rgpio_driver, rgpio_pdev, rgpio_init, rgpio_exit, etc.) reste identique ...
+// ... (Assurez-vous que le DRIVER_NAME est bien "rgpio_module" dans la structure platform_driver) ...
 static struct platform_driver rgpio_driver = {
     .driver = { .name = DRIVER_NAME, },
     .probe = rgpio_probe,
@@ -133,5 +140,5 @@ module_init(rgpio_init);
 module_exit(rgpio_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Frederic GUIOT");
-MODULE_DESCRIPTION("Virtual GPIO driver for Victron Venus OS");
+MODULE_AUTHOR("Frederic Guiot");
+MODULE_DESCRIPTION("Virtual GPIO driver for Victron Venus OS with dynamic GPIO count");
