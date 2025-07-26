@@ -4,6 +4,8 @@
 #
 #   dbus-rgpio.py
 #
+#   Version: 1.8.0
+#
 #   A Victron Venus OS driver to integrate multiple generic RGPIO (MQTT-based)
 #   I/O devices, supporting both Digital Inputs and Relays (Switches).
 #
@@ -47,14 +49,15 @@ CONFIG_CHECK_INTERVAL = 10 # Seconds
 DBUS_SERVICE_PATH = '/service/dbus-digitalinputs'
 
 # =================================================================
-# KERNEL MODULE & SYSFS MANAGEMENT (for Digital Inputs)
+# KERNEL MODULE & SYSFS MANAGEMENT
 # =================================================================
 
 def get_device_configs(config_path):
-    """Reads config and returns a dictionary of device configurations."""
+    # Reads the main config.ini and returns a dictionary of device configurations.
     devices = {}
     try:
         config = configparser.ConfigParser()
+        config.optionxform = str
         config.read(config_path)
         for section in config.sections():
             if section.startswith('device_'):
@@ -65,11 +68,8 @@ def get_device_configs(config_path):
     return devices
 
 def manage_kernel_module(module_path, capacity):
-    """
-    Ensures the kernel module is loaded with a fixed capacity. Does not unload.
-    Returns a tuple (base_gpio, trigger_path, capacity) on success, otherwise (None, None, 0).
-    """
-    # Check if module is already loaded
+    # Ensures the kernel module is loaded with a fixed capacity. Does not unload.
+    # Returns a tuple (base_gpio, trigger_path, capacity) on success, otherwise (None, None, 0).
     lsmod_result = subprocess.run(["lsmod"], capture_output=True, text=True)
     if MODULE_NAME in lsmod_result.stdout:
         logger.info(f"Module '{MODULE_NAME}' is already loaded. Using existing instance.")
@@ -78,118 +78,66 @@ def manage_kernel_module(module_path, capacity):
             match = None
             for line in reversed(dmesg_output.strip().split('\n')):
                 m = re.search(r"rgpio_module:.*base (\d+)", line)
-                if m:
-                    match = m
-                    break
+                if m: match = m; break
             base_gpio = int(match.group(1))
-            ngpio_path = f"/sys/class/gpio/gpiochip{base_gpio}/ngpio"
-            with open(ngpio_path, 'r') as f:
+            with open(f"/sys/class/gpio/gpiochip{base_gpio}/ngpio", 'r') as f:
                 current_capacity = int(f.read().strip())
-            
             trigger_path_base = f"/sys/devices/platform/{MODULE_NAME}"
             if not os.path.exists(os.path.join(trigger_path_base, "trigger_irq")):
-                 trigger_path_base = f"/sys/devices/platform/{MODULE_NAME}.0" # Fallback
+                 trigger_path_base = f"/sys/devices/platform/{MODULE_NAME}.0"
             trigger_path = os.path.join(trigger_path_base, "trigger_irq")
-            
             logger.info(f"Detected module capacity: {current_capacity}, Base: {base_gpio}")
             return base_gpio, trigger_path, current_capacity
         except Exception as e:
             logger.critical(f"Could not verify existing module, a reboot may be required. Error: {e}")
             return None, None, 0
     
-    # Module not loaded, proceed with a clean load
     logger.info(f"Module not loaded. Attempting to load with capacity={capacity}...")
     try:
-        cmd = ["insmod", module_path, f"num_gpios={capacity}"]
-        subprocess.run(cmd, check=True, capture_output=True, text=True)
-        logger.info("Kernel module loaded successfully.")
+        subprocess.run(["insmod", module_path, f"num_gpios={capacity}"], check=True)
         time.sleep(0.5)
-        
-        return manage_kernel_module(module_path, capacity) # Re-call to get info
-
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to load kernel module: {e.stderr.strip()}")
+        return manage_kernel_module(module_path, capacity)
+    except Exception as e:
+        logger.error(f"Failed to load kernel module: {e}")
         return None, None, 0
 
 def manage_exported_gpios(gpio_base, offsets_to_export, offsets_to_unexport):
-    """Exports or unexports specific GPIOs based on their offsets."""
+    # Exports or unexports specific GPIOs to make them visible in /sys/class/gpio.
     changed = False
     if offsets_to_export:
-        logger.info(f"Exporting new GPIOs at offsets: {offsets_to_export}")
+        logger.info(f"Exporting new GPIOs at offsets: {sorted(list(offsets_to_export))}")
         changed = True
-        for offset in offsets_to_export:
+        for offset in sorted(list(offsets_to_export)):
             gpio_num = gpio_base + offset
             try:
                 if not os.path.exists(f"/sys/class/gpio/gpio{gpio_num}"):
                     with open("/sys/class/gpio/export", 'w') as f: f.write(str(gpio_num))
                     time.sleep(0.05)
-            except Exception as e:
-                logger.warning(f"Could not export GPIO {gpio_num}: {e}")
+            except Exception as e: logger.warning(f"Could not export GPIO {gpio_num}: {e}")
     
     if offsets_to_unexport:
-        logger.info(f"Unexporting obsolete GPIOs at offsets: {offsets_to_unexport}")
+        logger.info(f"Unexporting obsolete GPIOs at offsets: {sorted(list(offsets_to_unexport))}")
         changed = True
-        for offset in offsets_to_unexport:
+        for offset in sorted(list(offsets_to_unexport)):
             gpio_num = gpio_base + offset
             try:
                 if os.path.exists(f"/sys/class/gpio/gpio{gpio_num}"):
                     with open("/sys/class/gpio/unexport", 'w') as f: f.write(str(gpio_num))
-            except Exception as e:
-                logger.warning(f"Could not unexport GPIO {gpio_num}: {e}")
+            except Exception as e: logger.warning(f"Could not unexport GPIO {gpio_num}: {e}")
     return changed
 
-# NEW: Re-introduced create_io_ext_files
-def create_io_ext_files(config_path, persistent_map, gpio_base):
-    """Creates the /run/io-ext structure based on the persistent mapping."""
-    logger.info("Rebuilding io-ext configuration files and symlinks...")
-    io_ext_dir = "/run/io-ext"
-    os.makedirs(io_ext_dir, exist_ok=True)
-    
-    config = configparser.ConfigParser()
-    config.read(config_path)
-    
-    current_safe_serials = set()
-
-    for section in config.sections():
-        if section.startswith('device_'):
-            serial_raw = config[section]['serial']
-            serial_safe = serial_raw.replace('-', '_')
-            current_safe_serials.add(serial_safe)
-
-            num_inputs = int(config[section].get('num_inputs', 0))
-            num_relays = int(config[section].get('num_relays', 0))
-            
-            device_dir = f"{io_ext_dir}/{serial_safe}"
-            os.makedirs(device_dir, exist_ok=True)
-            
-            pins_content = [f"tag\t{serial_safe}"]
-            for i in range(1, num_inputs + 1):
-                pins_content.append(f"input\t{device_dir}/input_{i} {i}")
-                unique_id = f"{serial_raw}_input_{i}"
-                if unique_id in persistent_map:
-                    offset = persistent_map[unique_id]
-                    gpio_num = gpio_base + offset
-                    link_target = f"/sys/class/gpio/gpio{gpio_num}"
-                    link_path = os.path.join(device_dir, f"input_{i}")
-                    if os.path.lexists(link_path): os.remove(link_path)
-                    os.symlink(link_target, link_path)
-            
-            for i in range(1, num_relays + 1):
-                pins_content.append(f"relay\t{device_dir}/relay_{i} {i}")
-            
-            with open(os.path.join(device_dir, "pins.conf"), 'w') as f:
-                f.write("\n".join(pins_content) + "\n")
-    logger.info("io-ext rebuild complete.")
-
-
 def cleanup_on_exit(driver_instance):
-    """Unexports all used GPIOs and cleans up our io-ext files on exit."""
+    # Cleans up GPIOs, D-Bus services, and io-ext files on script exit.
     logger.info("Performing cleanup on exit...")
     
     if driver_instance.persistent_map and driver_instance.gpio_base is not None:
         offsets_to_unexport = list(driver_instance.persistent_map.values())
         manage_exported_gpios(driver_instance.gpio_base, [], offsets_to_unexport)
     
+    logger.info("Unregistering D-Bus switch services...")
+    for service in list(driver_instance.relay_services.values()):
+        service.unregister()
+
     io_ext_dir = "/run/io-ext"
     try:
         for serial_safe in driver_instance.active_safe_serials:
@@ -221,16 +169,16 @@ class RgpioDriver:
         self.relay_mqtt_map = {}
         self.persistent_map = self._load_persistent_map()
         self.active_safe_serials = set()
-        
         self.relay_services = {}
         
-        self.reconfigure() # Initial configuration
+        self.reconfigure()
 
     def _load_persistent_map(self):
         logger.info(f"Loading persistent GPIO map from {self.mapping_path}")
         mapping = {}
         try:
             parser = configparser.ConfigParser()
+            parser.optionxform = str
             parser.read(self.mapping_path)
             if 'mapping' in parser:
                 for key, value in parser['mapping'].items():
@@ -242,12 +190,21 @@ class RgpioDriver:
     def _save_persistent_map(self):
         logger.info(f"Saving persistent GPIO map to {self.mapping_path}")
         parser = configparser.ConfigParser()
+        parser.optionxform = str
         parser['mapping'] = {key: str(value) for key, value in self.persistent_map.items()}
         try:
             with open(self.mapping_path, 'w') as f:
                 parser.write(f)
         except Exception as e:
             logger.error(f"Could not save mapping file: {e}")
+
+    def _get_currently_exported_offsets(self):
+        """Scans sysfs to see which of our GPIOs are currently exported."""
+        exported = set()
+        for i in range(self.module_capacity):
+            if os.path.exists(f"/sys/class/gpio/gpio{self.gpio_base + i}"):
+                exported.add(i)
+        return exported
 
     def reconfigure(self):
         logger.info("Reconfiguring driver...")
@@ -260,7 +217,6 @@ class RgpioDriver:
             return
 
         # --- Update Persistent Mapping for Inputs ---
-        old_offsets = set(self.persistent_map.values())
         new_persistent_map = {}
         new_input_mqtt_map = {}
         used_offsets = set(self.persistent_map.values())
@@ -268,7 +224,8 @@ class RgpioDriver:
         for cfg in device_configs.values():
             serial_raw = cfg['serial']
             num_inputs = int(cfg.get('num_inputs', 0))
-            topic_base = cfg['topic_base']
+            topic_base = cfg.get('topic_base')
+
             for i in range(1, num_inputs + 1):
                 unique_id = f"{serial_raw}_input_{i}"
                 if unique_id in self.persistent_map:
@@ -279,38 +236,51 @@ class RgpioDriver:
                     logger.info(f"Assigning new offset {offset} to {unique_id}")
                     used_offsets.add(offset)
                 new_persistent_map[unique_id] = offset
-                new_input_mqtt_map[f"{topic_base}/input/{i}"] = offset
+                
+                if topic_base:
+                    new_input_mqtt_map[f"{topic_base}/input/{i}"] = offset
         
-        new_offsets = set(new_persistent_map.values())
-        offsets_to_export = new_offsets - old_offsets
-        offsets_to_unexport = old_offsets - new_offsets
+        # --- State Reconciliation for GPIOs ---
+        required_offsets = set(new_persistent_map.values())
+        exported_offsets = self._get_currently_exported_offsets()
+        
+        offsets_to_export = required_offsets - exported_offsets
+        offsets_to_unexport = exported_offsets - required_offsets
         
         gpio_state_changed = manage_exported_gpios(self.gpio_base, offsets_to_export, offsets_to_unexport)
 
         # --- Update Relay Services and Mappings ---
         self.relay_mqtt_map.clear()
-        new_safe_serials = set()
+        new_safe_serials = {cfg['serial'].replace('-', '_') for cfg in device_configs.values()}
+        
+        serials_to_remove = self.active_safe_serials - new_safe_serials
+        for serial in serials_to_remove:
+            logger.info(f"Removing obsolete D-Bus Switch service for {serial}")
+            if serial in self.relay_services:
+                self.relay_services[serial].unregister()
+                del self.relay_services[serial]
+            
+            device_dir_to_remove = os.path.join("/run/io-ext", serial)
+            if os.path.exists(device_dir_to_remove):
+                logger.info(f"Removing obsolete io-ext directory: {device_dir_to_remove}")
+                shutil.rmtree(device_dir_to_remove)
+        
         for cfg in device_configs.values():
             serial_raw = cfg['serial']
             serial_safe = serial_raw.replace('-', '_')
-            new_safe_serials.add(serial_safe)
 
             if serial_safe not in self.relay_services:
                 logger.info(f"Creating new D-Bus Switch service for {serial_raw}")
                 bus = dbus.SystemBus(private=True) if (platform.machine() == 'armv7l') else dbus.SessionBus(private=True)
                 self.relay_services[serial_safe] = DbusRgpioSwitchService(cfg, self, bus)
             
-            topic_base = cfg['topic_base']
+            topic_base = cfg.get('topic_base')
+            if not topic_base: continue
+
             num_relays = int(cfg.get('num_relays', 0))
             for i in range(num_relays):
                 state_topic = f"{topic_base}/relay/{i+1}/state"
                 self.relay_mqtt_map[state_topic] = {'serial_safe': serial_safe, 'index': i}
-
-        serials_to_remove = self.active_safe_serials - new_safe_serials
-        for serial in serials_to_remove:
-            logger.info(f"Removing obsolete D-Bus Switch service for {serial}")
-            if serial in self.relay_services:
-                del self.relay_services[serial]
         
         self.persistent_map = new_persistent_map
         old_topics = set(self.input_mqtt_map.keys())
@@ -324,15 +294,60 @@ class RgpioDriver:
             if all_old_topics - all_new_topics: self.client.unsubscribe(list(all_old_topics - all_new_topics))
             if all_new_topics - all_old_topics: self.client.subscribe([(t, 0) for t in all_new_topics - all_old_topics])
         
-        # RESTORED: Call to create io-ext files
-        create_io_ext_files(self.config_path, self.persistent_map, self.gpio_base)
+        self._rebuild_io_ext_files()
         self._save_persistent_map()
         
         if gpio_state_changed:
-            logger.info(f"GPIO state changed, restarting '{DBUS_SERVICE_PATH}'...")
+            logger.info("GPIO state changed. Waiting 1 second for sysfs to update...")
+            time.sleep(1)
+            logger.info(f"Restarting '{DBUS_SERVICE_PATH}'...")
             subprocess.run(["svc", "-t", DBUS_SERVICE_PATH])
 
-        logger.info(f"Reconfiguration complete. Monitoring {len(self.input_mqtt_map)} inputs and {len(self.relay_services)} relay devices.")
+        total_relays_count = sum(int(d.get('num_relays', 0)) for d in device_configs.values())
+        total_devices_count = len(device_configs)
+        logger.info(f"Reconfiguration complete. Monitoring {required_inputs_count} inputs and {total_relays_count} relays across {total_devices_count} devices.")
+
+    def _rebuild_io_ext_files(self):
+        # Creates the /run/io-ext structure based on the current configuration.
+        logger.info("Rebuilding io-ext configuration files...")
+        io_ext_dir = "/run/io-ext"
+        os.makedirs(io_ext_dir, exist_ok=True)
+        
+        for serial_safe in self.active_safe_serials:
+            device_dir = os.path.join(io_ext_dir, serial_safe)
+            os.makedirs(device_dir, exist_ok=True)
+            
+            serial_raw = None
+            device_cfg = None
+            device_configs = get_device_configs(self.config_path)
+            for cfg in device_configs.values():
+                if cfg['serial'].replace('-', '_') == serial_safe:
+                    device_cfg = cfg
+                    serial_raw = cfg['serial']
+                    break
+            
+            if not device_cfg: continue
+            
+            num_inputs = int(device_cfg.get('num_inputs', 0))
+            num_relays = int(device_cfg.get('num_relays', 0))
+            
+            pins_content = [f"tag\t{serial_safe}"]
+            for i in range(1, num_inputs + 1):
+                pins_content.append(f"input\t{device_dir}/input_{i} {i}")
+                unique_id = f"{serial_raw}_input_{i}"
+                if unique_id in self.persistent_map:
+                    offset = self.persistent_map[unique_id]
+                    link_target = f"/sys/class/gpio/gpio{self.gpio_base + offset}"
+                    link_path = os.path.join(device_dir, f"input_{i}")
+                    if os.path.lexists(link_path): os.remove(link_path)
+                    os.symlink(link_target, link_path)
+            
+            for i in range(1, num_relays + 1):
+                pins_content.append(f"relay\t{device_dir}/relay_{i} {i}")
+            
+            with open(os.path.join(device_dir, "pins.conf"), 'w') as f:
+                f.write("\n".join(pins_content) + "\n")
+        logger.info("io-ext rebuild complete.")
 
     def on_mqtt_message(self, client, userdata, msg):
         if msg.topic in self.input_mqtt_map:
@@ -369,6 +384,7 @@ class RgpioDriver:
 
     def start(self):
         config = configparser.ConfigParser()
+        config.optionxform = str
         config.read(self.config_path)
         broker_config = config['mqtt_broker']
         
@@ -401,32 +417,30 @@ class DbusRgpioSwitchService:
     def __init__(self, device_config, parent_driver, bus):
         self.config = device_config
         self.parent_driver = parent_driver
+        self.bus = bus # Store the private bus connection
         
         self.serial = self.config.get('serial', 'RGPIO-IO-???')
         self.num_relays = int(self.config.get('num_relays', 8))
-        self.topic_base = self.config.get('topic_base', f'rgpio/{self.serial}')
+        self.topic_base = self.config.get('topic_base')
         
         serial_safe = self.serial.replace('-', '_')
         self.servicename = f'com.victronenergy.switch.{serial_safe}'
         
-        self._dbusservice = VeDbusService(self.servicename, bus=bus, register=False)
+        self._dbusservice = VeDbusService(self.servicename, bus=self.bus, register=False)
         
-        # --- Create Settings ---
         self._settings = self._setup_settings()
 
-        # --- Create D-Bus paths ---
         self._dbusservice.add_path('/Management/ProcessName', __file__)
-        self._dbusservice.add_path('/Management/ProcessVersion', '1.0 (dbus-rgpio)')
+        self._dbusservice.add_path('/Management/ProcessVersion', '1.8.0 (dbus-rgpio)')
         self._dbusservice.add_path('/Management/Connection', 'RGPIO MQTT Bridge')
-
         self._dbusservice.add_path('/DeviceInstance', int(self.config.get('device_instance', 50)))
         self._dbusservice.add_path('/ProductId', 19191)
         self._dbusservice.add_path('/ProductName', 'RGPIO IO Extender')
-        self._dbusservice.add_path('/FirmwareVersion', '1.0')
+        self._dbusservice.add_path('/FirmwareVersion', '1.8.0')
         self._dbusservice.add_path('/HardwareVersion', 'N/A')
         self._dbusservice.add_path('/Connected', 1)
         self._dbusservice.add_path('/Serial', self.serial)
-        self._dbusservice.add_path('/State', 256) # 256=Connected
+        self._dbusservice.add_path('/State', 256)
 
         self._dbusservice.add_path(
             path='/CustomName',
@@ -441,7 +455,7 @@ class DbusRgpioSwitchService:
         self._dbusservice.register()
 
     def _setup_settings(self):
-        """Creates the SettingsDevice object and defines supported settings."""
+        # Creates the SettingsDevice object to manage persistent settings for this relay device.
         settings_id = self.servicename.replace('.', '_')
         settings_path_prefix = f'/Settings/Devices/{settings_id}'
         
@@ -460,7 +474,7 @@ class DbusRgpioSwitchService:
         return SettingsDevice(self._dbusservice._dbusconn, supported_settings, None)
 
     def _create_relay_paths(self, relay_index):
-        """Creates all D-Bus paths for a single relay, loading values from settings."""
+        # Creates all D-Bus paths for a single relay, loading values from settings.
         relay_id = relay_index + 1
         dbus_base_path = f'/SwitchableOutput/relay_{relay_id}'
         
@@ -494,14 +508,13 @@ class DbusRgpioSwitchService:
             )
 
     def _handle_writable_setting_change(self, settings_dict_key, dbus_path, value):
-        """Callback for when a writable setting is changed from D-Bus."""
         self._settings[settings_dict_key] = value
         return True
 
     def _handle_relay_state_change(self, index, path, value):
-        logger.info(f"Device {self.serial}: Relay {index+1} state change requested via D-Bus to {value}")
         self._settings[f'Relay{index+1}State'] = value
-        self.parent_driver.publish_relay_state(self.topic_base, index, value)
+        if self.topic_base:
+            self.parent_driver.publish_relay_state(self.topic_base, index, value)
         return True
 
     def update_state_from_mqtt(self, index, payload):
@@ -510,9 +523,20 @@ class DbusRgpioSwitchService:
         dbus_path = f'/SwitchableOutput/relay_{relay_id}/State'
         
         if self._dbusservice[dbus_path] != new_state:
-            logger.info(f"Device {self.serial}: Relay {relay_id} state updated to {new_state} from MQTT.")
             self._dbusservice[dbus_path] = new_state
             self._settings[f'Relay{relay_id}State'] = new_state
+
+    def unregister(self):
+        # Cleanly unregisters the service from D-Bus.
+        try:
+            logger.info(f"Unregistering D-Bus service: {self.servicename}")
+            if self.bus:
+                # Closing the private bus connection is the correct way to unregister.
+                self.bus.close()
+                self._dbusservice = None
+                self.bus = None
+        except Exception as e:
+            logger.error(f"Error while unregistering service {self.servicename}: {e}")
 
 # =================================================================
 # MAIN EXECUTION
