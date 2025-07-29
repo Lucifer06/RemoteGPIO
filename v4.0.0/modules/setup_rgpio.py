@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+
+# #############################################################################
+#
+#   setup_rgpio.py
+#
+#   Version: 1.0.0
+#
+#   A control module that uses the RGPIO API to manage other services.
+#   It creates a virtual switch device in Venus OS where each relay
+#   can start or stop a daemontools service.
+#
+# #############################################################################
+
+import configparser
+import paho.mqtt.client as mqtt
+import os
+import sys
+import logging
+import time
+import json
+import signal
+import subprocess
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("SetupManager")
+
+# --- CONSTANTS ---
+CONFIG_FILE = '/data/RemoteGPIO/conf/setup_rgpio.ini'
+API_TOPIC_BASE = "rgpio/api"
+API_RELAY_SET_TOPIC = f"{API_TOPIC_BASE}/relay/set"
+API_DEVICE_REGISTER_TOPIC = f"{API_TOPIC_BASE}/device/register"
+API_DEVICE_STATUS_TOPIC = f"{API_TOPIC_BASE}/device/status"
+API_DEVICE_RELAY_NAME_TOPIC = f"{API_TOPIC_BASE}/device"
+CONFIG_CHECK_INTERVAL = 10
+
+# --- MQTT Client Compatibility ---
+try:
+    from paho.mqtt.enums import CallbackAPIVersion
+    MQTT_CLIENT_ARGS = {'callback_api_version': CallbackAPIVersion.VERSION1}
+    logger.info("Configured for paho-mqtt v2.x")
+except ImportError:
+    MQTT_CLIENT_ARGS = {}
+    logger.info("Configured for paho-mqtt v1.x")
+
+class SetupManager:
+    def __init__(self, config_path):
+        self.config_path = config_path
+        self.config = None
+        self.device_config = {}
+        self.relay_mapping = {} # Maps relay index to service name and friendly name
+        self.is_started = False
+        
+        self.api_client = mqtt.Client(**MQTT_CLIENT_ARGS)
+        self.api_client.on_connect = self.on_api_connect
+        self.api_client.on_message = self.on_api_message
+        
+        self.reconfigure()
+
+    def reconfigure(self):
+        logger.info(f"Loading setup configuration from {self.config_path}...")
+        
+        self.config = configparser.ConfigParser()
+        self.config.optionxform = str
+
+        try:
+            if not os.path.exists(self.config_path):
+                logger.error(f"Configuration file not found: {self.config_path}. Exiting.")
+                sys.exit(1)
+
+            self.config.read(self.config_path)
+            if 'device_config' not in self.config:
+                logger.error(f"Missing [device_config] section. Exiting.")
+                sys.exit(1)
+        except Exception as e:
+            logger.error(f"Error reading configuration file: {e}. Exiting.")
+            sys.exit(1)
+
+        self.device_config = dict(self.config['device_config'])
+        
+        # Parse relay to service mapping
+        new_relay_mapping = {}
+        num_relays = int(self.device_config.get('num_relays', 0))
+        for i in range(1, num_relays + 1):
+            relay_key = f"Relay{i}"
+            service_key = f"Service{i}"
+            if relay_key in self.config['device_config'] and service_key in self.config['device_config']:
+                new_relay_mapping[i] = {
+                    "name": self.config['device_config'][relay_key],
+                    "service": self.config['device_config'][service_key]
+                }
+        self.relay_mapping = new_relay_mapping
+        logger.info(f"Configuration loaded. Managing {len(self.relay_mapping)} services.")
+
+    def start(self):
+        if self.is_started:
+            return
+
+        logger.info("Starting Setup Manager...")
+        try:
+            self.api_client.connect("localhost", 1883, 60)
+            self.api_client.loop_start()
+            self.is_started = True
+        except Exception as e:
+            logger.error(f"Failed to start MQTT client: {e}")
+            self.is_started = False
+
+    def on_api_connect(self, client, userdata, flags, rc):
+        logger.info("Connected to internal API. Registering SETUP device.")
+        
+        serial = self.device_config.get('serial')
+        if not serial:
+            logger.error("No 'serial' found in [device_config]. Cannot register.")
+            return
+            
+        # 1. Register the device with the core engine
+        client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", json.dumps(self.device_config), retain=True)
+        
+        # 2. Set the initial names for each relay
+        for index, mapping in self.relay_mapping.items():
+            name_topic = f"{API_DEVICE_RELAY_NAME_TOPIC}/{serial}/Relay_{index}"
+            logger.info(f"Setting initial name for Relay {index}: Topic={name_topic}, Name='{mapping['name']}'")
+            client.publish(name_topic, mapping['name'], retain=True)
+
+        # 3. Subscribe to commands for our device
+        client.subscribe(f"{API_RELAY_SET_TOPIC}/{serial}/#")
+
+    def on_api_message(self, client, userdata, msg):
+        logger.info(f"Received API command: Topic={msg.topic}, Payload={msg.payload.decode()}")
+        try:
+            parts = msg.topic.split('/')
+            # Topic format: rgpio/api/relay/set/SETUP/<relay_number>
+            if len(parts) == 6 and parts[3] == 'set':
+                serial = parts[4]
+                if serial != self.device_config.get('serial'):
+                    return # Not for us
+
+                relay_index = int(parts[5])
+                payload = msg.payload.decode().upper()
+
+                if relay_index in self.relay_mapping:
+                    service_name = self.relay_mapping[relay_index]['service']
+                    service_path = f"/service/{service_name}"
+                    
+                    if payload == "ON":
+                        logger.info(f"Received ON command for Relay {relay_index}. Starting service '{service_name}'...")
+                        subprocess.run(["svc", "-u", service_path])
+                    elif payload == "OFF":
+                        logger.info(f"Received OFF command for Relay {relay_index}. Stopping service '{service_name}'...")
+                        subprocess.run(["svc", "-d", service_path])
+                else:
+                    logger.warning(f"Received command for unmapped Relay {relay_index}. Ignoring.")
+
+        except Exception as e:
+            logger.error(f"Error processing API message: {e}")
+
+    def stop(self):
+        logger.info("Stopping Setup Manager. Un-registering device...")
+        serial = self.device_config.get('serial')
+        if serial:
+            self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", "UNREGISTER", retain=True)
+            self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "CONNECTED", retain=True)
+        
+        time.sleep(0.5) # Allow time for messages to be sent
+        self.api_client.loop_stop()
+        self.api_client.disconnect()
+        logger.info("Setup Manager stopped.")
+
+if __name__ == "__main__":
+    manager = SetupManager(CONFIG_FILE)
+    
+    def shutdown_handler(signum, frame):
+        logger.info(f"Received signal {signum}, shutting down gracefully.")
+        manager.stop()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, shutdown_handler)
+    signal.signal(signal.SIGTERM, shutdown_handler)
+
+    manager.start()
+
+    # We don't need a config file watcher for this module, as changes
+    # require a restart of the service anyway.
+    # The main loop just keeps the script alive.
+    while True:
+        time.sleep(1)
+
