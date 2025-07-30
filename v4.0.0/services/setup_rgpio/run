@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "*** starting RemoteGPIO SETUP (setup_rgpio) ***"
+exec 2>&1
+. /etc/profile.d/profile.sh
+exec softlimit -d 100000000 -s 1000000 -a 100000000 /data/RemoteGPIO/modules/setup_rgpio.py

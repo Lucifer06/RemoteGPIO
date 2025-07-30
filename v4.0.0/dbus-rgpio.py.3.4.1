@@ -4,7 +4,7 @@
 #
 #   dbus-rgpio.py (Core Engine)
 #
-#   Version: 3.4.3
+#   Version: 3.4.1
 #
 #   Manages virtual GPIOs and D-Bus services, exposing an internal API
 #   for external communication modules to register devices.
@@ -51,7 +51,6 @@ API_HEARTBEAT_TOPIC = f"{API_TOPIC_BASE}/heartbeat"
 API_DEVICE_REGISTER_TOPIC = f"{API_TOPIC_BASE}/device/register"
 API_DEVICE_STATUS_TOPIC = f"{API_TOPIC_BASE}/device/status"
 API_DEVICE_RELAY_NAME_TOPIC = f"{API_TOPIC_BASE}/device"
-API_RELAY_READ_TOPIC = f"{API_TOPIC_BASE}/device/relay/read"
 
 
 # --- MQTT Client Compatibility ---
@@ -324,20 +323,7 @@ class RgpioDriver:
                 if unique_id in self.persistent_map:
                     self._handle_input_state_change(unique_id, payload)
             
-            # MODIFIED: Reordered to check for more specific topics first
-            elif topic.startswith(API_RELAY_READ_TOPIC):
-                try:
-                    if len(parts) == 7: # rgpio/api/device/relay/read/SERIAL/NUMBER
-                        serial = parts[5]
-                        relay_index = int(parts[6]) - 1 # convert to 0-based
-                        serial_safe = serial.replace('-', '_')
-                        if serial_safe in self.relay_services:
-                            self.relay_services[serial_safe].update_state_from_api(relay_index, payload)
-                    else:
-                        logger.warning(f"Malformed relay read topic: {topic}")
-                except (IndexError, ValueError) as e:
-                    logger.warning(f"Could not parse relay read topic: {topic}. Error: {e}")
-
+            # MODIFIED: More robust check for relay name topic
             elif topic.startswith(API_DEVICE_RELAY_NAME_TOPIC) and len(parts) == 5 and parts[4].startswith("Relay_"):
                 try:
                     serial = parts[3]
@@ -398,8 +384,8 @@ class RgpioDriver:
         self.client.subscribe(f"{API_INPUT_STATE_TOPIC}/#")
         self.client.subscribe(f"{API_DEVICE_REGISTER_TOPIC}/#")
         self.client.subscribe(f"{API_DEVICE_STATUS_TOPIC}/#")
+        # MODIFIED: Use a valid wildcard subscription
         self.client.subscribe(f"{API_DEVICE_RELAY_NAME_TOPIC}/+/+")
-        self.client.subscribe(f"{API_RELAY_READ_TOPIC}/+/+/+")
         self.client.loop_start()
         logger.info("Internal API MQTT bridge started.")
 
@@ -425,12 +411,12 @@ class DbusRgpioSwitchService:
         self._settings = self._setup_settings()
 
         self._dbusservice.add_path('/Management/ProcessName', __file__)
-        self._dbusservice.add_path('/Management/ProcessVersion', '3.4.2 (dbus-rgpio)')
+        self._dbusservice.add_path('/Management/ProcessVersion', '3.4.1 (dbus-rgpio)')
         self._dbusservice.add_path('/Management/Connection', 'RGPIO Core Service')
         self._dbusservice.add_path('/DeviceInstance', int(self.config.get('device_instance', 50)))
         self._dbusservice.add_path('/ProductId', 19191)
         self._dbusservice.add_path('/ProductName', 'RemoteGPIO')
-        self._dbusservice.add_path('/FirmwareVersion', '3.4.2')
+        self._dbusservice.add_path('/FirmwareVersion', '3.4.1')
         self._dbusservice.add_path('/HardwareVersion', 'N/A')
         self._dbusservice.add_path('/Connected', 1)
         self._dbusservice.add_path('/Serial', self.serial)
@@ -513,21 +499,11 @@ class DbusRgpioSwitchService:
             logger.warning(f"Device {self.serial} marked as disconnected.")
 
     def update_relay_name(self, relay_index, new_name):
+        # NEW: Method to update a relay's custom name via API
         relay_id = relay_index + 1
         logger.info(f"Updating name for relay {relay_id} of {self.serial} to '{new_name}'")
         dbus_path = f'/SwitchableOutput/relay_{relay_id}/Settings/CustomName'
         self._dbusservice[dbus_path] = new_name
-
-    def update_state_from_api(self, relay_index, payload):
-        # NEW: Method to update state from the API
-        relay_id = relay_index + 1
-        new_state = 1 if payload == "ON" else 0
-        dbus_path = f'/SwitchableOutput/relay_{relay_id}/State'
-        
-        if self._dbusservice[dbus_path] != new_state:
-            logger.info(f"Updating state for {self.serial} relay {relay_id} from API to {new_state}")
-            self._dbusservice[dbus_path] = new_state
-            self._settings[f'Relay{relay_id}State'] = new_state
 
     def unregister(self):
         try:
