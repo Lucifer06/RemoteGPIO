@@ -44,8 +44,9 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	logMessage "++ Installing RemoteGPIO"
 
 	##
-	## Prepare the devices and start them
-	#####################################
+	## Install the services for reboot resiliancy
+	#############################################
+#installService /data/RemoteGPIO/service/setup_rgpio
 #	ln -s /data/RemoteGPIO/service/setup_rgpio/ /service
 #	ln -s /data/RemoteGPIO/service/dingtian_mqtt_bridge/ /service
 #	ln -s /data/RemoteGPIO/service/dbus-rgpio/ /service
@@ -63,6 +64,13 @@ fi
 if [ $scriptAction == 'UNINSTALL' ] ; then
     logMessage "++ Uninstalling RemoteGPIO"
 
+#	svc -d /service/dbus-rgpio
+#	svc -d /service/setup_rgpio
+#	svc -d /service/dingtian_mqtt_bridge
+
+#	rm /service/setup_rgpio
+#	rm /service/dingtian_mqtt_bridge
+#	rm /service/dbus-rgpio
 		
 	logMessage "++ $packageName uninstalled"
 fi
