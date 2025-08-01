@@ -1,4 +1,0 @@
-#!/bin/sh
-echo "*** starting RemoteGPIO ***"
-exec 2>&1
-exec /data/RemoteGPIO/rgpio_driver

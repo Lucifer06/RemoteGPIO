@@ -4,7 +4,7 @@
 #
 #   dingtian_mqtt_bridge.py
 #
-#   Version: 3.5.2
+#   Version: 3.5.3
 #
 #   Communication module for Dingtian devices with auto-discovery and
 #   keep-alive monitoring.
@@ -57,7 +57,7 @@ class DingtianBridge:
         self.is_started = False
         self.last_lwt_times = {} 
         self.device_statuses = {} 
-        self.last_mtime = 0 # MODIFIED: Initialize last_mtime attribute
+        self.last_mtime = 0 
         
         self.api_client = mqtt.Client(**MQTT_CLIENT_ARGS)
         self.api_client.on_connect = self.on_api_connect
@@ -143,12 +143,15 @@ class DingtianBridge:
         self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", "UNREGISTER", retain=True)
         self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "DISCONNECTED", retain=True)
         
-        # Clear retained discovery messages from the broker
+        # MODIFIED: Clear retained discovery messages from the broker and wait for confirmation
         topic_base = old_cfg.get('topic_base')
         if topic_base:
             logger.info(f"Cleaning retained discovery messages for {serial} on topic base {topic_base}")
-            self.hardware_client.publish(f"{topic_base}/out/input_cnt", "", retain=True)
-            self.hardware_client.publish(f"{topic_base}/out/relay_cnt", "", retain=True)
+            msg_info1 = self.hardware_client.publish(f"{topic_base}/out/input_cnt", "", retain=True)
+            msg_info2 = self.hardware_client.publish(f"{topic_base}/out/relay_cnt", "", retain=True)
+            msg_info1.wait_for_publish()
+            msg_info2.wait_for_publish()
+            logger.info(f"Retained messages for {serial} cleaned successfully.")
 
     def start(self):
         if not self.is_configured:
@@ -441,3 +444,4 @@ if __name__ == "__main__":
     finally:
         if bridge.is_started:
             bridge.stop()
+
