@@ -46,13 +46,13 @@ if [ $scriptAction == 'INSTALL' ] ; then
 	##
 	## Prepare the devices and start them
 	#####################################
-	ln -s /data/RemoteGPIO/service/setup_rgpio/ /service
-	ln -s /data/RemoteGPIO/service/dingtian_mqtt_bridge/ /service
-	ln -s /data/RemoteGPIO/service/dbus-rgpio/ /service
+#	ln -s /data/RemoteGPIO/service/setup_rgpio/ /service
+#	ln -s /data/RemoteGPIO/service/dingtian_mqtt_bridge/ /service
+#	ln -s /data/RemoteGPIO/service/dbus-rgpio/ /service
 
-	svc -u /service/setup_rgpi
-	svc -u /service/dingtian_mqtt_bridge
-	svc -u /service/dbus-rgpio
+#	svc -u /service/setup_rgpio
+#	svc -u /service/dingtian_mqtt_bridge
+#	svc -u /service/dbus-rgpio
 		
 
 	logMessage "++ $packageName installed"

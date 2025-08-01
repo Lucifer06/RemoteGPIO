@@ -57,14 +57,19 @@ You need to configure Venus OS to default to GUI V1
 Install RemoteGPIO
 		a:	Go to settings > package manager > inactive packages.
 		b:	Find RemoteGPIO in the list (at the bottom)
-			hit space so you can change the branch from main to beta
+			hit space so you can change the branch from main to Beta
 			add it to active packages.
 		c:	Go to Active packages, seleect RemoteGPIO, download and install version 4.x
 You then can revert your default setup to GUI Vé and enjoy the new switch interface
 
 2/ setup from the CLI 
 You need to have root access and ssh to your VenusOS
-wget XXX
--xvf RemoteGPIO.tar.gz -C /data/RemoteGPIO/
+cd /data
+wget https://github.com/Lucifer06/RemoteGPIO/archive/refs/tags/v4.0.0.tar.gz
+-xvf v4.0.0.tar.gz -C /data/RemoteGPIO/
+rm v4.0.0.tar.gz
 cd /data/RemoteGPIO
 setup install
+
+For unistalling:
+Either from GUI, or issue setup uninstall in the CLI
