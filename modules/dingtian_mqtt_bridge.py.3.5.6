@@ -1,0 +1,464 @@
+#!/usr/bin/env python3
+
+# #############################################################################
+#
+#   dingtian_mqtt_bridge.py
+#
+#   Version: 3.5.6
+#
+#   Communication module for Dingtian devices with auto-discovery and
+#   keep-alive monitoring.
+#
+# #############################################################################
+
+import configparser
+import paho.mqtt.client as mqtt
+import os
+import sys
+import logging
+import time
+import json
+import signal
+import re
+from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository import GLib
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("DingtianBridge")
+
+# --- CONSTANTS ---
+BRIDGE_CONFIG_FILE = '/data/RemoteGPIO/conf/dingtian_mqtt.ini'
+API_TOPIC_BASE = "rgpio/api"
+API_INPUT_STATE_TOPIC = f"{API_TOPIC_BASE}/input/state"
+API_RELAY_SET_TOPIC = f"{API_TOPIC_BASE}/relay/set"
+API_DEVICE_REGISTER_TOPIC = f"{API_TOPIC_BASE}/device/register"
+API_DEVICE_STATUS_TOPIC = f"{API_TOPIC_BASE}/device/status"
+API_RELAY_READ_TOPIC = f"{API_TOPIC_BASE}/device/relay/read"
+CONFIG_CHECK_INTERVAL = 10
+KEEPALIVE_DISCONNECT_TIMEOUT = 10 # Seconds before marking as disconnected
+LWT_AVAILABILITY_TIMEOUT = 30 # Seconds before removing from config
+
+# --- MQTT Client Compatibility ---
+try:
+    from paho.mqtt.enums import CallbackAPIVersion
+    MQTT_CLIENT_ARGS = {'callback_api_version': CallbackAPIVersion.VERSION1}
+    logger.info("Configured for paho-mqtt v2.x")
+except ImportError:
+    MQTT_CLIENT_ARGS = {}
+    logger.info("Configured for paho-mqtt v1.x")
+
+class DingtianBridge:
+    def __init__(self, config_path):
+        self.config_path = config_path
+        self.config = None 
+        self.device_configs = {}
+        self.discovered_devices = {} # For auto-discovery
+        self.is_configured = False
+        self.is_started = False
+        self.last_lwt_times = {} 
+        self.device_statuses = {} 
+        self.last_mtime = 0 
+        self.api_connection_retries = 0
+        self.hardware_connection_retries = 0
+        
+        self.api_client = mqtt.Client(**MQTT_CLIENT_ARGS)
+        self.api_client.on_connect = self.on_api_connect
+        self.api_client.on_message = self.on_api_message
+        self.api_client.on_disconnect = self.on_api_disconnect
+        
+        self.hardware_client = mqtt.Client(**MQTT_CLIENT_ARGS)
+        self.hardware_client.on_connect = self.on_hardware_connect
+        self.hardware_client.on_message = self.on_hardware_message
+        self.hardware_client.on_disconnect = self.on_hardware_disconnect
+        
+        self.reconfigure()
+
+    def reconfigure(self):
+        logger.info(f"Loading Dingtian configuration from {self.config_path}...")
+        
+        self.config = configparser.ConfigParser()
+        self.config.optionxform = str
+
+        try:
+            if not os.path.exists(self.config_path):
+                logger.warning(f"Configuration file not found. Will retry.")
+                self.is_configured = False
+                return
+
+            self.config.read(self.config_path)
+            if 'mqtt_broker' not in self.config:
+                logger.error(f"Missing [mqtt_broker] section. Will retry.")
+                self.is_configured = False
+                return
+        except Exception as e:
+            logger.error(f"Error reading configuration file: {e}. Will retry.")
+            self.is_configured = False
+            return
+
+        old_device_configs = self.device_configs
+        new_device_configs = {}
+        for section in self.config.sections():
+            if section.startswith('device_'):
+                if 'serial' in self.config[section]:
+                    new_device_configs[self.config[section]['serial']] = dict(self.config[section])
+        
+        self.device_configs = new_device_configs
+        self.is_configured = True
+        logger.info(f"Configuration loaded successfully. Found {len(self.device_configs)} devices.")
+        
+        self.register_devices_with_engine(new_device_configs, old_device_configs)
+
+        if self.is_started:
+            if self.hardware_client.is_connected():
+                self.hardware_client.disconnect()
+            GLib.timeout_add_seconds(0, self.start_hardware_client)
+
+    def register_devices_with_engine(self, new_configs_dict, old_configs_dict):
+        # Sends register/unregister messages to the core engine.
+        if not self.api_client.is_connected():
+            logger.warning("API client not connected, cannot register devices yet.")
+            return
+
+        new_serials = set(new_configs_dict.keys())
+        old_serials = set(old_configs_dict.keys())
+
+        # Unregister devices that have been removed from the config
+        for serial in old_serials - new_serials:
+            old_cfg = old_configs_dict.get(serial)
+            if old_cfg:
+                self._unregister_device(serial, old_cfg)
+        
+        # Register new devices
+        for serial in new_serials - old_serials:
+            cfg = new_configs_dict.get(serial)
+            if cfg:
+                self._register_device(cfg)
+
+    def _register_device(self, cfg):
+        serial = cfg['serial']
+        logger.info(f"Registering device '{serial}' with core engine.")
+        self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", json.dumps(cfg), retain=True)
+        self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "CONNECTED", retain=True)
+
+    def _unregister_device(self, serial, old_cfg):
+        logger.info(f"Un-registering device '{serial}' with core engine.")
+        if self.api_client.is_connected():
+            self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", "UNREGISTER", retain=True)
+            self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "DISCONNECTED", retain=True)
+        
+        topic_base = old_cfg.get('topic_base')
+        if topic_base and self.hardware_client.is_connected():
+            logger.info(f"Cleaning retained discovery messages for {serial} on topic base {topic_base}")
+            msg_info1 = self.hardware_client.publish(f"{topic_base}/out/input_cnt", "", retain=True)
+            msg_info2 = self.hardware_client.publish(f"{topic_base}/out/relay_cnt", "", retain=True)
+            try:
+                msg_info1.wait_for_publish(timeout=1)
+                msg_info2.wait_for_publish(timeout=1)
+                logger.info(f"Retained messages for {serial} cleaned successfully.")
+            except (RuntimeError, ValueError):
+                logger.warning(f"Could not confirm cleanup message publication for {serial}.")
+
+    def start(self):
+        if not self.is_configured:
+            logger.error("Cannot start bridge, configuration is invalid.")
+            return False
+
+        if self.is_started:
+            return False
+
+        logger.info("Starting Dingtian Bridge...")
+        try:
+            logger.info("Attempting to connect to local API MQTT broker...")
+            self.api_client.connect("localhost", 1883, 60)
+            self.api_client.loop_start()
+            self.is_started = True
+            logger.info("Successfully connected to local API MQTT broker.")
+            return False # Stop retrying
+        except Exception as e:
+            self.api_connection_retries += 1
+            if self.api_connection_retries > 12: # 12 * 5s = 60s
+                logger.critical(f"Could not connect to API MQTT broker after 60 seconds. Exiting.")
+                sys.exit(1)
+            logger.warning(f"Failed to connect to API broker: {e}. Retrying in 5 seconds...")
+            return True # Continue retrying
+
+    def start_hardware_client(self):
+        if not self.is_configured: return False
+        
+        broker_cfg = self.config['mqtt_broker']
+        address = broker_cfg.get('address', 'localhost')
+        port = int(broker_cfg.get('port', 1883))
+
+        try:
+            logger.info(f"Attempting to connect to Dingtian hardware broker at {address}:{port}...")
+            if broker_cfg.get('username'):
+                self.hardware_client.username_pw_set(broker_cfg.get('username'), broker_cfg.get('password'))
+            self.hardware_client.connect(address, port, 60)
+            self.hardware_client.loop_start()
+            logger.info("Successfully connected to Dingtian hardware broker.")
+            return False # Stop retrying
+        except Exception as e:
+            self.hardware_connection_retries += 1
+            if self.hardware_connection_retries > 12:
+                 logger.critical(f"Could not connect to hardware MQTT broker after 60 seconds. The service will continue to run for the API, but hardware interaction will fail.")
+                 return False # Stop retrying
+            logger.warning(f"Failed to connect to hardware broker: {e}. Retrying in 5 seconds...")
+            return True # Continue retrying
+
+    def on_api_connect(self, client, userdata, flags, rc):
+        logger.info("Connected to internal API. Subscribing to topics.")
+        client.subscribe(f"{API_RELAY_SET_TOPIC}/#")
+        
+        self.register_devices_with_engine(self.device_configs, {})
+        
+        logger.info("Scheduling hardware client start in 2 seconds...")
+        GLib.timeout_add_seconds(2, self.start_hardware_client)
+
+    def on_hardware_connect(self, client, userdata, flags, rc):
+        logger.info("Connected to Dingtian hardware broker.")
+        client.subscribe("dingtian/#")
+
+    def on_api_disconnect(self, client, userdata, rc):
+        if rc != 0:
+            logger.error("Unexpectedly disconnected from internal API. Reconnecting...")
+
+    def on_hardware_disconnect(self, client, userdata, rc):
+        if rc != 0:
+            logger.error("Unexpectedly disconnected from Dingtian hardware broker. Reconnecting...")
+            for cfg in self.device_configs.values():
+                self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{cfg['serial']}", "DISCONNECTED", retain=True)
+
+    def on_api_message(self, client, userdata, msg):
+        logger.info(f"Received API command: Topic={msg.topic}, Payload={msg.payload.decode()}")
+        try:
+            parts = msg.topic.split('/')
+            if len(parts) == 6 and parts[3] == 'set':
+                serial, relay_index, payload = parts[4], int(parts[5]), msg.payload.decode()
+                if serial in self.device_configs:
+                    cfg = self.device_configs[serial]
+                    topic_base = cfg['topic_base']
+                    hardware_topic = f"{topic_base}/in/r{relay_index}"
+                    result = self.hardware_client.publish(hardware_topic, payload)
+                    if result.rc == mqtt.MQTT_ERR_SUCCESS:
+                        logger.info(f"Successfully forwarded command to hardware: {hardware_topic} -> {payload}")
+                    else:
+                        logger.error(f"Failed to forward command. Topic: {hardware_topic}, MQTT Error: {result.rc}")
+                else:
+                    logger.warning(f"Received API command for unknown serial '{serial}'.")
+        except Exception as e:
+            logger.error(f"Error processing API message: {e}")
+
+    def on_hardware_message(self, client, userdata, msg):
+        try:
+            if self._handle_discovery(msg):
+                return
+
+            parts = msg.topic.split('/')
+            topic_base = f"{parts[0]}/{parts[1]}"
+            
+            serial = next((s for s, cfg in self.device_configs.items() if cfg.get('topic_base') == topic_base), None)
+            if not serial: return
+
+            if msg.topic.endswith("/out/lwt_availability"):
+                self.last_lwt_times[serial] = time.time()
+                if self.device_statuses.get(serial) == "DISCONNECTED":
+                    logger.info(f"Device {serial} reconnected.")
+                    self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "CONNECTED", retain=True)
+                self.device_statuses[serial] = "CONNECTED"
+                return
+
+            if len(parts) == 4 and parts[2] == 'out':
+                if parts[3].startswith('i'):
+                    match = re.match(r"i(\d+)", parts[3])
+                    if match:
+                        input_index = match.group(1)
+                        payload = "1" if msg.payload.decode() == "ON" else "0"
+                        
+                        serial_safe = serial.replace('-', '_')
+                        input_path = f"/run/io-ext/{serial_safe}/input_{input_index}"
+                        
+                        logger.info(f"Input state change for {serial} input {input_index}. Writing '{payload}' to {input_path}")
+
+                        try:
+                            with open(f"{input_path}/direction", 'w') as f: f.write('out')
+                            with open(f"{input_path}/value", 'w') as f: f.write(payload)
+                            with open(f"{input_path}/direction", 'w') as f: f.write('in')
+                            logger.info(f"Successfully updated sysfs for {serial} input {input_index}")
+                        except IOError as e:
+                            logger.error(f"Failed to write to sysfs for {serial} input {input_index}: {e}")
+                
+                elif parts[3].startswith('r'):
+                    match = re.match(r"r(\d+)", parts[3])
+                    if match:
+                        relay_index = match.group(1)
+                        payload = msg.payload.decode() # ON or OFF
+                        api_topic = f"{API_RELAY_READ_TOPIC}/{serial}/{relay_index}"
+                        logger.info(f"Forwarding relay state to API: {api_topic} -> {payload}")
+                        self.api_client.publish(api_topic, payload)
+        
+        except Exception as e:
+            logger.error(f"Error processing hardware message: {e}")
+
+    def _handle_discovery(self, msg):
+        match = re.match(r"dingtian/relay(\d+)/out/(input_cnt|relay_cnt)", msg.topic)
+        if not match: return False
+
+        hw_serial = match.group(1)
+        config_key = match.group(2)
+        api_serial = f"DINGTIAN{hw_serial}"
+
+        if api_serial in self.device_configs:
+            return True
+        
+        if api_serial not in self.discovered_devices:
+            logger.info(f"Discovered new potential device with hardware serial: {hw_serial} (API serial: {api_serial})")
+            self.discovered_devices[api_serial] = {"hw_serial": hw_serial, "topic_base": f"dingtian/relay{hw_serial}"}
+
+        device_info = self.discovered_devices[api_serial]
+        if config_key == 'input_cnt':
+            device_info['num_inputs'] = msg.payload.decode()
+            logger.info(f"Discovery for {api_serial}: got num_inputs = {device_info['num_inputs']}")
+        elif config_key == 'relay_cnt':
+            device_info['num_relays'] = msg.payload.decode()
+            logger.info(f"Discovery for {api_serial}: got num_relays = {device_info['num_relays']}")
+
+        if 'num_inputs' in device_info and 'num_relays' in device_info:
+            self._finalize_discovery(api_serial)
+        
+        return True
+
+    def _finalize_discovery(self, api_serial):
+        if api_serial not in self.discovered_devices: return
+
+        logger.info(f"Discovery complete for {api_serial}. Updating configuration.")
+        device_info = self.discovered_devices.pop(api_serial)
+
+        new_device_config = {
+            "serial": api_serial,
+            "topic_base": device_info['topic_base'],
+            "num_inputs": device_info['num_inputs'],
+            "num_relays": device_info['num_relays'],
+            "device_instance": str(250 + len(self.device_configs))
+        }
+
+        self._update_config_file(new_device_config)
+        self.reconfigure()
+
+    def _update_config_file(self, new_device_config):
+        logger.info(f"Updating configuration file for new device: {new_device_config['serial']}")
+        
+        device_num = 1
+        while f'device_{device_num}' in self.config:
+            device_num += 1
+        
+        section_name = f'device_{device_num}'
+        self.config[section_name] = new_device_config
+        
+        try:
+            with open(self.config_path, 'w') as configfile:
+                self.config.write(configfile)
+            self.last_mtime = os.path.getmtime(self.config_path)
+            logger.info("Configuration file updated successfully.")
+        except Exception as e:
+            logger.error(f"Failed to write to configuration file: {e}")
+
+    def check_lwt_timeouts(self):
+        now = time.time()
+        serials_to_remove = []
+        for serial, last_time in list(self.last_lwt_times.items()):
+            if now - last_time > LWT_AVAILABILITY_TIMEOUT:
+                logger.error(f"Device {serial} has been offline for over {LWT_AVAILABILITY_TIMEOUT} seconds. Removing from configuration.")
+                serials_to_remove.append(serial)
+            elif now - last_time > KEEPALIVE_DISCONNECT_TIMEOUT and self.device_statuses.get(serial) == "CONNECTED":
+                logger.warning(f"Device {serial} keep-alive timed out. Marking as disconnected.")
+                self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "DISCONNECTED", retain=True)
+                self.device_statuses[serial] = "DISCONNECTED"
+        
+        if serials_to_remove:
+            self._remove_devices_from_config(serials_to_remove)
+            for serial in serials_to_remove:
+                if serial in self.last_lwt_times:
+                    del self.last_lwt_times[serial]
+                if serial in self.device_statuses:
+                    del self.device_statuses[serial]
+            self.reconfigure()
+        
+        return True
+
+    def _remove_devices_from_config(self, serials):
+        logger.info(f"Removing devices from configuration file: {serials}")
+        
+        new_config = configparser.ConfigParser()
+        new_config.optionxform = str
+        
+        for section in self.config.sections():
+            if section.startswith('device_'):
+                if self.config[section].get('serial') in serials:
+                    continue
+            new_config[section] = self.config[section]
+
+        try:
+            with open(self.config_path, 'w') as configfile:
+                new_config.write(configfile)
+            self.last_mtime = os.path.getmtime(self.config_path)
+            logger.info("Configuration file updated successfully.")
+        except Exception as e:
+            logger.error(f"Failed to write to configuration file: {e}")
+
+    def stop(self):
+        logger.info("Stopping bridge. Un-registering all managed devices.")
+        for serial, cfg in self.device_configs.items():
+            self._unregister_device(serial, cfg)
+        time.sleep(0.5)
+        self.api_client.loop_stop()
+        self.api_client.disconnect()
+        self.hardware_client.loop_stop()
+        self.hardware_client.disconnect()
+        logger.info("Dingtian Bridge stopped.")
+
+if __name__ == "__main__":
+    DBusGMainLoop(set_as_default=True)
+    bridge = DingtianBridge(BRIDGE_CONFIG_FILE)
+    
+    def shutdown_handler(signum, frame):
+        logger.info(f"Received signal {signum}, shutting down gracefully.")
+        bridge.stop()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, shutdown_handler)
+    signal.signal(signal.SIGTERM, shutdown_handler)
+
+    GLib.timeout_add_seconds(0, bridge.start)
+
+    mainloop = GLib.MainLoop()
+    
+    def check_config_callback():
+        try:
+            if not bridge.is_configured:
+                bridge.reconfigure()
+                if bridge.is_configured and not bridge.is_started:
+                    bridge.start()
+            else:
+                try:
+                    current_mtime = os.path.getmtime(BRIDGE_CONFIG_FILE)
+                    if current_mtime != bridge.last_mtime:
+                        logger.info("Dingtian config file changed, reconfiguring...")
+                        bridge.last_mtime = current_mtime
+                        bridge.reconfigure()
+                except FileNotFoundError:
+                    logger.warning(f"Configuration file '{BRIDGE_CONFIG_FILE}' lost. Will retry.")
+                    bridge.is_configured = False
+        except Exception as e:
+            logger.error(f"Error in config check callback: {e}")
+        return True
+
+    GLib.timeout_add_seconds(CONFIG_CHECK_INTERVAL, check_config_callback)
+    GLib.timeout_add_seconds(1, bridge.check_lwt_timeouts)
+    
+    try:
+        mainloop.run()
+    except Exception as e:
+        logger.error(f"An unexpected error occurred in the main loop: {e}")
+    finally:
+        if bridge.is_started:
+            bridge.stop()

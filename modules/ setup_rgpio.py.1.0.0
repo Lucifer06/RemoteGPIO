@@ -4,7 +4,7 @@
 #
 #   setup_rgpio.py
 #
-#   Version: 1.0.2
+#   Version: 1.0.0
 #
 #   A control module that uses the RGPIO API to manage other services.
 #   It creates a virtual switch device in Venus OS where each relay
@@ -97,25 +97,13 @@ class SetupManager:
             return
 
         logger.info("Starting Setup Manager...")
-        
-        start_time = time.time()
-        connection_timeout = 60 # 1 minute timeout
-        
-        while time.time() - start_time < connection_timeout:
-            try:
-                logger.info("Attempting to connect to local MQTT broker...")
-                self.api_client.connect("localhost", 1883, 60)
-                self.api_client.loop_start()
-                self.is_started = True
-                logger.info("Successfully connected to local MQTT broker.")
-                break # Exit the loop on successful connection
-            except Exception as e:
-                logger.warning(f"Failed to connect to MQTT broker: {e}. Retrying in 5 seconds...")
-                time.sleep(5)
-        
-        if not self.is_started:
-            logger.critical(f"Could not connect to MQTT broker after {connection_timeout} seconds. Exiting.")
-            sys.exit(1)
+        try:
+            self.api_client.connect("localhost", 1883, 60)
+            self.api_client.loop_start()
+            self.is_started = True
+        except Exception as e:
+            logger.error(f"Failed to start MQTT client: {e}")
+            self.is_started = False
 
     def on_api_connect(self, client, userdata, flags, rc):
         logger.info("Connected to internal API. Registering SETUP device.")
@@ -152,15 +140,14 @@ class SetupManager:
 
                 if relay_index in self.relay_mapping:
                     service_name = self.relay_mapping[relay_index]['service']
-                    if service_name and service_name.lower() != 'null':
-                        service_path = f"/service/{service_name}"
-                        
-                        if payload == "ON":
-                            logger.info(f"Received ON command for Relay {relay_index}. Starting service '{service_name}'...")
-                            subprocess.run(["svc", "-u", service_path])
-                        elif payload == "OFF":
-                            logger.info(f"Received OFF command for Relay {relay_index}. Stopping service '{service_name}'...")
-                            subprocess.run(["svc", "-d", service_path])
+                    service_path = f"/service/{service_name}"
+                    
+                    if payload == "ON":
+                        logger.info(f"Received ON command for Relay {relay_index}. Starting service '{service_name}'...")
+                        subprocess.run(["svc", "-u", service_path])
+                    elif payload == "OFF":
+                        logger.info(f"Received OFF command for Relay {relay_index}. Stopping service '{service_name}'...")
+                        subprocess.run(["svc", "-d", service_path])
                 else:
                     logger.warning(f"Received command for unmapped Relay {relay_index}. Ignoring.")
 
@@ -172,7 +159,7 @@ class SetupManager:
         serial = self.device_config.get('serial')
         if serial:
             self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", "UNREGISTER", retain=True)
-            self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "DISCONNECTED", retain=True)
+            self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "CONNECTED", retain=True)
         
         time.sleep(0.5) # Allow time for messages to be sent
         self.api_client.loop_stop()
@@ -192,6 +179,8 @@ if __name__ == "__main__":
 
     manager.start()
 
+    # We don't need a config file watcher for this module, as changes
+    # require a restart of the service anyway.
     # The main loop just keeps the script alive.
     while True:
         time.sleep(1)
