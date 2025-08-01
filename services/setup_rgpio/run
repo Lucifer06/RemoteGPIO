@@ -2,4 +2,10 @@
 echo "*** starting RemoteGPIO SETUP (setup_rgpio) ***"
 exec 2>&1
 . /etc/profile.d/profile.sh
+# Attend que le port 1883 soit en écoute (LISTEN), ce qui indique que le broker MQTT est prêt.
+echo "Waiting for local MQTT broker on port 1883..."
+while ! netstat -an | grep -q 'LISTEN.*:1883'; do
+  sleep 1
+done
+echo "MQTT broker is available. Starting dbus-rgpio.py..."
 exec softlimit -d 100000000 -s 1000000 -a 100000000 /data/RemoteGPIO/modules/setup_rgpio.py
