@@ -4,7 +4,7 @@
 #
 #   dbus-rgpio.py (Core Engine)
 #
-#   Version: 3.4.3
+#   Version: 3.5.0
 #
 #   Manages virtual GPIOs and D-Bus services, exposing an internal API
 #   for external communication modules to register devices.
@@ -324,7 +324,6 @@ class RgpioDriver:
                 if unique_id in self.persistent_map:
                     self._handle_input_state_change(unique_id, payload)
             
-            # MODIFIED: Reordered to check for more specific topics first
             elif topic.startswith(API_RELAY_READ_TOPIC):
                 try:
                     if len(parts) == 7: # rgpio/api/device/relay/read/SERIAL/NUMBER
@@ -399,7 +398,8 @@ class RgpioDriver:
         self.client.subscribe(f"{API_DEVICE_REGISTER_TOPIC}/#")
         self.client.subscribe(f"{API_DEVICE_STATUS_TOPIC}/#")
         self.client.subscribe(f"{API_DEVICE_RELAY_NAME_TOPIC}/+/+")
-        self.client.subscribe(f"{API_RELAY_READ_TOPIC}/+/+/+")
+        # MODIFIED: Corrected subscription wildcard
+        self.client.subscribe(f"{API_RELAY_READ_TOPIC}/#")
         self.client.loop_start()
         logger.info("Internal API MQTT bridge started.")
 
@@ -425,12 +425,12 @@ class DbusRgpioSwitchService:
         self._settings = self._setup_settings()
 
         self._dbusservice.add_path('/Management/ProcessName', __file__)
-        self._dbusservice.add_path('/Management/ProcessVersion', '3.4.2 (dbus-rgpio)')
+        self._dbusservice.add_path('/Management/ProcessVersion', '3.5.0 (dbus-rgpio)')
         self._dbusservice.add_path('/Management/Connection', 'RGPIO Core Service')
         self._dbusservice.add_path('/DeviceInstance', int(self.config.get('device_instance', 50)))
         self._dbusservice.add_path('/ProductId', 19191)
         self._dbusservice.add_path('/ProductName', 'RemoteGPIO')
-        self._dbusservice.add_path('/FirmwareVersion', '3.4.2')
+        self._dbusservice.add_path('/FirmwareVersion', '3.5.0')
         self._dbusservice.add_path('/HardwareVersion', 'N/A')
         self._dbusservice.add_path('/Connected', 1)
         self._dbusservice.add_path('/Serial', self.serial)
@@ -519,7 +519,6 @@ class DbusRgpioSwitchService:
         self._dbusservice[dbus_path] = new_name
 
     def update_state_from_api(self, relay_index, payload):
-        # NEW: Method to update state from the API
         relay_id = relay_index + 1
         new_state = 1 if payload == "ON" else 0
         dbus_path = f'/SwitchableOutput/relay_{relay_id}/State'
@@ -528,6 +527,8 @@ class DbusRgpioSwitchService:
             logger.info(f"Updating state for {self.serial} relay {relay_id} from API to {new_state}")
             self._dbusservice[dbus_path] = new_state
             self._settings[f'Relay{relay_id}State'] = new_state
+        else:
+            logger.info(f"State for {self.serial} relay {relay_id} is already {new_state}. No update needed.")
 
     def unregister(self):
         try:
@@ -580,4 +581,3 @@ if __name__ == "__main__":
         driver.stop()
         cleanup_on_exit(driver)
         logger.info("--- RGPIO Unified Driver Engine stopped ---")
-

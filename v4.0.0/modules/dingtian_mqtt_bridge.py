@@ -4,7 +4,7 @@
 #
 #   dingtian_mqtt_bridge.py
 #
-#   Version: 3.4.1
+#   Version: 3.5.2
 #
 #   Communication module for Dingtian devices with auto-discovery and
 #   keep-alive monitoring.
@@ -57,6 +57,7 @@ class DingtianBridge:
         self.is_started = False
         self.last_lwt_times = {} 
         self.device_statuses = {} 
+        self.last_mtime = 0 # MODIFIED: Initialize last_mtime attribute
         
         self.api_client = mqtt.Client(**MQTT_CLIENT_ARGS)
         self.api_client.on_connect = self.on_api_connect
@@ -121,7 +122,9 @@ class DingtianBridge:
 
         # Unregister devices that have been removed from the config
         for serial in old_serials - new_serials:
-            self._unregister_device(serial)
+            old_cfg = old_configs_dict.get(serial)
+            if old_cfg:
+                self._unregister_device(serial, old_cfg)
         
         # Register new devices
         for serial in new_serials - old_serials:
@@ -135,10 +138,17 @@ class DingtianBridge:
         self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", json.dumps(cfg), retain=True)
         self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "CONNECTED", retain=True)
 
-    def _unregister_device(self, serial):
+    def _unregister_device(self, serial, old_cfg):
         logger.info(f"Un-registering device '{serial}' with core engine.")
         self.api_client.publish(f"{API_DEVICE_REGISTER_TOPIC}/{serial}", "UNREGISTER", retain=True)
         self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{serial}", "DISCONNECTED", retain=True)
+        
+        # Clear retained discovery messages from the broker
+        topic_base = old_cfg.get('topic_base')
+        if topic_base:
+            logger.info(f"Cleaning retained discovery messages for {serial} on topic base {topic_base}")
+            self.hardware_client.publish(f"{topic_base}/out/input_cnt", "", retain=True)
+            self.hardware_client.publish(f"{topic_base}/out/relay_cnt", "", retain=True)
 
     def start(self):
         if not self.is_configured:
@@ -182,15 +192,7 @@ class DingtianBridge:
     def on_hardware_connect(self, client, userdata, flags, rc):
         logger.info("Connected to Dingtian hardware broker.")
         # Proactively subscribe to discovery and keep-alive topics
-        client.subscribe("dingtian/+/out/input_cnt")
-        client.subscribe("dingtian/+/out/relay_cnt")
-        client.subscribe("dingtian/+/out/lwt_availability")
-        
-        for cfg in self.device_configs.values():
-            topic_base = cfg['topic_base']
-            client.subscribe(f"{topic_base}/out/#")
-        for cfg in self.device_configs.values():
-            self.api_client.publish(f"{API_DEVICE_STATUS_TOPIC}/{cfg['serial']}", "CONNECTED", retain=True)
+        client.subscribe("dingtian/#")
 
     def on_api_disconnect(self, client, userdata, rc):
         if rc != 0:
@@ -225,7 +227,8 @@ class DingtianBridge:
     def on_hardware_message(self, client, userdata, msg):
         try:
             # --- AUTO-DISCOVERY LOGIC ---
-            self._handle_discovery(msg)
+            if self._handle_discovery(msg):
+                return # Message was handled by discovery logic
 
             # --- EXISTING LOGIC FOR CONFIGURED DEVICES ---
             parts = msg.topic.split('/')
@@ -276,14 +279,14 @@ class DingtianBridge:
 
     def _handle_discovery(self, msg):
         match = re.match(r"dingtian/relay(\d+)/out/(input_cnt|relay_cnt)", msg.topic)
-        if not match: return
+        if not match: return False
 
         hw_serial = match.group(1)
         config_key = match.group(2)
         api_serial = f"DINGTIAN{hw_serial}"
 
         if api_serial in self.device_configs:
-            return
+            return True # Already configured, but we handled the message
         
         if api_serial not in self.discovered_devices:
             logger.info(f"Discovered new potential device with hardware serial: {hw_serial} (API serial: {api_serial})")
@@ -299,6 +302,8 @@ class DingtianBridge:
 
         if 'num_inputs' in device_info and 'num_relays' in device_info:
             self._finalize_discovery(api_serial)
+        
+        return True # It was a discovery message
 
     def _finalize_discovery(self, api_serial):
         if api_serial not in self.discovered_devices: return
@@ -330,6 +335,7 @@ class DingtianBridge:
         try:
             with open(self.config_path, 'w') as configfile:
                 self.config.write(configfile)
+            self.last_mtime = os.path.getmtime(self.config_path) # Update mtime after write
             logger.info("Configuration file updated successfully.")
         except Exception as e:
             logger.error(f"Failed to write to configuration file: {e}")
@@ -372,6 +378,7 @@ class DingtianBridge:
         try:
             with open(self.config_path, 'w') as configfile:
                 new_config.write(configfile)
+            self.last_mtime = os.path.getmtime(self.config_path) # Update mtime after write
             logger.info("Configuration file updated successfully.")
         except Exception as e:
             logger.error(f"Failed to write to configuration file: {e}")
@@ -379,8 +386,8 @@ class DingtianBridge:
     def stop(self):
         # On shutdown, unregister all currently managed devices.
         logger.info("Stopping bridge. Un-registering all managed devices.")
-        for cfg in self.device_configs.values():
-            self._unregister_device(cfg['serial'])
+        for serial, cfg in self.device_configs.items():
+            self._unregister_device(serial, cfg)
         time.sleep(0.5)
         self.api_client.loop_stop()
         self.api_client.disconnect()
@@ -404,9 +411,7 @@ if __name__ == "__main__":
 
     mainloop = GLib.MainLoop()
     
-    last_mtime = 0
     def check_config_callback():
-        global last_mtime
         try:
             if not bridge.is_configured:
                 bridge.reconfigure()
@@ -414,11 +419,10 @@ if __name__ == "__main__":
                     bridge.start()
             else:
                 try:
-                    if last_mtime == 0: last_mtime = os.path.getmtime(BRIDGE_CONFIG_FILE)
                     current_mtime = os.path.getmtime(BRIDGE_CONFIG_FILE)
-                    if current_mtime != last_mtime:
+                    if current_mtime != bridge.last_mtime:
                         logger.info("Dingtian config file changed, reconfiguring...")
-                        last_mtime = current_mtime
+                        bridge.last_mtime = current_mtime
                         bridge.reconfigure()
                 except FileNotFoundError:
                     logger.warning(f"Configuration file '{BRIDGE_CONFIG_FILE}' lost. Will retry.")
@@ -437,4 +441,3 @@ if __name__ == "__main__":
     finally:
         if bridge.is_started:
             bridge.stop()
-
