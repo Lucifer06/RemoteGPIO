@@ -4,7 +4,7 @@
 #
 #   setup_rgpio.py
 #
-#   Version: 1.1.0
+#   Version: 1.0.2
 #
 #   A control module that uses the RGPIO API to manage other services.
 #   It creates a virtual switch device in Venus OS where each relay
@@ -21,8 +21,6 @@ import time
 import json
 import signal
 import subprocess
-from dbus.mainloop.glib import DBusGMainLoop
-from gi.repository import GLib
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("SetupManager")
@@ -34,7 +32,7 @@ API_RELAY_SET_TOPIC = f"{API_TOPIC_BASE}/relay/set"
 API_DEVICE_REGISTER_TOPIC = f"{API_TOPIC_BASE}/device/register"
 API_DEVICE_STATUS_TOPIC = f"{API_TOPIC_BASE}/device/status"
 API_DEVICE_RELAY_NAME_TOPIC = f"{API_TOPIC_BASE}/device"
-API_RELAY_READ_TOPIC = f"{API_TOPIC_BASE}/device/relay/read"
+CONFIG_CHECK_INTERVAL = 10
 
 # --- MQTT Client Compatibility ---
 try:
@@ -99,13 +97,25 @@ class SetupManager:
             return
 
         logger.info("Starting Setup Manager...")
-        try:
-            self.api_client.connect("localhost", 1883, 60)
-            self.api_client.loop_start()
-            self.is_started = True
-        except Exception as e:
-            logger.error(f"Failed to start MQTT client: {e}")
-            self.is_started = False
+        
+        start_time = time.time()
+        connection_timeout = 60 # 1 minute timeout
+        
+        while time.time() - start_time < connection_timeout:
+            try:
+                logger.info("Attempting to connect to local MQTT broker...")
+                self.api_client.connect("localhost", 1883, 60)
+                self.api_client.loop_start()
+                self.is_started = True
+                logger.info("Successfully connected to local MQTT broker.")
+                break # Exit the loop on successful connection
+            except Exception as e:
+                logger.warning(f"Failed to connect to MQTT broker: {e}. Retrying in 5 seconds...")
+                time.sleep(5)
+        
+        if not self.is_started:
+            logger.critical(f"Could not connect to MQTT broker after {connection_timeout} seconds. Exiting.")
+            sys.exit(1)
 
     def on_api_connect(self, client, userdata, flags, rc):
         logger.info("Connected to internal API. Registering SETUP device.")
@@ -126,9 +136,6 @@ class SetupManager:
 
         # 3. Subscribe to commands for our device
         client.subscribe(f"{API_RELAY_SET_TOPIC}/{serial}/#")
-        
-        # 4. Perform an initial status check immediately
-        self._check_service_statuses()
 
     def on_api_message(self, client, userdata, msg):
         logger.info(f"Received API command: Topic={msg.topic}, Payload={msg.payload.decode()}")
@@ -154,43 +161,11 @@ class SetupManager:
                         elif payload == "OFF":
                             logger.info(f"Received OFF command for Relay {relay_index}. Stopping service '{service_name}'...")
                             subprocess.run(["svc", "-d", service_path])
-                            subprocess.run(["svc", "-k", service_path]) 
                 else:
                     logger.warning(f"Received command for unmapped Relay {relay_index}. Ignoring.")
 
         except Exception as e:
             logger.error(f"Error processing API message: {e}")
-
-    def _check_service_statuses(self):
-        logger.info("Checking service statuses...")
-        serial = self.device_config.get('serial')
-        if not serial:
-            return True # Keep timer running, but do nothing if not configured
-
-        for index, mapping in self.relay_mapping.items():
-            service_name = mapping['service']
-            if service_name and service_name.lower() != 'null':
-                service_path = f"/service/{service_name}"
-                api_payload = "OFF" # Default to OFF
-                try:
-                    result = subprocess.run(["svstat", service_path], capture_output=True, text=True, check=True)
-                    output = result.stdout.strip()
-                    # The second field is 'up' or 'down'
-                    status_field = output.split()[1]
-                    if "up" in status_field:
-                        api_payload = "ON"
-                except (IndexError, subprocess.CalledProcessError, FileNotFoundError):
-                    # If command fails or service doesn't exist, it's considered down
-                    logger.warning(f"Could not get status for service {service_name}. It might not exist or is down.")
-                    api_payload = "OFF"
-                except Exception as e:
-                    logger.error(f"Error checking status for service {service_name}: {e}")
-                    api_payload = "OFF"
-                
-                api_topic = f"{API_RELAY_READ_TOPIC}/{serial}/{index}"
-                logger.info(f"Reporting status for {service_name}: {api_payload}")
-                self.api_client.publish(api_topic, api_payload, retain=True)
-        return True # Keep timer running
 
     def stop(self):
         logger.info("Stopping Setup Manager. Un-registering device...")
@@ -205,7 +180,6 @@ class SetupManager:
         logger.info("Setup Manager stopped.")
 
 if __name__ == "__main__":
-    DBusGMainLoop(set_as_default=True)
     manager = SetupManager(CONFIG_FILE)
     
     def shutdown_handler(signum, frame):
@@ -218,16 +192,6 @@ if __name__ == "__main__":
 
     manager.start()
 
-    # Add a timer to check service statuses every 5 seconds
-    GLib.timeout_add_seconds(5, manager._check_service_statuses)
-    
-    # Start the main event loop
-    mainloop = GLib.MainLoop()
-    try:
-        mainloop.run()
-    except KeyboardInterrupt:
-        logger.info("Shutdown requested by user.")
-    finally:
-        if manager.is_started:
-            manager.stop()
-
+    # The main loop just keeps the script alive.
+    while True:
+        time.sleep(1)

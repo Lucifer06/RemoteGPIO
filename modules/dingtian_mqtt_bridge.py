@@ -35,7 +35,7 @@ API_DEVICE_REGISTER_TOPIC = f"{API_TOPIC_BASE}/device/register"
 API_DEVICE_STATUS_TOPIC = f"{API_TOPIC_BASE}/device/status"
 API_RELAY_READ_TOPIC = f"{API_TOPIC_BASE}/device/relay/read"
 CONFIG_CHECK_INTERVAL = 10
-KEEPALIVE_DISCONNECT_TIMEOUT = 10 # Seconds before marking as disconnected
+KEEPALIVE_DISCONNECT_TIMEOUT = 20 # Seconds before marking as disconnected
 LWT_AVAILABILITY_TIMEOUT = 30 # Seconds before removing from config
 
 # --- MQTT Client Compatibility ---

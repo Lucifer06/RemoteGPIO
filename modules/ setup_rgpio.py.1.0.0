@@ -148,6 +148,7 @@ class SetupManager:
                     elif payload == "OFF":
                         logger.info(f"Received OFF command for Relay {relay_index}. Stopping service '{service_name}'...")
                         subprocess.run(["svc", "-d", service_path])
+                        subprocess.run(["svc", "-k", service_path])
                 else:
                     logger.warning(f"Received command for unmapped Relay {relay_index}. Ignoring.")
 
