@@ -13,4 +13,6 @@ while [ "$(svstat /service/setup_rgpio/ | awk '{if ($2 == "up") print $5; else p
   sleep 1
 done
 echo "MQTT broker is available. Starting dbus-rgpio.py..."
+# Kill un éventuel process fantôme
+kill -9 `pgrep -f /data/RemoteGPIO/modules/dingtian_mqtt_bridge.py`
 exec softlimit -d 100000000 -s 1000000 -a 100000000 /data/RemoteGPIO/modules/dingtian_mqtt_bridge.py
