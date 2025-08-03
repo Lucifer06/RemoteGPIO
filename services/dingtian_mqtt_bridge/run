@@ -7,5 +7,12 @@ echo "Waiting for local MQTT broker on port 1883..."
 while ! netstat -an | grep ':1883' | grep 'LISTEN'; do
   sleep 1
 done
+# Attend que le service setup_rgpio soit démarré (up).
+echo "Waiting for setup_rgpio service to be up..."
+while ! svstat /service/setup_rgpio/ | grep -q 'up'; do
+  sleep 1
+done
+# Attends encore 2 secondes
+sleep 2
 echo "MQTT broker is available. Starting dbus-rgpio.py..."
 exec softlimit -d 100000000 -s 1000000 -a 100000000 /data/RemoteGPIO/modules/dingtian_mqtt_bridge.py
