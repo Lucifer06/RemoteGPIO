@@ -13,6 +13,6 @@ while [ "$(svstat /service/setup_rgpio/ | awk '{print $2}')" != "up" ]; do
   sleep 1
 done
 # Attends encore 2 secondes
-sleep 2
+sleep 5
 echo "MQTT broker is available. Starting dbus-rgpio.py..."
 exec softlimit -d 100000000 -s 1000000 -a 100000000 /data/RemoteGPIO/modules/dingtian_mqtt_bridge.py
