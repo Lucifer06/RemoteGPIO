@@ -9,7 +9,7 @@ while ! netstat -an | grep ':1883' | grep 'LISTEN'; do
 done
 # Attend que le service setup_rgpio soit démarré (up).
 echo "Waiting for setup_rgpio service to be up..."
-while ! svstat /service/setup_rgpio/ | grep -q 'up'; do
+while [ "$(svstat /service/setup_rgpio/ | awk '{print $2}')" != "up" ]; do
   sleep 1
 done
 # Attends encore 2 secondes
