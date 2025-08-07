@@ -8,8 +8,8 @@ while ! netstat -an | grep ':1883' | grep 'LISTEN'; do
   sleep 1
 done
 # Attend que le service setup_rgpio soit démarré (up) depuis au moins 5 secondes.
-echo "Waiting for setup_rgpio service to be up for at least 5 seconds..."
-while [ "$(svstat /service/setup_rgpio/ | awk '{if ($2 == "up") print $5; else print 0}')" -lt 5 ]; do
+echo "Waiting for setup_rgpio service to be up for at least 20 seconds..."
+while [ "$(svstat /service/setup_rgpio/ | awk '{if ($2 == "up") print $5; else print 0}')" -lt 20 ]; do
   sleep 1
 done
 echo "MQTT broker is available. Starting dbus-rgpio.py..."
