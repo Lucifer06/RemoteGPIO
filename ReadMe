@@ -10,7 +10,7 @@ The DigitalInputs are handled at kernel level with no polling process (better CP
 
 *************************
 **                     **
-** MAJOR UPDATE v4.0.0 **
+** MAJOR UPDATE v4.x **
 **                     **
 *************************
 
@@ -41,7 +41,7 @@ If user configure his Dingtian with Input Link Relay configurtion, or if relay p
 
 
 *****************
-RemoteGPIO is currently only available as beta version and supports only Venus OS version 3.63
+RemoteGPIO is currently only available as beta version and supports Venus OS version 3.63 and onward.
 So far I have tested with CerboGX and only one Dingtian module. Multiple dingtian modules should work fine.
 And I don't see why i would not work with Raspberry Pi.
 Your feedback is welcome!
