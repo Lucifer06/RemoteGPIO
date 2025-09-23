@@ -28,7 +28,7 @@ In the past RemoteGPIO was relying on a regular polling for updating the DI stat
 With interrupt support, ePoll is enabled in Venus OS and is much more efficient
 
 4/ Zero configuration
-Dingtian module is automatically discovered, with numbers of Relays and Inputs, assuming Dingtian modul is correctly configured: See DingtianConfiguration.png (put exact same configuration, except IP adress that needs to be the Venus OS one)
+Dingtian module is automatically discovered, with numbers of Relays and Inputs, assuming Dingtian module is correctly configured: See DingtianConfiguration.png (put exact same configuration, except IP adress that needs to be the Venus OS one)
 
 5/ Bi-directionnal relay status
 If user configure his Dingtian with Input Link Relay configurtion, or if relay position is modified by external process, the correct actual state is repported in Venus GUI
