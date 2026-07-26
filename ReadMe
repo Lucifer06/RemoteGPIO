@@ -8,7 +8,7 @@ The driver has been completely re-architected to be modular with support of othe
 The DigitalInputs are handled at kernel level with no polling process (better CPU footprint) and exposed like any embedded DI of a Cerbo GX.
 
 ** IMPORTANT NOTE **
-v4.1.1 is a partial support of firmware V3.7x and is currently not supporting the Digital Inputs as it requires a rebuild of the kernel driver. Relays are working fine and the Digital Inputs will be added ASAP. 
+v4.1.2 is a partial support of firmware V3.7x and is currently not supporting the Digital Inputs as it requires a rebuild of the kernel driver. Relays are working fine and the Digital Inputs will be added ASAP. 
 ********************
 
 *************************
@@ -68,11 +68,11 @@ You then can revert your default setup to GUI Vé and enjoy the new switch inter
 2/ setup from the CLI 
 You need to have root access and ssh to your VenusOS
 cd /data
-wget https://github.com/Lucifer06/RemoteGPIO/archive/refs/tags/v4.0.11.tar.gz
-tar -xvf v4.0.11.tar.gz
+wget https://github.com/Lucifer06/RemoteGPIO/archive/refs/tags/v4.1.2.tar.gz
+tar -xvf v4.1.2.tar.gz
 rm -R /data/RemoteGPIO
-mv RemoteGPIO-4.0.11 RemoteGPIO
-rm v4.0.11.tar.gz
+mv RemoteGPIO-4.1.2 RemoteGPIO
+rm v4.1.2.tar.gz
 cd /data/RemoteGPIO
 ./setup # and select install (i)
 
