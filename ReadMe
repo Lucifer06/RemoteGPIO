@@ -68,11 +68,11 @@ You then can revert your default setup to GUI Vé and enjoy the new switch inter
 2/ setup from the CLI 
 You need to have root access and ssh to your VenusOS
 cd /data
-wget https://github.com/Lucifer06/RemoteGPIO/archive/refs/tags/v4.1.2.tar.gz
-tar -xvf v4.1.2.tar.gz
+wget https://github.com/Lucifer06/RemoteGPIO/archive/refs/tags/v4.1.3.tar.gz
+tar -xvf v4.1.3.tar.gz
 rm -R /data/RemoteGPIO
-mv RemoteGPIO-4.1.2 RemoteGPIO
-rm v4.1.2.tar.gz
+mv RemoteGPIO-4.1.3 RemoteGPIO
+rm v4.1.3.tar.gz
 cd /data/RemoteGPIO
 ./setup # and select install (i)
 
