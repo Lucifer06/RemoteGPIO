@@ -8,7 +8,7 @@ The driver has been completely re-architected to be modular with support of othe
 The DigitalInputs are handled at kernel level with no polling process (better CPU footprint) and exposed like any embedded DI of a Cerbo GX.
 
 ** IMPORTANT NOTE **
-v4.1.1 is supporting firmware V3.7x and is currently not supporting the Digital Inputs as it requires a rebuild of the kernel driver.Digitl Inputs will be added ASAP. 
+v4.1.1 is a partial support of firmware V3.7x and is currently not supporting the Digital Inputs as it requires a rebuild of the kernel driver. Relays are working fine and the Digital Inputs will be added ASAP. 
 ********************
 
 *************************
